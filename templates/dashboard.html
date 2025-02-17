@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flagged Questions Dashboard</title>
+    <script>
+        async function submitAnswer(questionId, formElement) {
+            const answer = formElement.querySelector('textarea[name="answer"]').value;
+            try {
+                const response = await fetch('/submit_answer', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        question_id: questionId,
+                        correct_answer: answer  // Changed from 'answer' to 'correct_answer' to match schema
+                    })
+                });
+                const result = await response.json();
+                if (result.status === 'success') {
+                    // Remove the question card from the dashboard
+                    formElement.closest('.question-card').remove();
+                    // If no more questions, show the no-questions message
+                    if (document.querySelectorAll('.question-card').length === 0) {
+                        document.querySelector('.container').innerHTML += '<div class="no-questions">No flagged questions at the moment.</div>';
+                    }
+                } else {
+                    alert('Error submitting answer: ' + result.message);
+                }
+            } catch (error) {
+                alert('Error submitting answer: ' + error);
+            }
+            return false;
+        }
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .question-card {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            background-color: #fff;
+        }
+        .question-text {
+            font-size: 16px;
+            color: #444;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .llm-response {
+            font-size: 14px;
+            color: #666;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f8f8f8;
+            border-left: 3px solid #4CAF50;
+        }
+        .timestamp {
+            color: #888;
+            font-size: 12px;
+        }
+        .answer-form {
+            margin-top: 10px;
+        }
+        .answer-input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .submit-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+        .no-questions {
+            text-align: center;
+            color: #666;
+            padding: 20px;
+        }
+        .dislike-count {
+            color: #ff4444;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Flagged Questions Dashboard</h1>
+        {% if questions %}
+            {% for question in questions %}
+                <div class="question-card">
+                    <div class="question-text">Question: {{ question.question }}</div>
+                    {% if question.llm_response %}
+                        <div class="llm-response">
+                            <strong>AI Response:</strong><br>
+                            {{ question.llm_response }}
+                        </div>
+                    {% endif %}
+                    <div class="timestamp">Flagged on: {{ question.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</div>
+                    {% if question.dislike_count > 0 %}
+                        <div class="dislike-count">👎 {{ question.dislike_count }} dislike(s)</div>
+                    {% endif %}
+                    <form class="answer-form" onsubmit="return submitAnswer({{ question.id }}, this)">
+                        <textarea class="answer-input" name="answer" rows="3" placeholder="Enter the correct answer here..." required></textarea>
+                        <button type="submit" class="submit-btn">Submit Correct Answer</button>
+                    </form>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="no-questions">No flagged questions at the moment.</div>
+        {% endif %}
+    </div>
+</body>
+</html> 
