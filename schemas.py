@@ -2,15 +2,18 @@ from pydantic import BaseModel
 from datetime import datetime
 from typing import Optional
 
+class FlaggedQuestionBase(BaseModel):
+    question: str
+
+class FlaggedQuestionCreate(FlaggedQuestionBase):
+    llm_response: Optional[str] = None
+
 class AnswerCreate(BaseModel):
-    """Schema for submitting an answer to a flagged question"""
     question_id: int
     correct_answer: str
 
-class FlaggedQuestion(BaseModel):
-    """Schema for returning flagged questions"""
+class FlaggedQuestion(FlaggedQuestionBase):
     id: int
-    question: str
     llm_response: Optional[str] = None
     correct_answer: Optional[str] = None
     is_answered: bool
