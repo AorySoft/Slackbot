@@ -18,11 +18,12 @@ from sqlalchemy.orm import Session
 import models
 import schemas
 from models import get_db
-from typing import List, Dict
+from typing import List, Dict, Tuple
 from uuid import uuid4
 from langchain_core.documents import Document
 import json
 import time
+import numpy as np
 
 # Load environment variables
 load_dotenv()
@@ -81,70 +82,9 @@ except Exception as e:
 # Global state
 message_counts = {}
 welcome_messages = {}
-# BAD_WORDS = ['hmm', 'no', 'bad']  # Customize this list as needed
 processed_messages = set()  # Set to track processed message IDs
 
-# class WelcomeMessage:
-#     START_TEXT = {
-#         'type': 'section',
-#         'text': {
-#             'type': 'mrkdwn',
-#             'text': (
-#                 'Welcome to this awesome channel! \n\n'
-#                 '*Get started by completing the tasks!*'
-#             )
-#         }
-#     }
 
-#     DIVIDER = {'type': 'divider'}
-
-#     def __init__(self, channel):
-#         self.channel = channel
-#         self.icon_emoji = ':robot_face:'
-#         self.timestamp = ''
-#         self.completed = False
-
-#     def get_message(self):
-#         return {
-#             'ts': self.timestamp,
-#             'channel': self.channel,
-#             'username': 'Welcome Robot!',
-#             'icon_emoji': self.icon_emoji,
-#             'blocks': [
-#                 self.START_TEXT,
-#                 self.DIVIDER,
-#                 self._get_reaction_task()
-#             ]
-#         }
-
-#     def _get_reaction_task(self):
-#         checkmark = ':white_check_mark:' if self.completed else ':white_large_square:'
-#         text = f'{checkmark} *React to this message!*'
-#         return {'type': 'section', 'text': {'type': 'mrkdwn', 'text': text}}
-
-# def send_welcome_message(channel, user):
-#     """Send a welcome message to a user in a channel"""
-#     if channel not in welcome_messages:
-#         welcome_messages[channel] = {}
-
-#     if user in welcome_messages[channel]:
-#         return
-
-#     welcome = WelcomeMessage(channel)
-#     message = welcome.get_message()
-#     try:
-#         response = slack_client.chat_postMessage(**message)
-#         welcome.timestamp = response['ts']
-#         welcome_messages[channel][user] = welcome
-#         logger.info(f"Sent welcome message to user {user} in channel {channel}")
-#     except Exception as e:
-#         logger.error(f"Failed to send welcome message: {e}")
-
-# def check_if_bad_words(message: str) -> bool:
-#     """Check if message contains any bad words"""
-#     msg = message.lower()
-#     msg = msg.translate(str.maketrans('', '', string.punctuation))
-#     return any(word in msg for word in BAD_WORDS)
 
 def verify_slack_signature(request_body: str, timestamp: str, signature: str) -> bool:
     """Verify the request signature from Slack"""
@@ -161,12 +101,73 @@ def verify_slack_signature(request_body: str, timestamp: str, signature: str) ->
     # Compare the signatures
     return hmac.compare_digest(my_signature, signature)
 
+def is_flagged_question(text: str) -> bool:
+    """Check if the given text is asking about a flagged question"""
+    try:
+        prompt = ChatPromptTemplate.from_messages([
+            (
+                "system",
+                """You are a classifier that determines if a user's question is asking about flagged or disliked content.
+                Return ONLY the number 1 if the question is asking about flagged/disliked content, or 0 if it's not.
+                DO NOT return any other text or explanation."""
+            ),
+            ("human", "{question}")
+        ])
+        
+        chain = prompt | llm
+        response = chain.invoke({"question": text})
+        return response.content.strip() == "1"
+    except Exception as e:
+        print(f"Error in is_flagged_question: {e}")
+        return False
+
+def find_similar_flagged_questions(text: str, db: Session, threshold: float = 0.8) -> List[Tuple[models.FlaggedQuestion, float]]:
+    """Find similar flagged questions using cosine similarity"""
+    try:
+        # Get embedding for the input text
+        query_embedding = embeddings.embed_query(text)
+        
+        # Get all flagged questions with embeddings
+        flagged_questions = db.query(models.FlaggedQuestion).filter(
+            models.FlaggedQuestion.question_embedding.isnot(None)
+        ).all()
+        
+        similar_questions = []
+        for question in flagged_questions:
+            # Convert stored embedding from JSON string to numpy array
+            stored_embedding = np.array(json.loads(question.question_embedding))
+            query_embedding_np = np.array(query_embedding)
+            
+            # Calculate cosine similarity
+            similarity = np.dot(query_embedding_np, stored_embedding) / (
+                np.linalg.norm(query_embedding_np) * np.linalg.norm(stored_embedding)
+            )
+            
+            if similarity >= threshold:
+                similar_questions.append((question, float(similarity)))
+        
+        # Sort by similarity score and get top 5
+        similar_questions.sort(key=lambda x: x[1], reverse=True)
+        return similar_questions[:5]
+    except Exception as e:
+        print(f"Error in find_similar_flagged_questions: {e}")
+        return []
+
 async def get_llm_response(text: str, db: Session) -> str:
     """Get response from LLM with context from both FAISS indexes"""
     try:
         print("\n=== Starting LLM Response Function ===")
         
-        # Step 1: Get relevant documents from both FAISS indexes
+        # First, check if this is a flagged question
+        if is_flagged_question(text):
+            return "I apologize, but I cannot answer this question as it has been flagged for review."
+            
+        # Check for similar flagged questions
+        similar_flagged = find_similar_flagged_questions(text, db)
+        if similar_flagged:
+            return "I apologize, but I cannot answer this question as it is similar to previously flagged content."
+        
+        # If not flagged, continue with normal processing
         print("\nStep 1: Attempting to retrieve documents from FAISS indexes...")
         try:
             # Query both indexes
@@ -342,23 +343,23 @@ async def slack_events(request: Request):
         
         print("✅ Signature verification passed")
         
-        # Parse and log JSON body
         try:
+            # Parse and log JSON body
             body = await request.json()
             print(f"\nParsed JSON body: {body}")
-            
+    
             # Handle URL verification
             if body.get("type") == "url_verification":
                 challenge = body.get("challenge")
                 print(f"Returning challenge: {challenge}")
                 return {"challenge": challenge}
-            
+    
             # Log event details
             event = body.get("event", {})
             event_type = event.get("type")
             print(f"\nEvent type: {event_type}")
             print(f"Full event details: {event}")
-            
+        
             # Handle message events
             if event_type == "message":
                 channel_id = event.get('channel')
@@ -379,12 +380,12 @@ async def slack_events(request: Request):
                 if bot_id or user_id == BOT_ID:
                     print("Skipping bot message")
                     return {"ok": True}
-                
+            
                 # Skip if we've already processed this message
                 if message_id in processed_messages:
                     print(f"Message {message_id} already processed, skipping")
                     return {"ok": True}
-                
+
                 # Process user message
                 if text and user_id and message_id:  # Only process if we have a message ID
                     try:
@@ -405,7 +406,7 @@ async def slack_events(request: Request):
                     except Exception as e:
                         print(f"❌ Error sending response: {str(e)}")
                         logger.error(f"Error sending response: {str(e)}", exc_info=True)
-            
+
             # Handle reaction events
             elif event_type == "reaction_added":
                 # Skip if reaction is from the bot itself
@@ -440,21 +441,31 @@ async def slack_events(request: Request):
                                 print(f"User Question: {user_question}")
                                 print(f"Bot Response: {bot_response}")
                                 
+                                # Generate embedding for the question
+                                try:
+                                    question_embedding = embeddings.embed_query(user_question)
+                                    question_embedding_json = json.dumps(question_embedding)
+                                    print("✅ Generated question embedding")
+                                except Exception as e:
+                                    print(f"❌ Error generating embedding: {str(e)}")
+                                    question_embedding_json = None
+                                
                                 # Store both question and bot's response
                                 db_question = models.FlaggedQuestion(
                                     question=user_question,
                                     llm_response=bot_response,  # This is the actual LLM response
+                                    question_embedding=question_embedding_json,  # Store the embedding
                                     dislike_count=1
                                 )
                                 db.add(db_question)
                                 db.commit()
-                                print("✅ Successfully stored disliked Q&A pair")
+                                print("✅ Successfully stored disliked Q&A pair with embedding")
                     except Exception as e:
                         print(f"❌ Error handling reaction: {str(e)}")
                         logger.error(f"Error handling reaction: {str(e)}", exc_info=True)
             
             return {"ok": True}
-            
+
         except json.JSONDecodeError as e:
             print(f"❌ Error parsing JSON: {str(e)}")
             logger.error(f"Error parsing JSON: {str(e)}", exc_info=True)
@@ -497,49 +508,6 @@ async def test_events():
         print(f"❌ Error testing events: {str(e)}")
         return {"status": "error", "error": str(e)}
 
-# @app.get("/message-count/{user_id}")
-# async def get_message_count(user_id: str):
-#     """Get message count for a specific user"""
-#     count = message_counts.get(user_id, 0)
-#     return {"user_id": user_id, "message_count": count}
-
-# @app.get("/test_message")
-# async def test_message():
-#     """Test sending a message to verify Slack token"""
-#     try:
-#         channel_id = os.getenv("SLACK_CHANNEL_ID")
-#         response = slack_client.chat_postMessage(
-#             channel=channel_id,
-#             text="Test message from bot!"
-#         )
-#         logger.info(f"Test message response: {response}")
-        
-#         # Return simplified response
-#         return {
-#             "status": "success",
-#             "message_sent": True,
-#             "channel": response.get("channel"),
-#             "timestamp": response.get("ts")
-#         }
-#     except Exception as e:
-#         logger.error(f"Error sending test message: {e}")
-#         return {
-#             "status": "error",
-#             "message_sent": False,
-#             "error": str(e)
-#         }
-
-# @app.post("/test_webhook")
-# async def test_webhook(request: Request):
-#     """Test endpoint to verify webhook is accessible"""
-#     body = await request.body()
-#     headers = dict(request.headers)
-#     logger.info("----------------------------------------")
-#     logger.info("TEST WEBHOOK CALLED")
-#     logger.info(f"Headers: {headers}")
-#     logger.info(f"Body: {body.decode()}")
-#     logger.info("----------------------------------------")
-#     return {"status": "received"}
 
 @app.get("/dashboard", response_class=HTMLResponse)
 async def dashboard(request: Request, db: Session = Depends(get_db)):

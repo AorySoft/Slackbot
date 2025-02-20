@@ -19,6 +19,7 @@ class FlaggedQuestion(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     question = Column(Text, nullable=False)
+    question_embedding = Column(Text, nullable=True)  # To store question embedding as JSON string
     llm_response = Column(Text, nullable=True)
     correct_answer = Column(Text, nullable=True)
     is_answered = Column(Boolean, default=False)
