@@ -24,7 +24,7 @@ from langchain_core.documents import Document
 import json
 import time
 import numpy as np
-
+import re
 # Load environment variables
 load_dotenv()
 
@@ -257,7 +257,8 @@ Remember: FAISS_INDEX_IMPROVED > FAISS_INDEX. Always prioritize improved index!"
             print("Chain invoked successfully")
             print("Response preview:", str(response)[:100])
             
-            return response.content
+            return re.sub(r'<think>.*?</think>', '', response.content, flags=re.DOTALL).strip()
+
             
         except Exception as chain_error:
             print(f"Error in chain execution: {chain_error}")

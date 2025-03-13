@@ -13,7 +13,7 @@
                     },
                     body: JSON.stringify({
                         question_id: questionId,
-                        correct_answer: answer  // Changed from 'answer' to 'correct_answer' to match schema
+                        correct_answer: answer  
                     })
                 });
                 const result = await response.json();
