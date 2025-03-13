@@ -2,8 +2,6 @@ fastapi
 jinja2
 python-dotenv
 slack-sdk
-logging
-hmac
 datetime
 langchain-groq
 langchain-core
