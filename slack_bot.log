@@ -1,0 +1,902 @@
+2025-02-12 19:19:40,899 - INFO - Environment variables loaded
+2025-02-12 19:19:40,900 - INFO - Bot token present: True
+2025-02-12 19:19:40,964 - INFO - Slack client initialized
+2025-02-12 19:19:40,965 - DEBUG - Sending a request - url: https://slack.com/api/auth.test, query_params: {}, body_params: {}, files: {}, json_body: None, headers: {'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': '(redacted)', 'User-Agent': 'Python/3.13.1 slackclient/3.34.0 Windows/10'}
+2025-02-12 19:19:41,574 - DEBUG - Received the following response - status: 200, headers: {'date': 'Wed, 12 Feb 2025 14:19:41 GMT', 'server': 'Apache', 'vary': 'Accept-Encoding', 'x-slack-req-id': '3c124b97ae9abc86eeb7102594eaa533', 'x-content-type-options': 'nosniff', 'x-xss-protection': '0', 'pragma': 'no-cache', 'cache-control': 'private, no-cache, no-store, must-revalidate', 'expires': 'Sat, 26 Jul 1997 05:00:00 GMT', 'content-type': 'application/json; charset=utf-8', 'x-oauth-scopes': 'actions:write,app_mentions:read,assistant:write,calls:write,bookmarks:write,calls:read,bookmarks:read,channels:join,channels:history,canvases:read,users:read.email,users:read,canvases:write,channels:manage,channels:read,channels:write.invites,chat:write,chat:write.customize,channels:write.topic,conversations.connect:manage,chat:write.public,dnd:read,conversations.connect:write,conversations.connect:read,emoji:read,files:read,commands,im:read,groups:write.invites,groups:read,groups:write,groups:history,files:write,im:write,groups:write.topic,workflow.steps:execute,incoming-webhook,links.embed:write,links:read,mpim:history,im:write.topic,metadata.message:read,links:write,im:history,triggers:read,users:write,reactions:read,workflows.templates:read,reactions:write', 'access-control-expose-headers': 'x-slack-req-id, retry-after', 'access-control-allow-headers': 'slack-route, x-slack-version-ts, x-b3-traceid, x-b3-spanid, x-b3-parentspanid, x-b3-sampled, x-b3-flags', 'strict-transport-security': 'max-age=31536000; includeSubDomains; preload', 'referrer-policy': 'no-referrer', 'x-slack-unique-id': 'Z6yt_aGAugsStvjpsb9VjAAAIBk', 'x-slack-backend': 'r', 'access-control-allow-origin': '*', 'content-length': '198', 'via': '1.1 slack-prod.tinyspeck.com, envoy-www-iad-ivaeptlh,envoy-edge-bom-cfdweyva', 'x-envoy-attempt-count': '1', 'x-envoy-upstream-service-time': '206', 'x-backend': 'main_normal main_canary_with_overflow main_control_with_overflow', 'x-server': 'slack-www-hhvm-main-iad-nwnk', 'x-slack-shared-secret-outcome': 'no-match', 'x-edge-backend': 'envoy-www', 'x-slack-edge-shared-secret-outcome': 'no-match', 'connection': 'close'}, body: {"ok":true,"url":"https:\/\/aorysoft-workspace.slack.com\/","team":"AorySoft","user":"slack_bot","team_id":"T08D0Q5C9U4","user_id":"U08CYA87G58","bot_id":"B08CRMCUEPQ","is_enterprise_install":false}
+2025-02-12 19:19:41,579 - INFO - Bot ID retrieved successfully: U08CYA87G58
+2025-02-12 19:19:41,656 - DEBUG - Using selector: SelectSelector
+2025-02-12 19:19:41,704 - INFO - Environment variables loaded
+2025-02-12 19:19:41,704 - INFO - Bot token present: True
+2025-02-12 19:19:41,705 - INFO - Slack client initialized
+2025-02-12 19:19:41,705 - DEBUG - Sending a request - url: https://slack.com/api/auth.test, query_params: {}, body_params: {}, files: {}, json_body: None, headers: {'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': '(redacted)', 'User-Agent': 'Python/3.13.1 slackclient/3.34.0 Windows/10'}
+2025-02-12 19:19:42,268 - DEBUG - Received the following response - status: 200, headers: {'date': 'Wed, 12 Feb 2025 14:19:42 GMT', 'server': 'Apache', 'vary': 'Accept-Encoding', 'x-slack-req-id': 'd10087f105b99f08301a843799a66dce', 'x-content-type-options': 'nosniff', 'x-xss-protection': '0', 'pragma': 'no-cache', 'cache-control': 'private, no-cache, no-store, must-revalidate', 'expires': 'Sat, 26 Jul 1997 05:00:00 GMT', 'content-type': 'application/json; charset=utf-8', 'x-oauth-scopes': 'actions:write,app_mentions:read,assistant:write,calls:write,bookmarks:write,calls:read,bookmarks:read,channels:join,channels:history,canvases:read,users:read.email,users:read,canvases:write,channels:manage,channels:read,channels:write.invites,chat:write,chat:write.customize,channels:write.topic,conversations.connect:manage,chat:write.public,dnd:read,conversations.connect:write,conversations.connect:read,emoji:read,files:read,commands,im:read,groups:write.invites,groups:read,groups:write,groups:history,files:write,im:write,groups:write.topic,workflow.steps:execute,incoming-webhook,links.embed:write,links:read,mpim:history,im:write.topic,metadata.message:read,links:write,im:history,triggers:read,users:write,reactions:read,workflows.templates:read,reactions:write', 'access-control-expose-headers': 'x-slack-req-id, retry-after', 'access-control-allow-headers': 'slack-route, x-slack-version-ts, x-b3-traceid, x-b3-spanid, x-b3-parentspanid, x-b3-sampled, x-b3-flags', 'strict-transport-security': 'max-age=31536000; includeSubDomains; preload', 'referrer-policy': 'no-referrer', 'x-slack-unique-id': 'Z6yt_lSSnmwO3IYdmjTyTwAAEC8', 'x-slack-backend': 'r', 'access-control-allow-origin': '*', 'content-length': '198', 'via': '1.1 slack-prod.tinyspeck.com, envoy-www-iad-uxinjdsb,envoy-edge-bom-mzkyplru', 'x-envoy-attempt-count': '1', 'x-envoy-upstream-service-time': '199', 'x-backend': 'main_normal main_canary_with_overflow main_control_with_overflow', 'x-server': 'slack-www-hhvm-main-iad-mhqm', 'x-slack-shared-secret-outcome': 'no-match', 'x-edge-backend': 'envoy-www', 'x-slack-edge-shared-secret-outcome': 'no-match', 'connection': 'close'}, body: {"ok":true,"url":"https:\/\/aorysoft-workspace.slack.com\/","team":"AorySoft","user":"slack_bot","team_id":"T08D0Q5C9U4","user_id":"U08CYA87G58","bot_id":"B08CRMCUEPQ","is_enterprise_install":false}
+2025-02-12 19:19:42,273 - INFO - Bot ID retrieved successfully: U08CYA87G58
+2025-02-12 19:26:40,849 - INFO - Environment variables loaded
+2025-02-12 19:26:40,851 - INFO - Bot token present: True
+2025-02-12 19:26:40,991 - INFO - Slack client initialized
+2025-02-12 19:26:40,992 - DEBUG - Sending a request - url: https://slack.com/api/auth.test, query_params: {}, body_params: {}, files: {}, json_body: None, headers: {'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': '(redacted)', 'User-Agent': 'Python/3.13.1 slackclient/3.34.0 Windows/10'}
+2025-02-12 19:26:41,630 - DEBUG - Received the following response - status: 200, headers: {'date': 'Wed, 12 Feb 2025 14:26:42 GMT', 'server': 'Apache', 'vary': 'Accept-Encoding', 'x-slack-req-id': '4f1657167ddbe1bae1cb6d78d3fce2bc', 'x-content-type-options': 'nosniff', 'x-xss-protection': '0', 'pragma': 'no-cache', 'cache-control': 'private, no-cache, no-store, must-revalidate', 'expires': 'Sat, 26 Jul 1997 05:00:00 GMT', 'content-type': 'application/json; charset=utf-8', 'x-oauth-scopes': 'actions:write,app_mentions:read,assistant:write,calls:write,bookmarks:write,calls:read,bookmarks:read,channels:join,channels:history,canvases:read,users:read.email,users:read,canvases:write,channels:manage,channels:read,channels:write.invites,chat:write,chat:write.customize,channels:write.topic,conversations.connect:manage,chat:write.public,dnd:read,conversations.connect:write,conversations.connect:read,emoji:read,files:read,commands,im:read,groups:write.invites,groups:read,groups:write,groups:history,files:write,im:write,groups:write.topic,workflow.steps:execute,incoming-webhook,links.embed:write,links:read,mpim:history,im:write.topic,metadata.message:read,links:write,im:history,triggers:read,users:write,reactions:read,workflows.templates:read,reactions:write', 'access-control-expose-headers': 'x-slack-req-id, retry-after', 'access-control-allow-headers': 'slack-route, x-slack-version-ts, x-b3-traceid, x-b3-spanid, x-b3-parentspanid, x-b3-sampled, x-b3-flags', 'strict-transport-security': 'max-age=31536000; includeSubDomains; preload', 'referrer-policy': 'no-referrer', 'x-slack-unique-id': 'Z6yvoq8X8vmKUhrdjDrEOwAAACQ', 'x-slack-backend': 'r', 'access-control-allow-origin': '*', 'content-length': '198', 'via': '1.1 slack-prod.tinyspeck.com, envoy-www-iad-bpwbfeep,envoy-edge-bom-mppgglpj', 'x-envoy-attempt-count': '1', 'x-envoy-upstream-service-time': '226', 'x-backend': 'main_normal main_canary_with_overflow main_control_with_overflow', 'x-server': 'slack-www-hhvm-main-iad-qnql', 'x-slack-shared-secret-outcome': 'no-match', 'x-edge-backend': 'envoy-www', 'x-slack-edge-shared-secret-outcome': 'no-match', 'connection': 'close'}, body: {"ok":true,"url":"https:\/\/aorysoft-workspace.slack.com\/","team":"AorySoft","user":"slack_bot","team_id":"T08D0Q5C9U4","user_id":"U08CYA87G58","bot_id":"B08CRMCUEPQ","is_enterprise_install":false}
+2025-02-12 19:26:41,636 - INFO - Bot ID retrieved successfully: U08CYA87G58
+2025-02-12 19:26:41,638 - INFO - Starting server...
+2025-02-12 19:26:42,762 - INFO - Environment variables loaded
+2025-02-12 19:26:42,764 - INFO - Bot token present: True
+2025-02-12 19:26:42,820 - INFO - Slack client initialized
+2025-02-12 19:26:42,820 - DEBUG - Sending a request - url: https://slack.com/api/auth.test, query_params: {}, body_params: {}, files: {}, json_body: None, headers: {'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': '(redacted)', 'User-Agent': 'Python/3.13.1 slackclient/3.34.0 Windows/10'}
+2025-02-12 19:26:43,387 - DEBUG - Received the following response - status: 200, headers: {'date': 'Wed, 12 Feb 2025 14:26:43 GMT', 'server': 'Apache', 'vary': 'Accept-Encoding', 'x-slack-req-id': 'e602b4cd1f3471099dc9bdcc58d5cf0a', 'x-content-type-options': 'nosniff', 'x-xss-protection': '0', 'pragma': 'no-cache', 'cache-control': 'private, no-cache, no-store, must-revalidate', 'expires': 'Sat, 26 Jul 1997 05:00:00 GMT', 'content-type': 'application/json; charset=utf-8', 'x-oauth-scopes': 'actions:write,app_mentions:read,assistant:write,calls:write,bookmarks:write,calls:read,bookmarks:read,channels:join,channels:history,canvases:read,users:read.email,users:read,canvases:write,channels:manage,channels:read,channels:write.invites,chat:write,chat:write.customize,channels:write.topic,conversations.connect:manage,chat:write.public,dnd:read,conversations.connect:write,conversations.connect:read,emoji:read,files:read,commands,im:read,groups:write.invites,groups:read,groups:write,groups:history,files:write,im:write,groups:write.topic,workflow.steps:execute,incoming-webhook,links.embed:write,links:read,mpim:history,im:write.topic,metadata.message:read,links:write,im:history,triggers:read,users:write,reactions:read,workflows.templates:read,reactions:write', 'access-control-expose-headers': 'x-slack-req-id, retry-after', 'access-control-allow-headers': 'slack-route, x-slack-version-ts, x-b3-traceid, x-b3-spanid, x-b3-parentspanid, x-b3-sampled, x-b3-flags', 'strict-transport-security': 'max-age=31536000; includeSubDomains; preload', 'referrer-policy': 'no-referrer', 'x-slack-unique-id': 'Z6yvo2KoSLeIPPZpL0nbjAAAEDU', 'x-slack-backend': 'r', 'access-control-allow-origin': '*', 'content-length': '198', 'via': '1.1 slack-prod.tinyspeck.com, envoy-www-iad-haeawzmj,envoy-edge-bom-zvfntzfd', 'x-envoy-attempt-count': '1', 'x-envoy-upstream-service-time': '199', 'x-backend': 'main_normal main_canary_with_overflow main_control_with_overflow', 'x-server': 'slack-www-hhvm-main-iad-aoly', 'x-slack-shared-secret-outcome': 'no-match', 'x-edge-backend': 'envoy-www', 'x-slack-edge-shared-secret-outcome': 'no-match', 'connection': 'close'}, body: {"ok":true,"url":"https:\/\/aorysoft-workspace.slack.com\/","team":"AorySoft","user":"slack_bot","team_id":"T08D0Q5C9U4","user_id":"U08CYA87G58","bot_id":"B08CRMCUEPQ","is_enterprise_install":false}
+2025-02-12 19:26:43,392 - INFO - Bot ID retrieved successfully: U08CYA87G58
+2025-02-12 19:26:43,486 - DEBUG - Using selector: SelectSelector
+2025-02-12 19:26:43,528 - INFO - Environment variables loaded
+2025-02-12 19:26:43,529 - INFO - Bot token present: True
+2025-02-12 19:26:43,529 - INFO - Slack client initialized
+2025-02-12 19:26:43,530 - DEBUG - Sending a request - url: https://slack.com/api/auth.test, query_params: {}, body_params: {}, files: {}, json_body: None, headers: {'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': '(redacted)', 'User-Agent': 'Python/3.13.1 slackclient/3.34.0 Windows/10'}
+2025-02-12 19:26:44,043 - DEBUG - Received the following response - status: 200, headers: {'date': 'Wed, 12 Feb 2025 14:26:44 GMT', 'server': 'Apache', 'vary': 'Accept-Encoding', 'x-slack-req-id': '5bf2b8a1701843e035665e5ca08f7855', 'x-content-type-options': 'nosniff', 'x-xss-protection': '0', 'pragma': 'no-cache', 'cache-control': 'private, no-cache, no-store, must-revalidate', 'expires': 'Sat, 26 Jul 1997 05:00:00 GMT', 'content-type': 'application/json; charset=utf-8', 'x-oauth-scopes': 'actions:write,app_mentions:read,assistant:write,calls:write,bookmarks:write,calls:read,bookmarks:read,channels:join,channels:history,canvases:read,users:read.email,users:read,canvases:write,channels:manage,channels:read,channels:write.invites,chat:write,chat:write.customize,channels:write.topic,conversations.connect:manage,chat:write.public,dnd:read,conversations.connect:write,conversations.connect:read,emoji:read,files:read,commands,im:read,groups:write.invites,groups:read,groups:write,groups:history,files:write,im:write,groups:write.topic,workflow.steps:execute,incoming-webhook,links.embed:write,links:read,mpim:history,im:write.topic,metadata.message:read,links:write,im:history,triggers:read,users:write,reactions:read,workflows.templates:read,reactions:write', 'access-control-expose-headers': 'x-slack-req-id, retry-after', 'access-control-allow-headers': 'slack-route, x-slack-version-ts, x-b3-traceid, x-b3-spanid, x-b3-parentspanid, x-b3-sampled, x-b3-flags', 'strict-transport-security': 'max-age=31536000; includeSubDomains; preload', 'referrer-policy': 'no-referrer', 'x-slack-unique-id': 'Z6yvpOMT4bOHljaXO5kDSQAAABE', 'x-slack-backend': 'r', 'access-control-allow-origin': '*', 'content-length': '198', 'via': '1.1 slack-prod.tinyspeck.com, envoy-www-iad-ueebktxq,envoy-edge-bom-xfhbxkoo', 'x-envoy-attempt-count': '1', 'x-envoy-upstream-service-time': '199', 'x-backend': 'main_normal main_canary_with_overflow main_control_with_overflow', 'x-server': 'slack-www-hhvm-main-iad-yjtk', 'x-slack-shared-secret-outcome': 'no-match', 'x-edge-backend': 'envoy-www', 'x-slack-edge-shared-secret-outcome': 'no-match', 'connection': 'close'}, body: {"ok":true,"url":"https:\/\/aorysoft-workspace.slack.com\/","team":"AorySoft","user":"slack_bot","team_id":"T08D0Q5C9U4","user_id":"U08CYA87G58","bot_id":"B08CRMCUEPQ","is_enterprise_install":false}
+2025-02-12 19:26:44,049 - INFO - Bot ID retrieved successfully: U08CYA87G58
+2025-02-12 19:31:01,601 - INFO - Received request to /slack/events
+2025-02-12 19:31:01,602 - DEBUG - Request headers: {'host': 'eecc-103-156-137-66.ngrok-free.app', 'user-agent': 'Slackbot 1.0 (+https://api.slack.com/robots)', 'content-length': '129', 'accept': '*/*', 'accept-encoding': 'gzip,deflate', 'content-type': 'application/json', 'x-forwarded-for': '44.200.219.58', 'x-forwarded-host': 'eecc-103-156-137-66.ngrok-free.app', 'x-forwarded-proto': 'https', 'x-slack-request-timestamp': '1739370661', 'x-slack-signature': 'v0=f810ea84f3e43aaf264347fb9dfc45c19925f179f6e72240e02be6ffac969705'}
+2025-02-12 19:31:01,607 - DEBUG - Raw request body: {"token":"QemLUGFYJqTjx3VrjaHJ9R2V","challenge":"dOC4ivUP0gsXAaeY003jZ8bv0DXqikub0jV6ZO9opPSmAejdWimu","type":"url_verification"}
+2025-02-12 19:31:01,608 - INFO - Event type received: url_verification
+2025-02-12 19:31:01,608 - INFO - Handling URL verification. Challenge: dOC4ivUP0gsXAaeY003jZ8bv0DXqikub0jV6ZO9opPSmAejdWimu
+2025-02-15 23:44:59,420 - INFO - Loading faiss with AVX2 support.
+2025-02-15 23:44:59,443 - INFO - Successfully loaded faiss with AVX2 support.
+2025-02-15 23:44:59,455 - INFO - Failed to load GPU Faiss: name 'GpuIndexIVFFlat' is not defined. Will not load constructor refs for GPU indexes.
+2025-02-15 23:44:59,691 - INFO - Using Bot ID: B08CRMCUEPQ
+2025-02-15 23:45:01,022 - INFO - Using Bot ID: B08CRMCUEPQ
+2025-02-15 23:45:24,318 - INFO - Loading faiss with AVX2 support.
+2025-02-15 23:45:24,345 - INFO - Successfully loaded faiss with AVX2 support.
+2025-02-15 23:45:24,354 - INFO - Failed to load GPU Faiss: name 'GpuIndexIVFFlat' is not defined. Will not load constructor refs for GPU indexes.
+2025-02-15 23:45:24,605 - INFO - Using Bot ID: B08CRMCUEPQ
+2025-02-15 23:45:25,922 - INFO - Using Bot ID: B08CRMCUEPQ
+2025-02-15 23:45:27,882 - INFO - Received Slack event:
+2025-02-15 23:45:27,882 - INFO - Event type: event_callback
+2025-02-15 23:45:27,883 - INFO - Full body: {'token': 'QemLUGFYJqTjx3VrjaHJ9R2V', 'team_id': 'T08D0Q5C9U4', 'context_team_id': 'T08D0Q5C9U4', 'context_enterprise_id': None, 'api_app_id': 'A08CRL8S9E2', 'event': {'user': 'U08DAV3LFK3', 'type': 'message', 'ts': '1739645127.558539', 'client_msg_id': '4928507f-65ba-4979-a5b0-5afc29c3314a', 'text': 'i have to different invoices for one payment. Where to describe the second Invoice number?', 'team': 'T08D0Q5C9U4', 'blocks': [{'type': 'rich_text', 'block_id': 'UL2K3', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'i have to different invoices for one payment. Where to describe the second Invoice number?'}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739645127.558539', 'channel_type': 'channel'}, 'type': 'event_callback', 'event_id': 'Ev08E5UK1KAL', 'event_time': 1739645127, 'authorizations': [{'enterprise_id': None, 'team_id': 'T08D0Q5C9U4', 'user_id': 'U08CYA87G58', 'is_bot': True, 'is_enterprise_install': False}], 'is_ext_shared_channel': False, 'event_context': '4-eyJldCI6Im1lc3NhZ2UiLCJ0aWQiOiJUMDhEMFE1QzlVNCIsImFpZCI6IkEwOENSTDhTOUUyIiwiY2lkIjoiQzA4Q1ZEVDZFNEQifQ'}
+2025-02-15 23:45:27,884 - INFO - Event callback type: message
+2025-02-15 23:45:27,885 - INFO - Full event: {'user': 'U08DAV3LFK3', 'type': 'message', 'ts': '1739645127.558539', 'client_msg_id': '4928507f-65ba-4979-a5b0-5afc29c3314a', 'text': 'i have to different invoices for one payment. Where to describe the second Invoice number?', 'team': 'T08D0Q5C9U4', 'blocks': [{'type': 'rich_text', 'block_id': 'UL2K3', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'i have to different invoices for one payment. Where to describe the second Invoice number?'}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739645127.558539', 'channel_type': 'channel'}
+2025-02-15 23:45:27,887 - INFO - Received Message Details:
+2025-02-15 23:45:27,887 - INFO - Full event: {'user': 'U08DAV3LFK3', 'type': 'message', 'ts': '1739645127.558539', 'client_msg_id': '4928507f-65ba-4979-a5b0-5afc29c3314a', 'text': 'i have to different invoices for one payment. Where to describe the second Invoice number?', 'team': 'T08D0Q5C9U4', 'blocks': [{'type': 'rich_text', 'block_id': 'UL2K3', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'i have to different invoices for one payment. Where to describe the second Invoice number?'}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739645127.558539', 'channel_type': 'channel'}
+2025-02-15 23:45:27,889 - INFO - user_id: U08DAV3LFK3
+2025-02-15 23:45:27,889 - INFO - bot_id: None
+2025-02-15 23:45:27,890 - INFO - BOT_ID: B08CRMCUEPQ
+2025-02-15 23:45:27,890 - INFO - subtype: None
+2025-02-15 23:45:29,378 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-02-15 23:45:29,380 - ERROR - Error getting LLM response: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jgewphphepdbyc1kqj3acryj` service tier `on_demand` on : Limit 100000, Used 96008, Requested 4557. Please try again in 8m7.32s. Visit https://console.groq.com/docs/rate-limits for more information.', 'type': '', 'code': 'rate_limit_exceeded'}}
+2025-02-15 23:45:30,772 - INFO - Received Slack event:
+2025-02-15 23:45:30,772 - INFO - Event type: event_callback
+2025-02-15 23:45:30,772 - INFO - Full body: {'token': 'QemLUGFYJqTjx3VrjaHJ9R2V', 'team_id': 'T08D0Q5C9U4', 'context_team_id': 'T08D0Q5C9U4', 'context_enterprise_id': None, 'api_app_id': 'A08CRL8S9E2', 'event': {'user': 'U08CYA87G58', 'type': 'message', 'ts': '1739645130.255209', 'bot_id': 'B08CRMCUEPQ', 'app_id': 'A08CRL8S9E2', 'text': "I apologize, but I'm having trouble processing your request right now.", 'team': 'T08D0Q5C9U4', 'bot_profile': {'id': 'B08CRMCUEPQ', 'deleted': False, 'name': 'Slack Bot', 'updated': 1739360993, 'app_id': 'A08CRL8S9E2', 'icons': {'image_36': 'https://a.slack-edge.com/80588/img/plugins/app/bot_36.png', 'image_48': 'https://a.slack-edge.com/80588/img/plugins/app/bot_48.png', 'image_72': 'https://a.slack-edge.com/80588/img/plugins/app/service_72.png'}, 'team_id': 'T08D0Q5C9U4'}, 'thread_ts': '1739645127.558539', 'parent_user_id': 'U08DAV3LFK3', 'blocks': [{'type': 'rich_text', 'block_id': '3ZYIb', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': "I apologize, but I'm having trouble processing your request right now."}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739645130.255209', 'channel_type': 'channel'}, 'type': 'event_callback', 'event_id': 'Ev08DVQKR1ND', 'event_time': 1739645130, 'authorizations': [{'enterprise_id': None, 'team_id': 'T08D0Q5C9U4', 'user_id': 'U08CYA87G58', 'is_bot': True, 'is_enterprise_install': False}], 'is_ext_shared_channel': False, 'event_context': '4-eyJldCI6Im1lc3NhZ2UiLCJ0aWQiOiJUMDhEMFE1QzlVNCIsImFpZCI6IkEwOENSTDhTOUUyIiwiY2lkIjoiQzA4Q1ZEVDZFNEQifQ'}
+2025-02-15 23:45:30,774 - INFO - Event callback type: message
+2025-02-15 23:45:30,775 - INFO - Full event: {'user': 'U08CYA87G58', 'type': 'message', 'ts': '1739645130.255209', 'bot_id': 'B08CRMCUEPQ', 'app_id': 'A08CRL8S9E2', 'text': "I apologize, but I'm having trouble processing your request right now.", 'team': 'T08D0Q5C9U4', 'bot_profile': {'id': 'B08CRMCUEPQ', 'deleted': False, 'name': 'Slack Bot', 'updated': 1739360993, 'app_id': 'A08CRL8S9E2', 'icons': {'image_36': 'https://a.slack-edge.com/80588/img/plugins/app/bot_36.png', 'image_48': 'https://a.slack-edge.com/80588/img/plugins/app/bot_48.png', 'image_72': 'https://a.slack-edge.com/80588/img/plugins/app/service_72.png'}, 'team_id': 'T08D0Q5C9U4'}, 'thread_ts': '1739645127.558539', 'parent_user_id': 'U08DAV3LFK3', 'blocks': [{'type': 'rich_text', 'block_id': '3ZYIb', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': "I apologize, but I'm having trouble processing your request right now."}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739645130.255209', 'channel_type': 'channel'}
+2025-02-15 23:45:30,776 - INFO - Received Message Details:
+2025-02-15 23:45:30,776 - INFO - Full event: {'user': 'U08CYA87G58', 'type': 'message', 'ts': '1739645130.255209', 'bot_id': 'B08CRMCUEPQ', 'app_id': 'A08CRL8S9E2', 'text': "I apologize, but I'm having trouble processing your request right now.", 'team': 'T08D0Q5C9U4', 'bot_profile': {'id': 'B08CRMCUEPQ', 'deleted': False, 'name': 'Slack Bot', 'updated': 1739360993, 'app_id': 'A08CRL8S9E2', 'icons': {'image_36': 'https://a.slack-edge.com/80588/img/plugins/app/bot_36.png', 'image_48': 'https://a.slack-edge.com/80588/img/plugins/app/bot_48.png', 'image_72': 'https://a.slack-edge.com/80588/img/plugins/app/service_72.png'}, 'team_id': 'T08D0Q5C9U4'}, 'thread_ts': '1739645127.558539', 'parent_user_id': 'U08DAV3LFK3', 'blocks': [{'type': 'rich_text', 'block_id': '3ZYIb', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': "I apologize, but I'm having trouble processing your request right now."}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739645130.255209', 'channel_type': 'channel'}
+2025-02-15 23:45:30,778 - INFO - user_id: U08CYA87G58
+2025-02-15 23:45:30,778 - INFO - bot_id: B08CRMCUEPQ
+2025-02-15 23:45:30,778 - INFO - BOT_ID: B08CRMCUEPQ
+2025-02-15 23:45:30,778 - INFO - subtype: None
+2025-02-15 23:45:30,779 - INFO - Skipping message because: bot_id=B08CRMCUEPQ, user_id=U08CYA87G58, subtype=None
+2025-02-15 23:45:36,801 - INFO - Received Slack event:
+2025-02-15 23:45:36,802 - INFO - Event type: event_callback
+2025-02-15 23:45:36,802 - INFO - Full body: {'token': 'QemLUGFYJqTjx3VrjaHJ9R2V', 'team_id': 'T08D0Q5C9U4', 'context_team_id': 'T08D0Q5C9U4', 'context_enterprise_id': None, 'api_app_id': 'A08CRL8S9E2', 'event': {'type': 'reaction_added', 'user': 'U08DAV3LFK3', 'reaction': '-1', 'item': {'type': 'message', 'channel': 'C08CVDT6E4D', 'ts': '1739645130.255209'}, 'item_user': 'U08CYA87G58', 'event_ts': '1739645136.012400'}, 'type': 'event_callback', 'event_id': 'Ev08D2HB9SDD', 'event_time': 1739645136, 'authorizations': [{'enterprise_id': None, 'team_id': 'T08D0Q5C9U4', 'user_id': 'U08CYA87G58', 'is_bot': True, 'is_enterprise_install': False}], 'is_ext_shared_channel': False, 'event_context': '4-eyJldCI6InJlYWN0aW9uX2FkZGVkIiwidGlkIjoiVDA4RDBRNUM5VTQiLCJhaWQiOiJBMDhDUkw4UzlFMiIsImNpZCI6IkMwOENWRFQ2RTREIn0'}
+2025-02-15 23:45:36,803 - INFO - Event callback type: reaction_added
+2025-02-15 23:45:36,804 - INFO - Full event: {'type': 'reaction_added', 'user': 'U08DAV3LFK3', 'reaction': '-1', 'item': {'type': 'message', 'channel': 'C08CVDT6E4D', 'ts': '1739645130.255209'}, 'item_user': 'U08CYA87G58', 'event_ts': '1739645136.012400'}
+2025-02-15 23:48:36,427 - INFO - Loading faiss with AVX2 support.
+2025-02-15 23:48:36,459 - INFO - Successfully loaded faiss with AVX2 support.
+2025-02-15 23:48:36,469 - INFO - Failed to load GPU Faiss: name 'GpuIndexIVFFlat' is not defined. Will not load constructor refs for GPU indexes.
+2025-02-15 23:48:36,746 - INFO - Using Bot ID: B08CRMCUEPQ
+2025-02-15 23:48:38,111 - INFO - Using Bot ID: B08CRMCUEPQ
+2025-02-15 23:48:48,845 - INFO - Loading faiss with AVX2 support.
+2025-02-15 23:48:48,871 - INFO - Successfully loaded faiss with AVX2 support.
+2025-02-15 23:48:48,881 - INFO - Failed to load GPU Faiss: name 'GpuIndexIVFFlat' is not defined. Will not load constructor refs for GPU indexes.
+2025-02-15 23:48:49,169 - INFO - Using Bot ID: B08CRMCUEPQ
+2025-02-15 23:48:50,476 - INFO - Using Bot ID: B08CRMCUEPQ
+2025-02-15 23:49:01,171 - INFO - Received Slack event:
+2025-02-15 23:49:01,172 - INFO - Event type: event_callback
+2025-02-15 23:49:01,172 - INFO - Full body: {'token': 'QemLUGFYJqTjx3VrjaHJ9R2V', 'team_id': 'T08D0Q5C9U4', 'context_team_id': 'T08D0Q5C9U4', 'context_enterprise_id': None, 'api_app_id': 'A08CRL8S9E2', 'event': {'user': 'U08DAV3LFK3', 'type': 'message', 'ts': '1739645340.826119', 'client_msg_id': '3a24790d-7878-4191-8c9b-7d75548c1fc1', 'text': 'i have to different invoices for one payment. Where to describe the second Invoice number?', 'team': 'T08D0Q5C9U4', 'blocks': [{'type': 'rich_text', 'block_id': 'UL2K3', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'i have to different invoices for one payment. Where to describe the second Invoice number?'}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739645340.826119', 'channel_type': 'channel'}, 'type': 'event_callback', 'event_id': 'Ev08DH40KT4J', 'event_time': 1739645340, 'authorizations': [{'enterprise_id': None, 'team_id': 'T08D0Q5C9U4', 'user_id': 'U08CYA87G58', 'is_bot': True, 'is_enterprise_install': False}], 'is_ext_shared_channel': False, 'event_context': '4-eyJldCI6Im1lc3NhZ2UiLCJ0aWQiOiJUMDhEMFE1QzlVNCIsImFpZCI6IkEwOENSTDhTOUUyIiwiY2lkIjoiQzA4Q1ZEVDZFNEQifQ'}
+2025-02-15 23:49:01,174 - INFO - Event callback type: message
+2025-02-15 23:49:01,175 - INFO - Full event: {'user': 'U08DAV3LFK3', 'type': 'message', 'ts': '1739645340.826119', 'client_msg_id': '3a24790d-7878-4191-8c9b-7d75548c1fc1', 'text': 'i have to different invoices for one payment. Where to describe the second Invoice number?', 'team': 'T08D0Q5C9U4', 'blocks': [{'type': 'rich_text', 'block_id': 'UL2K3', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'i have to different invoices for one payment. Where to describe the second Invoice number?'}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739645340.826119', 'channel_type': 'channel'}
+2025-02-15 23:49:01,176 - INFO - Received Message Details:
+2025-02-15 23:49:01,176 - INFO - Full event: {'user': 'U08DAV3LFK3', 'type': 'message', 'ts': '1739645340.826119', 'client_msg_id': '3a24790d-7878-4191-8c9b-7d75548c1fc1', 'text': 'i have to different invoices for one payment. Where to describe the second Invoice number?', 'team': 'T08D0Q5C9U4', 'blocks': [{'type': 'rich_text', 'block_id': 'UL2K3', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'i have to different invoices for one payment. Where to describe the second Invoice number?'}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739645340.826119', 'channel_type': 'channel'}
+2025-02-15 23:49:01,177 - INFO - user_id: U08DAV3LFK3
+2025-02-15 23:49:01,177 - INFO - bot_id: None
+2025-02-15 23:49:01,178 - INFO - BOT_ID: B08CRMCUEPQ
+2025-02-15 23:49:01,178 - INFO - subtype: None
+2025-02-15 23:49:02,793 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-02-15 23:49:02,796 - ERROR - Error getting LLM response: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jgewphphepdbyc1kqj3acryj` service tier `on_demand` on : Limit 100000, Used 95761, Requested 4557. Please try again in 4m33.903999999s. Visit https://console.groq.com/docs/rate-limits for more information.', 'type': '', 'code': 'rate_limit_exceeded'}}
+2025-02-15 23:49:04,182 - INFO - Received Slack event:
+2025-02-15 23:49:04,183 - INFO - Event type: event_callback
+2025-02-15 23:49:04,183 - INFO - Full body: {'token': 'QemLUGFYJqTjx3VrjaHJ9R2V', 'team_id': 'T08D0Q5C9U4', 'context_team_id': 'T08D0Q5C9U4', 'context_enterprise_id': None, 'api_app_id': 'A08CRL8S9E2', 'event': {'user': 'U08CYA87G58', 'type': 'message', 'ts': '1739645343.882919', 'bot_id': 'B08CRMCUEPQ', 'app_id': 'A08CRL8S9E2', 'text': "I apologize, but I'm having trouble processing your request right now.", 'team': 'T08D0Q5C9U4', 'bot_profile': {'id': 'B08CRMCUEPQ', 'deleted': False, 'name': 'Slack Bot', 'updated': 1739360993, 'app_id': 'A08CRL8S9E2', 'icons': {'image_36': 'https://a.slack-edge.com/80588/img/plugins/app/bot_36.png', 'image_48': 'https://a.slack-edge.com/80588/img/plugins/app/bot_48.png', 'image_72': 'https://a.slack-edge.com/80588/img/plugins/app/service_72.png'}, 'team_id': 'T08D0Q5C9U4'}, 'thread_ts': '1739645340.826119', 'parent_user_id': 'U08DAV3LFK3', 'blocks': [{'type': 'rich_text', 'block_id': 'lgQzb', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': "I apologize, but I'm having trouble processing your request right now."}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739645343.882919', 'channel_type': 'channel'}, 'type': 'event_callback', 'event_id': 'Ev08E5UPT7CY', 'event_time': 1739645343, 'authorizations': [{'enterprise_id': None, 'team_id': 'T08D0Q5C9U4', 'user_id': 'U08CYA87G58', 'is_bot': True, 'is_enterprise_install': False}], 'is_ext_shared_channel': False, 'event_context': '4-eyJldCI6Im1lc3NhZ2UiLCJ0aWQiOiJUMDhEMFE1QzlVNCIsImFpZCI6IkEwOENSTDhTOUUyIiwiY2lkIjoiQzA4Q1ZEVDZFNEQifQ'}
+2025-02-15 23:49:04,185 - INFO - Event callback type: message
+2025-02-15 23:49:04,186 - INFO - Full event: {'user': 'U08CYA87G58', 'type': 'message', 'ts': '1739645343.882919', 'bot_id': 'B08CRMCUEPQ', 'app_id': 'A08CRL8S9E2', 'text': "I apologize, but I'm having trouble processing your request right now.", 'team': 'T08D0Q5C9U4', 'bot_profile': {'id': 'B08CRMCUEPQ', 'deleted': False, 'name': 'Slack Bot', 'updated': 1739360993, 'app_id': 'A08CRL8S9E2', 'icons': {'image_36': 'https://a.slack-edge.com/80588/img/plugins/app/bot_36.png', 'image_48': 'https://a.slack-edge.com/80588/img/plugins/app/bot_48.png', 'image_72': 'https://a.slack-edge.com/80588/img/plugins/app/service_72.png'}, 'team_id': 'T08D0Q5C9U4'}, 'thread_ts': '1739645340.826119', 'parent_user_id': 'U08DAV3LFK3', 'blocks': [{'type': 'rich_text', 'block_id': 'lgQzb', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': "I apologize, but I'm having trouble processing your request right now."}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739645343.882919', 'channel_type': 'channel'}
+2025-02-15 23:49:04,187 - INFO - Received Message Details:
+2025-02-15 23:49:04,187 - INFO - Full event: {'user': 'U08CYA87G58', 'type': 'message', 'ts': '1739645343.882919', 'bot_id': 'B08CRMCUEPQ', 'app_id': 'A08CRL8S9E2', 'text': "I apologize, but I'm having trouble processing your request right now.", 'team': 'T08D0Q5C9U4', 'bot_profile': {'id': 'B08CRMCUEPQ', 'deleted': False, 'name': 'Slack Bot', 'updated': 1739360993, 'app_id': 'A08CRL8S9E2', 'icons': {'image_36': 'https://a.slack-edge.com/80588/img/plugins/app/bot_36.png', 'image_48': 'https://a.slack-edge.com/80588/img/plugins/app/bot_48.png', 'image_72': 'https://a.slack-edge.com/80588/img/plugins/app/service_72.png'}, 'team_id': 'T08D0Q5C9U4'}, 'thread_ts': '1739645340.826119', 'parent_user_id': 'U08DAV3LFK3', 'blocks': [{'type': 'rich_text', 'block_id': 'lgQzb', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': "I apologize, but I'm having trouble processing your request right now."}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739645343.882919', 'channel_type': 'channel'}
+2025-02-15 23:49:04,188 - INFO - user_id: U08CYA87G58
+2025-02-15 23:49:04,189 - INFO - bot_id: B08CRMCUEPQ
+2025-02-15 23:49:04,189 - INFO - BOT_ID: B08CRMCUEPQ
+2025-02-15 23:49:04,189 - INFO - subtype: None
+2025-02-15 23:49:04,190 - INFO - Skipping message because: bot_id=B08CRMCUEPQ, user_id=U08CYA87G58, subtype=None
+2025-02-15 23:49:04,309 - INFO - Received Slack event:
+2025-02-15 23:49:04,310 - INFO - Event type: event_callback
+2025-02-15 23:49:04,310 - INFO - Full body: {'token': 'QemLUGFYJqTjx3VrjaHJ9R2V', 'team_id': 'T08D0Q5C9U4', 'context_team_id': 'T08D0Q5C9U4', 'context_enterprise_id': None, 'api_app_id': 'A08CRL8S9E2', 'event': {'user': 'U08DAV3LFK3', 'type': 'message', 'ts': '1739645340.826119', 'client_msg_id': '3a24790d-7878-4191-8c9b-7d75548c1fc1', 'text': 'i have to different invoices for one payment. Where to describe the second Invoice number?', 'team': 'T08D0Q5C9U4', 'blocks': [{'type': 'rich_text', 'block_id': 'UL2K3', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'i have to different invoices for one payment. Where to describe the second Invoice number?'}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739645340.826119', 'channel_type': 'channel'}, 'type': 'event_callback', 'event_id': 'Ev08DH40KT4J', 'event_time': 1739645340, 'authorizations': [{'enterprise_id': None, 'team_id': 'T08D0Q5C9U4', 'user_id': 'U08CYA87G58', 'is_bot': True, 'is_enterprise_install': False}], 'is_ext_shared_channel': False, 'event_context': '4-eyJldCI6Im1lc3NhZ2UiLCJ0aWQiOiJUMDhEMFE1QzlVNCIsImFpZCI6IkEwOENSTDhTOUUyIiwiY2lkIjoiQzA4Q1ZEVDZFNEQifQ'}
+2025-02-15 23:49:04,312 - INFO - Event callback type: message
+2025-02-15 23:49:04,312 - INFO - Full event: {'user': 'U08DAV3LFK3', 'type': 'message', 'ts': '1739645340.826119', 'client_msg_id': '3a24790d-7878-4191-8c9b-7d75548c1fc1', 'text': 'i have to different invoices for one payment. Where to describe the second Invoice number?', 'team': 'T08D0Q5C9U4', 'blocks': [{'type': 'rich_text', 'block_id': 'UL2K3', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'i have to different invoices for one payment. Where to describe the second Invoice number?'}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739645340.826119', 'channel_type': 'channel'}
+2025-02-15 23:49:04,313 - INFO - Received Message Details:
+2025-02-15 23:49:04,313 - INFO - Full event: {'user': 'U08DAV3LFK3', 'type': 'message', 'ts': '1739645340.826119', 'client_msg_id': '3a24790d-7878-4191-8c9b-7d75548c1fc1', 'text': 'i have to different invoices for one payment. Where to describe the second Invoice number?', 'team': 'T08D0Q5C9U4', 'blocks': [{'type': 'rich_text', 'block_id': 'UL2K3', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'i have to different invoices for one payment. Where to describe the second Invoice number?'}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739645340.826119', 'channel_type': 'channel'}
+2025-02-15 23:49:04,314 - INFO - user_id: U08DAV3LFK3
+2025-02-15 23:49:04,315 - INFO - bot_id: None
+2025-02-15 23:49:04,315 - INFO - BOT_ID: B08CRMCUEPQ
+2025-02-15 23:49:04,315 - INFO - subtype: None
+2025-02-15 23:49:05,062 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-02-15 23:49:05,063 - ERROR - Error getting LLM response: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jgewphphepdbyc1kqj3acryj` service tier `on_demand` on : Limit 100000, Used 95758, Requested 4557. Please try again in 4m31.633s. Visit https://console.groq.com/docs/rate-limits for more information.', 'type': '', 'code': 'rate_limit_exceeded'}}
+2025-02-15 23:49:06,407 - INFO - Received Slack event:
+2025-02-15 23:49:06,407 - INFO - Event type: event_callback
+2025-02-15 23:49:06,408 - INFO - Full body: {'token': 'QemLUGFYJqTjx3VrjaHJ9R2V', 'team_id': 'T08D0Q5C9U4', 'context_team_id': 'T08D0Q5C9U4', 'context_enterprise_id': None, 'api_app_id': 'A08CRL8S9E2', 'event': {'user': 'U08CYA87G58', 'type': 'message', 'ts': '1739645346.074929', 'bot_id': 'B08CRMCUEPQ', 'app_id': 'A08CRL8S9E2', 'text': "I apologize, but I'm having trouble processing your request right now.", 'team': 'T08D0Q5C9U4', 'bot_profile': {'id': 'B08CRMCUEPQ', 'deleted': False, 'name': 'Slack Bot', 'updated': 1739360993, 'app_id': 'A08CRL8S9E2', 'icons': {'image_36': 'https://a.slack-edge.com/80588/img/plugins/app/bot_36.png', 'image_48': 'https://a.slack-edge.com/80588/img/plugins/app/bot_48.png', 'image_72': 'https://a.slack-edge.com/80588/img/plugins/app/service_72.png'}, 'team_id': 'T08D0Q5C9U4'}, 'thread_ts': '1739645340.826119', 'parent_user_id': 'U08DAV3LFK3', 'blocks': [{'type': 'rich_text', 'block_id': 'rfs', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': "I apologize, but I'm having trouble processing your request right now."}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739645346.074929', 'channel_type': 'channel'}, 'type': 'event_callback', 'event_id': 'Ev08DKKXTSF6', 'event_time': 1739645346, 'authorizations': [{'enterprise_id': None, 'team_id': 'T08D0Q5C9U4', 'user_id': 'U08CYA87G58', 'is_bot': True, 'is_enterprise_install': False}], 'is_ext_shared_channel': False, 'event_context': '4-eyJldCI6Im1lc3NhZ2UiLCJ0aWQiOiJUMDhEMFE1QzlVNCIsImFpZCI6IkEwOENSTDhTOUUyIiwiY2lkIjoiQzA4Q1ZEVDZFNEQifQ'}
+2025-02-15 23:49:06,410 - INFO - Event callback type: message
+2025-02-15 23:49:06,411 - INFO - Full event: {'user': 'U08CYA87G58', 'type': 'message', 'ts': '1739645346.074929', 'bot_id': 'B08CRMCUEPQ', 'app_id': 'A08CRL8S9E2', 'text': "I apologize, but I'm having trouble processing your request right now.", 'team': 'T08D0Q5C9U4', 'bot_profile': {'id': 'B08CRMCUEPQ', 'deleted': False, 'name': 'Slack Bot', 'updated': 1739360993, 'app_id': 'A08CRL8S9E2', 'icons': {'image_36': 'https://a.slack-edge.com/80588/img/plugins/app/bot_36.png', 'image_48': 'https://a.slack-edge.com/80588/img/plugins/app/bot_48.png', 'image_72': 'https://a.slack-edge.com/80588/img/plugins/app/service_72.png'}, 'team_id': 'T08D0Q5C9U4'}, 'thread_ts': '1739645340.826119', 'parent_user_id': 'U08DAV3LFK3', 'blocks': [{'type': 'rich_text', 'block_id': 'rfs', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': "I apologize, but I'm having trouble processing your request right now."}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739645346.074929', 'channel_type': 'channel'}
+2025-02-15 23:49:06,413 - INFO - Received Message Details:
+2025-02-15 23:49:06,414 - INFO - Full event: {'user': 'U08CYA87G58', 'type': 'message', 'ts': '1739645346.074929', 'bot_id': 'B08CRMCUEPQ', 'app_id': 'A08CRL8S9E2', 'text': "I apologize, but I'm having trouble processing your request right now.", 'team': 'T08D0Q5C9U4', 'bot_profile': {'id': 'B08CRMCUEPQ', 'deleted': False, 'name': 'Slack Bot', 'updated': 1739360993, 'app_id': 'A08CRL8S9E2', 'icons': {'image_36': 'https://a.slack-edge.com/80588/img/plugins/app/bot_36.png', 'image_48': 'https://a.slack-edge.com/80588/img/plugins/app/bot_48.png', 'image_72': 'https://a.slack-edge.com/80588/img/plugins/app/service_72.png'}, 'team_id': 'T08D0Q5C9U4'}, 'thread_ts': '1739645340.826119', 'parent_user_id': 'U08DAV3LFK3', 'blocks': [{'type': 'rich_text', 'block_id': 'rfs', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': "I apologize, but I'm having trouble processing your request right now."}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739645346.074929', 'channel_type': 'channel'}
+2025-02-15 23:49:06,416 - INFO - user_id: U08CYA87G58
+2025-02-15 23:49:06,416 - INFO - bot_id: B08CRMCUEPQ
+2025-02-15 23:49:06,417 - INFO - BOT_ID: B08CRMCUEPQ
+2025-02-15 23:49:06,417 - INFO - subtype: None
+2025-02-15 23:49:06,418 - INFO - Skipping message because: bot_id=B08CRMCUEPQ, user_id=U08CYA87G58, subtype=None
+2025-02-15 23:49:25,897 - INFO - Received Slack event:
+2025-02-15 23:49:25,898 - INFO - Event type: event_callback
+2025-02-15 23:49:25,898 - INFO - Full body: {'token': 'QemLUGFYJqTjx3VrjaHJ9R2V', 'team_id': 'T08D0Q5C9U4', 'context_team_id': 'T08D0Q5C9U4', 'context_enterprise_id': None, 'api_app_id': 'A08CRL8S9E2', 'event': {'type': 'reaction_added', 'user': 'U08DAV3LFK3', 'reaction': '-1', 'item': {'type': 'message', 'channel': 'C08CVDT6E4D', 'ts': '1739645346.074929'}, 'item_user': 'U08CYA87G58', 'event_ts': '1739645365.012700'}, 'type': 'event_callback', 'event_id': 'Ev08DE9BNHN1', 'event_time': 1739645365, 'authorizations': [{'enterprise_id': None, 'team_id': 'T08D0Q5C9U4', 'user_id': 'U08CYA87G58', 'is_bot': True, 'is_enterprise_install': False}], 'is_ext_shared_channel': False, 'event_context': '4-eyJldCI6InJlYWN0aW9uX2FkZGVkIiwidGlkIjoiVDA4RDBRNUM5VTQiLCJhaWQiOiJBMDhDUkw4UzlFMiIsImNpZCI6IkMwOENWRFQ2RTREIn0'}
+2025-02-15 23:49:25,900 - INFO - Event callback type: reaction_added
+2025-02-15 23:49:25,900 - INFO - Full event: {'type': 'reaction_added', 'user': 'U08DAV3LFK3', 'reaction': '-1', 'item': {'type': 'message', 'channel': 'C08CVDT6E4D', 'ts': '1739645346.074929'}, 'item_user': 'U08CYA87G58', 'event_ts': '1739645365.012700'}
+2025-02-15 23:49:25,901 - INFO - Received negative reaction:
+2025-02-15 23:49:25,901 - INFO - Channel: C08CVDT6E4D
+2025-02-15 23:49:25,902 - INFO - Message TS: 1739645346.074929
+2025-02-15 23:49:25,902 - INFO - Item User: U08CYA87G58
+2025-02-15 23:49:27,286 - INFO - Found messages:
+2025-02-15 23:49:27,287 - INFO - User Question: i have to different invoices for one payment. Where to describe the second Invoice number?
+2025-02-15 23:49:27,287 - INFO - Bot Response: i have to different invoices for one payment. Where to describe the second Invoice number?
+2025-02-15 23:49:27,302 - INFO - Successfully added disliked response to database
+2025-02-15 23:50:29,350 - INFO - Received Slack event:
+2025-02-15 23:50:29,351 - INFO - Event type: event_callback
+2025-02-15 23:50:29,351 - INFO - Full body: {'token': 'QemLUGFYJqTjx3VrjaHJ9R2V', 'team_id': 'T08D0Q5C9U4', 'context_team_id': 'T08D0Q5C9U4', 'context_enterprise_id': None, 'api_app_id': 'A08CRL8S9E2', 'event': {'user': 'U08DAV3LFK3', 'type': 'message', 'ts': '1739645429.054589', 'client_msg_id': 'df1962ca-8710-4f69-94c7-348ed95cedd0', 'text': 'i have to different invoices for one payment. Where to describe the second Invoice number?', 'team': 'T08D0Q5C9U4', 'blocks': [{'type': 'rich_text', 'block_id': 'UL2K3', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'i have to different invoices for one payment. Where to describe the second Invoice number?'}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739645429.054589', 'channel_type': 'channel'}, 'type': 'event_callback', 'event_id': 'Ev08D2HHSK47', 'event_time': 1739645429, 'authorizations': [{'enterprise_id': None, 'team_id': 'T08D0Q5C9U4', 'user_id': 'U08CYA87G58', 'is_bot': True, 'is_enterprise_install': False}], 'is_ext_shared_channel': False, 'event_context': '4-eyJldCI6Im1lc3NhZ2UiLCJ0aWQiOiJUMDhEMFE1QzlVNCIsImFpZCI6IkEwOENSTDhTOUUyIiwiY2lkIjoiQzA4Q1ZEVDZFNEQifQ'}
+2025-02-15 23:50:29,353 - INFO - Event callback type: message
+2025-02-15 23:50:29,353 - INFO - Full event: {'user': 'U08DAV3LFK3', 'type': 'message', 'ts': '1739645429.054589', 'client_msg_id': 'df1962ca-8710-4f69-94c7-348ed95cedd0', 'text': 'i have to different invoices for one payment. Where to describe the second Invoice number?', 'team': 'T08D0Q5C9U4', 'blocks': [{'type': 'rich_text', 'block_id': 'UL2K3', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'i have to different invoices for one payment. Where to describe the second Invoice number?'}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739645429.054589', 'channel_type': 'channel'}
+2025-02-15 23:50:29,354 - INFO - Received Message Details:
+2025-02-15 23:50:29,354 - INFO - Full event: {'user': 'U08DAV3LFK3', 'type': 'message', 'ts': '1739645429.054589', 'client_msg_id': 'df1962ca-8710-4f69-94c7-348ed95cedd0', 'text': 'i have to different invoices for one payment. Where to describe the second Invoice number?', 'team': 'T08D0Q5C9U4', 'blocks': [{'type': 'rich_text', 'block_id': 'UL2K3', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'i have to different invoices for one payment. Where to describe the second Invoice number?'}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739645429.054589', 'channel_type': 'channel'}
+2025-02-15 23:50:29,355 - INFO - user_id: U08DAV3LFK3
+2025-02-15 23:50:29,356 - INFO - bot_id: None
+2025-02-15 23:50:29,356 - INFO - BOT_ID: B08CRMCUEPQ
+2025-02-15 23:50:29,356 - INFO - subtype: None
+2025-02-15 23:50:30,132 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-02-15 23:50:30,133 - ERROR - Error getting LLM response: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01jgewphphepdbyc1kqj3acryj` service tier `on_demand` on : Limit 100000, Used 95659, Requested 4557. Please try again in 3m6.558999999s. Visit https://console.groq.com/docs/rate-limits for more information.', 'type': '', 'code': 'rate_limit_exceeded'}}
+2025-02-15 23:50:31,641 - INFO - Received Slack event:
+2025-02-15 23:50:31,642 - INFO - Event type: event_callback
+2025-02-15 23:50:31,642 - INFO - Full body: {'token': 'QemLUGFYJqTjx3VrjaHJ9R2V', 'team_id': 'T08D0Q5C9U4', 'context_team_id': 'T08D0Q5C9U4', 'context_enterprise_id': None, 'api_app_id': 'A08CRL8S9E2', 'event': {'user': 'U08CYA87G58', 'type': 'message', 'ts': '1739645431.170609', 'bot_id': 'B08CRMCUEPQ', 'app_id': 'A08CRL8S9E2', 'text': "I apologize, but I'm having trouble processing your request right now.", 'team': 'T08D0Q5C9U4', 'bot_profile': {'id': 'B08CRMCUEPQ', 'deleted': False, 'name': 'Slack Bot', 'updated': 1739360993, 'app_id': 'A08CRL8S9E2', 'icons': {'image_36': 'https://a.slack-edge.com/80588/img/plugins/app/bot_36.png', 'image_48': 'https://a.slack-edge.com/80588/img/plugins/app/bot_48.png', 'image_72': 'https://a.slack-edge.com/80588/img/plugins/app/service_72.png'}, 'team_id': 'T08D0Q5C9U4'}, 'thread_ts': '1739645429.054589', 'parent_user_id': 'U08DAV3LFK3', 'blocks': [{'type': 'rich_text', 'block_id': 'Obzw', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': "I apologize, but I'm having trouble processing your request right now."}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739645431.170609', 'channel_type': 'channel'}, 'type': 'event_callback', 'event_id': 'Ev08E5URSYN4', 'event_time': 1739645431, 'authorizations': [{'enterprise_id': None, 'team_id': 'T08D0Q5C9U4', 'user_id': 'U08CYA87G58', 'is_bot': True, 'is_enterprise_install': False}], 'is_ext_shared_channel': False, 'event_context': '4-eyJldCI6Im1lc3NhZ2UiLCJ0aWQiOiJUMDhEMFE1QzlVNCIsImFpZCI6IkEwOENSTDhTOUUyIiwiY2lkIjoiQzA4Q1ZEVDZFNEQifQ'}
+2025-02-15 23:50:31,645 - INFO - Event callback type: message
+2025-02-15 23:50:31,646 - INFO - Full event: {'user': 'U08CYA87G58', 'type': 'message', 'ts': '1739645431.170609', 'bot_id': 'B08CRMCUEPQ', 'app_id': 'A08CRL8S9E2', 'text': "I apologize, but I'm having trouble processing your request right now.", 'team': 'T08D0Q5C9U4', 'bot_profile': {'id': 'B08CRMCUEPQ', 'deleted': False, 'name': 'Slack Bot', 'updated': 1739360993, 'app_id': 'A08CRL8S9E2', 'icons': {'image_36': 'https://a.slack-edge.com/80588/img/plugins/app/bot_36.png', 'image_48': 'https://a.slack-edge.com/80588/img/plugins/app/bot_48.png', 'image_72': 'https://a.slack-edge.com/80588/img/plugins/app/service_72.png'}, 'team_id': 'T08D0Q5C9U4'}, 'thread_ts': '1739645429.054589', 'parent_user_id': 'U08DAV3LFK3', 'blocks': [{'type': 'rich_text', 'block_id': 'Obzw', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': "I apologize, but I'm having trouble processing your request right now."}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739645431.170609', 'channel_type': 'channel'}
+2025-02-15 23:50:31,647 - INFO - Received Message Details:
+2025-02-15 23:50:31,648 - INFO - Full event: {'user': 'U08CYA87G58', 'type': 'message', 'ts': '1739645431.170609', 'bot_id': 'B08CRMCUEPQ', 'app_id': 'A08CRL8S9E2', 'text': "I apologize, but I'm having trouble processing your request right now.", 'team': 'T08D0Q5C9U4', 'bot_profile': {'id': 'B08CRMCUEPQ', 'deleted': False, 'name': 'Slack Bot', 'updated': 1739360993, 'app_id': 'A08CRL8S9E2', 'icons': {'image_36': 'https://a.slack-edge.com/80588/img/plugins/app/bot_36.png', 'image_48': 'https://a.slack-edge.com/80588/img/plugins/app/bot_48.png', 'image_72': 'https://a.slack-edge.com/80588/img/plugins/app/service_72.png'}, 'team_id': 'T08D0Q5C9U4'}, 'thread_ts': '1739645429.054589', 'parent_user_id': 'U08DAV3LFK3', 'blocks': [{'type': 'rich_text', 'block_id': 'Obzw', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': "I apologize, but I'm having trouble processing your request right now."}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739645431.170609', 'channel_type': 'channel'}
+2025-02-15 23:50:31,650 - INFO - user_id: U08CYA87G58
+2025-02-15 23:50:31,651 - INFO - bot_id: B08CRMCUEPQ
+2025-02-15 23:50:31,651 - INFO - BOT_ID: B08CRMCUEPQ
+2025-02-15 23:50:31,651 - INFO - subtype: None
+2025-02-15 23:50:31,652 - INFO - Skipping message because: bot_id=B08CRMCUEPQ, user_id=U08CYA87G58, subtype=None
+2025-02-17 19:49:15,824 - INFO - Loading faiss with AVX2 support.
+2025-02-17 19:49:16,073 - INFO - Successfully loaded faiss with AVX2 support.
+2025-02-17 19:49:16,084 - INFO - Failed to load GPU Faiss: name 'GpuIndexIVFFlat' is not defined. Will not load constructor refs for GPU indexes.
+2025-02-17 19:49:16,421 - INFO - Using Bot ID: B08CRMCUEPQ
+2025-02-17 19:49:21,066 - INFO - Loading faiss with AVX2 support.
+2025-02-17 19:49:21,126 - INFO - Successfully loaded faiss with AVX2 support.
+2025-02-17 19:49:21,133 - INFO - Failed to load GPU Faiss: name 'GpuIndexIVFFlat' is not defined. Will not load constructor refs for GPU indexes.
+2025-02-17 19:49:21,474 - INFO - Using Bot ID: B08CRMCUEPQ
+2025-02-17 19:49:23,199 - INFO - Using Bot ID: B08CRMCUEPQ
+2025-02-17 19:50:20,273 - INFO - Received Slack event:
+2025-02-17 19:50:20,274 - INFO - Event type: url_verification
+2025-02-17 19:50:20,275 - INFO - Full body: {'token': 'QemLUGFYJqTjx3VrjaHJ9R2V', 'challenge': 'NyHfELgmXuuIqcVKcS4NsqEvtfM0kuKcgMtDBsseyL9loc1Dkwa2', 'type': 'url_verification'}
+2025-02-17 19:51:36,924 - INFO - Received Slack event:
+2025-02-17 19:51:36,925 - INFO - Event type: event_callback
+2025-02-17 19:51:36,926 - INFO - Full body: {'token': 'QemLUGFYJqTjx3VrjaHJ9R2V', 'team_id': 'T08D0Q5C9U4', 'context_team_id': 'T08D0Q5C9U4', 'context_enterprise_id': None, 'api_app_id': 'A08CRL8S9E2', 'event': {'user': 'U08DAV3LFK3', 'type': 'message', 'ts': '1739803896.711079', 'client_msg_id': 'c673c95f-75c8-4cb6-b591-7e1f87aa2ae8', 'text': 'hello brother', 'team': 'T08D0Q5C9U4', 'blocks': [{'type': 'rich_text', 'block_id': 'B74Zp', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hello brother'}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739803896.711079', 'channel_type': 'channel'}, 'type': 'event_callback', 'event_id': 'Ev08EBHYVATS', 'event_time': 1739803896, 'authorizations': [{'enterprise_id': None, 'team_id': 'T08D0Q5C9U4', 'user_id': 'U08CYA87G58', 'is_bot': True, 'is_enterprise_install': False}], 'is_ext_shared_channel': False, 'event_context': '4-eyJldCI6Im1lc3NhZ2UiLCJ0aWQiOiJUMDhEMFE1QzlVNCIsImFpZCI6IkEwOENSTDhTOUUyIiwiY2lkIjoiQzA4Q1ZEVDZFNEQifQ'}
+2025-02-17 19:51:36,928 - INFO - Event callback type: message
+2025-02-17 19:51:36,929 - INFO - Full event: {'user': 'U08DAV3LFK3', 'type': 'message', 'ts': '1739803896.711079', 'client_msg_id': 'c673c95f-75c8-4cb6-b591-7e1f87aa2ae8', 'text': 'hello brother', 'team': 'T08D0Q5C9U4', 'blocks': [{'type': 'rich_text', 'block_id': 'B74Zp', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hello brother'}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739803896.711079', 'channel_type': 'channel'}
+2025-02-17 19:51:36,930 - INFO - Received Message Details:
+2025-02-17 19:51:36,931 - INFO - Full event: {'user': 'U08DAV3LFK3', 'type': 'message', 'ts': '1739803896.711079', 'client_msg_id': 'c673c95f-75c8-4cb6-b591-7e1f87aa2ae8', 'text': 'hello brother', 'team': 'T08D0Q5C9U4', 'blocks': [{'type': 'rich_text', 'block_id': 'B74Zp', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hello brother'}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739803896.711079', 'channel_type': 'channel'}
+2025-02-17 19:51:36,932 - INFO - user_id: U08DAV3LFK3
+2025-02-17 19:51:36,932 - INFO - bot_id: None
+2025-02-17 19:51:36,933 - INFO - BOT_ID: B08CRMCUEPQ
+2025-02-17 19:51:36,933 - INFO - subtype: None
+2025-02-17 19:51:39,268 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 413 Payload Too Large"
+2025-02-17 19:51:39,279 - ERROR - Error getting LLM response: Error code: 413 - {'error': {'message': 'Request too large for model `llama-3.3-70b-versatile` in organization `org_01jgewphphepdbyc1kqj3acryj` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Requested 10378, please reduce your message size and try again. Visit https://console.groq.com/docs/rate-limits for more information.', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2025-02-17 19:51:40,049 - INFO - Received Slack event:
+2025-02-17 19:51:40,050 - INFO - Event type: event_callback
+2025-02-17 19:51:40,050 - INFO - Full body: {'token': 'QemLUGFYJqTjx3VrjaHJ9R2V', 'team_id': 'T08D0Q5C9U4', 'context_team_id': 'T08D0Q5C9U4', 'context_enterprise_id': None, 'api_app_id': 'A08CRL8S9E2', 'event': {'user': 'U08DAV3LFK3', 'type': 'message', 'ts': '1739803896.711079', 'client_msg_id': 'c673c95f-75c8-4cb6-b591-7e1f87aa2ae8', 'text': 'hello brother', 'team': 'T08D0Q5C9U4', 'blocks': [{'type': 'rich_text', 'block_id': 'B74Zp', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hello brother'}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739803896.711079', 'channel_type': 'channel'}, 'type': 'event_callback', 'event_id': 'Ev08EBHYVATS', 'event_time': 1739803896, 'authorizations': [{'enterprise_id': None, 'team_id': 'T08D0Q5C9U4', 'user_id': 'U08CYA87G58', 'is_bot': True, 'is_enterprise_install': False}], 'is_ext_shared_channel': False, 'event_context': '4-eyJldCI6Im1lc3NhZ2UiLCJ0aWQiOiJUMDhEMFE1QzlVNCIsImFpZCI6IkEwOENSTDhTOUUyIiwiY2lkIjoiQzA4Q1ZEVDZFNEQifQ'}
+2025-02-17 19:51:40,052 - INFO - Event callback type: message
+2025-02-17 19:51:40,052 - INFO - Full event: {'user': 'U08DAV3LFK3', 'type': 'message', 'ts': '1739803896.711079', 'client_msg_id': 'c673c95f-75c8-4cb6-b591-7e1f87aa2ae8', 'text': 'hello brother', 'team': 'T08D0Q5C9U4', 'blocks': [{'type': 'rich_text', 'block_id': 'B74Zp', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hello brother'}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739803896.711079', 'channel_type': 'channel'}
+2025-02-17 19:51:40,053 - INFO - Received Message Details:
+2025-02-17 19:51:40,053 - INFO - Full event: {'user': 'U08DAV3LFK3', 'type': 'message', 'ts': '1739803896.711079', 'client_msg_id': 'c673c95f-75c8-4cb6-b591-7e1f87aa2ae8', 'text': 'hello brother', 'team': 'T08D0Q5C9U4', 'blocks': [{'type': 'rich_text', 'block_id': 'B74Zp', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hello brother'}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739803896.711079', 'channel_type': 'channel'}
+2025-02-17 19:51:40,054 - INFO - user_id: U08DAV3LFK3
+2025-02-17 19:51:40,054 - INFO - bot_id: None
+2025-02-17 19:51:40,055 - INFO - BOT_ID: B08CRMCUEPQ
+2025-02-17 19:51:40,055 - INFO - subtype: None
+2025-02-17 19:51:41,023 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 413 Payload Too Large"
+2025-02-17 19:51:41,024 - ERROR - Error getting LLM response: Error code: 413 - {'error': {'message': 'Request too large for model `llama-3.3-70b-versatile` in organization `org_01jgewphphepdbyc1kqj3acryj` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Requested 10378, please reduce your message size and try again. Visit https://console.groq.com/docs/rate-limits for more information.', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2025-02-17 19:51:41,653 - INFO - Received Slack event:
+2025-02-17 19:51:41,653 - INFO - Event type: event_callback
+2025-02-17 19:51:41,654 - INFO - Full body: {'token': 'QemLUGFYJqTjx3VrjaHJ9R2V', 'team_id': 'T08D0Q5C9U4', 'context_team_id': 'T08D0Q5C9U4', 'context_enterprise_id': None, 'api_app_id': 'A08CRL8S9E2', 'event': {'user': 'U08CYA87G58', 'type': 'message', 'ts': '1739803900.694209', 'bot_id': 'B08CRMCUEPQ', 'app_id': 'A08CRL8S9E2', 'text': "I apologize, but I'm having trouble processing your request right now.", 'team': 'T08D0Q5C9U4', 'bot_profile': {'id': 'B08CRMCUEPQ', 'deleted': False, 'name': 'Slack Bot', 'updated': 1739360993, 'app_id': 'A08CRL8S9E2', 'icons': {'image_36': 'https://a.slack-edge.com/80588/img/plugins/app/bot_36.png', 'image_48': 'https://a.slack-edge.com/80588/img/plugins/app/bot_48.png', 'image_72': 'https://a.slack-edge.com/80588/img/plugins/app/service_72.png'}, 'team_id': 'T08D0Q5C9U4'}, 'thread_ts': '1739803896.711079', 'parent_user_id': 'U08DAV3LFK3', 'blocks': [{'type': 'rich_text', 'block_id': '3FA5', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': "I apologize, but I'm having trouble processing your request right now."}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739803900.694209', 'channel_type': 'channel'}, 'type': 'event_callback', 'event_id': 'Ev08DG3Z3AG6', 'event_time': 1739803900, 'authorizations': [{'enterprise_id': None, 'team_id': 'T08D0Q5C9U4', 'user_id': 'U08CYA87G58', 'is_bot': True, 'is_enterprise_install': False}], 'is_ext_shared_channel': False, 'event_context': '4-eyJldCI6Im1lc3NhZ2UiLCJ0aWQiOiJUMDhEMFE1QzlVNCIsImFpZCI6IkEwOENSTDhTOUUyIiwiY2lkIjoiQzA4Q1ZEVDZFNEQifQ'}
+2025-02-17 19:51:41,656 - INFO - Event callback type: message
+2025-02-17 19:51:41,657 - INFO - Full event: {'user': 'U08CYA87G58', 'type': 'message', 'ts': '1739803900.694209', 'bot_id': 'B08CRMCUEPQ', 'app_id': 'A08CRL8S9E2', 'text': "I apologize, but I'm having trouble processing your request right now.", 'team': 'T08D0Q5C9U4', 'bot_profile': {'id': 'B08CRMCUEPQ', 'deleted': False, 'name': 'Slack Bot', 'updated': 1739360993, 'app_id': 'A08CRL8S9E2', 'icons': {'image_36': 'https://a.slack-edge.com/80588/img/plugins/app/bot_36.png', 'image_48': 'https://a.slack-edge.com/80588/img/plugins/app/bot_48.png', 'image_72': 'https://a.slack-edge.com/80588/img/plugins/app/service_72.png'}, 'team_id': 'T08D0Q5C9U4'}, 'thread_ts': '1739803896.711079', 'parent_user_id': 'U08DAV3LFK3', 'blocks': [{'type': 'rich_text', 'block_id': '3FA5', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': "I apologize, but I'm having trouble processing your request right now."}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739803900.694209', 'channel_type': 'channel'}
+2025-02-17 19:51:41,658 - INFO - Received Message Details:
+2025-02-17 19:51:41,659 - INFO - Full event: {'user': 'U08CYA87G58', 'type': 'message', 'ts': '1739803900.694209', 'bot_id': 'B08CRMCUEPQ', 'app_id': 'A08CRL8S9E2', 'text': "I apologize, but I'm having trouble processing your request right now.", 'team': 'T08D0Q5C9U4', 'bot_profile': {'id': 'B08CRMCUEPQ', 'deleted': False, 'name': 'Slack Bot', 'updated': 1739360993, 'app_id': 'A08CRL8S9E2', 'icons': {'image_36': 'https://a.slack-edge.com/80588/img/plugins/app/bot_36.png', 'image_48': 'https://a.slack-edge.com/80588/img/plugins/app/bot_48.png', 'image_72': 'https://a.slack-edge.com/80588/img/plugins/app/service_72.png'}, 'team_id': 'T08D0Q5C9U4'}, 'thread_ts': '1739803896.711079', 'parent_user_id': 'U08DAV3LFK3', 'blocks': [{'type': 'rich_text', 'block_id': '3FA5', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': "I apologize, but I'm having trouble processing your request right now."}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739803900.694209', 'channel_type': 'channel'}
+2025-02-17 19:51:41,661 - INFO - user_id: U08CYA87G58
+2025-02-17 19:51:41,661 - INFO - bot_id: B08CRMCUEPQ
+2025-02-17 19:51:41,661 - INFO - BOT_ID: B08CRMCUEPQ
+2025-02-17 19:51:41,662 - INFO - subtype: None
+2025-02-17 19:51:41,662 - INFO - Skipping message because: bot_id=B08CRMCUEPQ, user_id=U08CYA87G58, subtype=None
+2025-02-17 19:51:42,464 - INFO - Received Slack event:
+2025-02-17 19:51:42,465 - INFO - Event type: event_callback
+2025-02-17 19:51:42,465 - INFO - Full body: {'token': 'QemLUGFYJqTjx3VrjaHJ9R2V', 'team_id': 'T08D0Q5C9U4', 'context_team_id': 'T08D0Q5C9U4', 'context_enterprise_id': None, 'api_app_id': 'A08CRL8S9E2', 'event': {'user': 'U08CYA87G58', 'type': 'message', 'ts': '1739803902.349169', 'bot_id': 'B08CRMCUEPQ', 'app_id': 'A08CRL8S9E2', 'text': "I apologize, but I'm having trouble processing your request right now.", 'team': 'T08D0Q5C9U4', 'bot_profile': {'id': 'B08CRMCUEPQ', 'deleted': False, 'name': 'Slack Bot', 'updated': 1739360993, 'app_id': 'A08CRL8S9E2', 'icons': {'image_36': 'https://a.slack-edge.com/80588/img/plugins/app/bot_36.png', 'image_48': 'https://a.slack-edge.com/80588/img/plugins/app/bot_48.png', 'image_72': 'https://a.slack-edge.com/80588/img/plugins/app/service_72.png'}, 'team_id': 'T08D0Q5C9U4'}, 'thread_ts': '1739803896.711079', 'parent_user_id': 'U08DAV3LFK3', 'blocks': [{'type': 'rich_text', 'block_id': '9VKm', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': "I apologize, but I'm having trouble processing your request right now."}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739803902.349169', 'channel_type': 'channel'}, 'type': 'event_callback', 'event_id': 'Ev08DNM1MBTM', 'event_time': 1739803902, 'authorizations': [{'enterprise_id': None, 'team_id': 'T08D0Q5C9U4', 'user_id': 'U08CYA87G58', 'is_bot': True, 'is_enterprise_install': False}], 'is_ext_shared_channel': False, 'event_context': '4-eyJldCI6Im1lc3NhZ2UiLCJ0aWQiOiJUMDhEMFE1QzlVNCIsImFpZCI6IkEwOENSTDhTOUUyIiwiY2lkIjoiQzA4Q1ZEVDZFNEQifQ'}
+2025-02-17 19:51:42,467 - INFO - Event callback type: message
+2025-02-17 19:51:42,467 - INFO - Full event: {'user': 'U08CYA87G58', 'type': 'message', 'ts': '1739803902.349169', 'bot_id': 'B08CRMCUEPQ', 'app_id': 'A08CRL8S9E2', 'text': "I apologize, but I'm having trouble processing your request right now.", 'team': 'T08D0Q5C9U4', 'bot_profile': {'id': 'B08CRMCUEPQ', 'deleted': False, 'name': 'Slack Bot', 'updated': 1739360993, 'app_id': 'A08CRL8S9E2', 'icons': {'image_36': 'https://a.slack-edge.com/80588/img/plugins/app/bot_36.png', 'image_48': 'https://a.slack-edge.com/80588/img/plugins/app/bot_48.png', 'image_72': 'https://a.slack-edge.com/80588/img/plugins/app/service_72.png'}, 'team_id': 'T08D0Q5C9U4'}, 'thread_ts': '1739803896.711079', 'parent_user_id': 'U08DAV3LFK3', 'blocks': [{'type': 'rich_text', 'block_id': '9VKm', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': "I apologize, but I'm having trouble processing your request right now."}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739803902.349169', 'channel_type': 'channel'}
+2025-02-17 19:51:42,469 - INFO - Received Message Details:
+2025-02-17 19:51:42,469 - INFO - Full event: {'user': 'U08CYA87G58', 'type': 'message', 'ts': '1739803902.349169', 'bot_id': 'B08CRMCUEPQ', 'app_id': 'A08CRL8S9E2', 'text': "I apologize, but I'm having trouble processing your request right now.", 'team': 'T08D0Q5C9U4', 'bot_profile': {'id': 'B08CRMCUEPQ', 'deleted': False, 'name': 'Slack Bot', 'updated': 1739360993, 'app_id': 'A08CRL8S9E2', 'icons': {'image_36': 'https://a.slack-edge.com/80588/img/plugins/app/bot_36.png', 'image_48': 'https://a.slack-edge.com/80588/img/plugins/app/bot_48.png', 'image_72': 'https://a.slack-edge.com/80588/img/plugins/app/service_72.png'}, 'team_id': 'T08D0Q5C9U4'}, 'thread_ts': '1739803896.711079', 'parent_user_id': 'U08DAV3LFK3', 'blocks': [{'type': 'rich_text', 'block_id': '9VKm', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': "I apologize, but I'm having trouble processing your request right now."}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739803902.349169', 'channel_type': 'channel'}
+2025-02-17 19:51:42,470 - INFO - user_id: U08CYA87G58
+2025-02-17 19:51:42,471 - INFO - bot_id: B08CRMCUEPQ
+2025-02-17 19:51:42,471 - INFO - BOT_ID: B08CRMCUEPQ
+2025-02-17 19:51:42,471 - INFO - subtype: None
+2025-02-17 19:51:42,471 - INFO - Skipping message because: bot_id=B08CRMCUEPQ, user_id=U08CYA87G58, subtype=None
+2025-02-17 19:54:18,066 - INFO - Loading faiss with AVX2 support.
+2025-02-17 19:54:18,096 - INFO - Successfully loaded faiss with AVX2 support.
+2025-02-17 19:54:18,108 - INFO - Failed to load GPU Faiss: name 'GpuIndexIVFFlat' is not defined. Will not load constructor refs for GPU indexes.
+2025-02-17 19:54:18,453 - INFO - Using Bot ID: B08CRMCUEPQ
+2025-02-17 19:54:19,922 - INFO - Using Bot ID: B08CRMCUEPQ
+2025-02-17 19:54:51,946 - INFO - Loading faiss with AVX2 support.
+2025-02-17 19:54:51,988 - INFO - Successfully loaded faiss with AVX2 support.
+2025-02-17 19:54:51,998 - INFO - Failed to load GPU Faiss: name 'GpuIndexIVFFlat' is not defined. Will not load constructor refs for GPU indexes.
+2025-02-17 19:54:52,357 - INFO - Using Bot ID: B08CRMCUEPQ
+2025-02-17 19:54:53,891 - INFO - Using Bot ID: B08CRMCUEPQ
+2025-02-17 19:54:58,182 - INFO - Received Slack event:
+2025-02-17 19:54:58,183 - INFO - Event type: event_callback
+2025-02-17 19:54:58,183 - INFO - Full body: {'token': 'QemLUGFYJqTjx3VrjaHJ9R2V', 'team_id': 'T08D0Q5C9U4', 'context_team_id': 'T08D0Q5C9U4', 'context_enterprise_id': None, 'api_app_id': 'A08CRL8S9E2', 'event': {'user': 'U08DAV3LFK3', 'type': 'message', 'ts': '1739804098.094359', 'client_msg_id': 'd2d4c2a1-83d5-43d6-8e04-666fbe93dc1a', 'text': 'hello brother', 'team': 'T08D0Q5C9U4', 'blocks': [{'type': 'rich_text', 'block_id': 'B74Zp', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hello brother'}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739804098.094359', 'channel_type': 'channel'}, 'type': 'event_callback', 'event_id': 'Ev08DRALADC4', 'event_time': 1739804098, 'authorizations': [{'enterprise_id': None, 'team_id': 'T08D0Q5C9U4', 'user_id': 'U08CYA87G58', 'is_bot': True, 'is_enterprise_install': False}], 'is_ext_shared_channel': False, 'event_context': '4-eyJldCI6Im1lc3NhZ2UiLCJ0aWQiOiJUMDhEMFE1QzlVNCIsImFpZCI6IkEwOENSTDhTOUUyIiwiY2lkIjoiQzA4Q1ZEVDZFNEQifQ'}
+2025-02-17 19:54:58,185 - INFO - Event callback type: message
+2025-02-17 19:54:58,186 - INFO - Full event: {'user': 'U08DAV3LFK3', 'type': 'message', 'ts': '1739804098.094359', 'client_msg_id': 'd2d4c2a1-83d5-43d6-8e04-666fbe93dc1a', 'text': 'hello brother', 'team': 'T08D0Q5C9U4', 'blocks': [{'type': 'rich_text', 'block_id': 'B74Zp', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hello brother'}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739804098.094359', 'channel_type': 'channel'}
+2025-02-17 19:54:58,186 - INFO - Received Message Details:
+2025-02-17 19:54:58,187 - INFO - Full event: {'user': 'U08DAV3LFK3', 'type': 'message', 'ts': '1739804098.094359', 'client_msg_id': 'd2d4c2a1-83d5-43d6-8e04-666fbe93dc1a', 'text': 'hello brother', 'team': 'T08D0Q5C9U4', 'blocks': [{'type': 'rich_text', 'block_id': 'B74Zp', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hello brother'}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739804098.094359', 'channel_type': 'channel'}
+2025-02-17 19:54:58,188 - INFO - user_id: U08DAV3LFK3
+2025-02-17 19:54:58,188 - INFO - bot_id: None
+2025-02-17 19:54:58,189 - INFO - BOT_ID: B08CRMCUEPQ
+2025-02-17 19:54:58,189 - INFO - subtype: None
+2025-02-17 19:54:58,190 - INFO - Getting relevant documents for query: hello brother
+2025-02-17 19:54:59,490 - INFO - Found 5 relevant documents
+2025-02-17 19:54:59,491 - INFO - Context length: 41006 characters
+2025-02-17 19:54:59,492 - INFO - Sending request to LLM
+2025-02-17 19:55:00,959 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 413 Payload Too Large"
+2025-02-17 19:55:00,961 - ERROR - Error getting LLM response: Error code: 413 - {'error': {'message': 'Request too large for model `llama-3.3-70b-versatile` in organization `org_01jgewphphepdbyc1kqj3acryj` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Requested 10378, please reduce your message size and try again. Visit https://console.groq.com/docs/rate-limits for more information.', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2025-02-17 19:55:00,963 - ERROR - Error type: APIStatusError
+2025-02-17 19:55:00,963 - ERROR - Error details:
+Traceback (most recent call last):
+  File "C:\Users\Syscom\Desktop\slack_bot\main.py", line 105, in get_llm_response
+    response = llm.invoke(messages)
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 284, in invoke
+    self.generate_prompt(
+    ~~~~~~~~~~~~~~~~~~~~^
+        [self._convert_input(input)],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    ).generations[0][0],
+    ^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 860, in generate_prompt
+    return self.generate(prompt_messages, stop=stop, callbacks=callbacks, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 690, in generate
+    self._generate_with_cache(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        m,
+        ^^
+    ...<2 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 925, in _generate_with_cache
+    result = self._generate(
+        messages, stop=stop, run_manager=run_manager, **kwargs
+    )
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_groq\chat_models.py", line 480, in _generate
+    response = self.client.create(messages=message_dicts, **params)
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\groq\resources\chat\completions.py", line 322, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/openai/v1/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<34 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\groq\_base_client.py", line 1266, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\groq\_base_client.py", line 958, in request
+    return self._request(
+           ~~~~~~~~~~~~~^
+        cast_to=cast_to,
+        ^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        retries_taken=retries_taken,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\groq\_base_client.py", line 1061, in _request
+    raise self._make_status_error_from_response(err.response) from None
+groq.APIStatusError: Error code: 413 - {'error': {'message': 'Request too large for model `llama-3.3-70b-versatile` in organization `org_01jgewphphepdbyc1kqj3acryj` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Requested 10378, please reduce your message size and try again. Visit https://console.groq.com/docs/rate-limits for more information.', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2025-02-17 19:55:01,897 - INFO - Received Slack event:
+2025-02-17 19:55:01,898 - INFO - Event type: event_callback
+2025-02-17 19:55:01,898 - INFO - Full body: {'token': 'QemLUGFYJqTjx3VrjaHJ9R2V', 'team_id': 'T08D0Q5C9U4', 'context_team_id': 'T08D0Q5C9U4', 'context_enterprise_id': None, 'api_app_id': 'A08CRL8S9E2', 'event': {'user': 'U08DAV3LFK3', 'type': 'message', 'ts': '1739804098.094359', 'client_msg_id': 'd2d4c2a1-83d5-43d6-8e04-666fbe93dc1a', 'text': 'hello brother', 'team': 'T08D0Q5C9U4', 'blocks': [{'type': 'rich_text', 'block_id': 'B74Zp', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hello brother'}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739804098.094359', 'channel_type': 'channel'}, 'type': 'event_callback', 'event_id': 'Ev08DRALADC4', 'event_time': 1739804098, 'authorizations': [{'enterprise_id': None, 'team_id': 'T08D0Q5C9U4', 'user_id': 'U08CYA87G58', 'is_bot': True, 'is_enterprise_install': False}], 'is_ext_shared_channel': False, 'event_context': '4-eyJldCI6Im1lc3NhZ2UiLCJ0aWQiOiJUMDhEMFE1QzlVNCIsImFpZCI6IkEwOENSTDhTOUUyIiwiY2lkIjoiQzA4Q1ZEVDZFNEQifQ'}
+2025-02-17 19:55:01,900 - INFO - Event callback type: message
+2025-02-17 19:55:01,901 - INFO - Full event: {'user': 'U08DAV3LFK3', 'type': 'message', 'ts': '1739804098.094359', 'client_msg_id': 'd2d4c2a1-83d5-43d6-8e04-666fbe93dc1a', 'text': 'hello brother', 'team': 'T08D0Q5C9U4', 'blocks': [{'type': 'rich_text', 'block_id': 'B74Zp', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hello brother'}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739804098.094359', 'channel_type': 'channel'}
+2025-02-17 19:55:01,902 - INFO - Received Message Details:
+2025-02-17 19:55:01,902 - INFO - Full event: {'user': 'U08DAV3LFK3', 'type': 'message', 'ts': '1739804098.094359', 'client_msg_id': 'd2d4c2a1-83d5-43d6-8e04-666fbe93dc1a', 'text': 'hello brother', 'team': 'T08D0Q5C9U4', 'blocks': [{'type': 'rich_text', 'block_id': 'B74Zp', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hello brother'}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739804098.094359', 'channel_type': 'channel'}
+2025-02-17 19:55:01,903 - INFO - user_id: U08DAV3LFK3
+2025-02-17 19:55:01,903 - INFO - bot_id: None
+2025-02-17 19:55:01,904 - INFO - BOT_ID: B08CRMCUEPQ
+2025-02-17 19:55:01,904 - INFO - subtype: None
+2025-02-17 19:55:01,904 - INFO - Getting relevant documents for query: hello brother
+2025-02-17 19:55:02,260 - INFO - Found 5 relevant documents
+2025-02-17 19:55:02,260 - INFO - Context length: 41006 characters
+2025-02-17 19:55:02,261 - INFO - Sending request to LLM
+2025-02-17 19:55:02,632 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 413 Payload Too Large"
+2025-02-17 19:55:02,634 - ERROR - Error getting LLM response: Error code: 413 - {'error': {'message': 'Request too large for model `llama-3.3-70b-versatile` in organization `org_01jgewphphepdbyc1kqj3acryj` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Requested 10378, please reduce your message size and try again. Visit https://console.groq.com/docs/rate-limits for more information.', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2025-02-17 19:55:02,637 - ERROR - Error type: APIStatusError
+2025-02-17 19:55:02,638 - ERROR - Error details:
+Traceback (most recent call last):
+  File "C:\Users\Syscom\Desktop\slack_bot\main.py", line 105, in get_llm_response
+    response = llm.invoke(messages)
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 284, in invoke
+    self.generate_prompt(
+    ~~~~~~~~~~~~~~~~~~~~^
+        [self._convert_input(input)],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    ).generations[0][0],
+    ^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 860, in generate_prompt
+    return self.generate(prompt_messages, stop=stop, callbacks=callbacks, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 690, in generate
+    self._generate_with_cache(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        m,
+        ^^
+    ...<2 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 925, in _generate_with_cache
+    result = self._generate(
+        messages, stop=stop, run_manager=run_manager, **kwargs
+    )
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_groq\chat_models.py", line 480, in _generate
+    response = self.client.create(messages=message_dicts, **params)
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\groq\resources\chat\completions.py", line 322, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/openai/v1/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<34 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\groq\_base_client.py", line 1266, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\groq\_base_client.py", line 958, in request
+    return self._request(
+           ~~~~~~~~~~~~~^
+        cast_to=cast_to,
+        ^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        retries_taken=retries_taken,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\groq\_base_client.py", line 1061, in _request
+    raise self._make_status_error_from_response(err.response) from None
+groq.APIStatusError: Error code: 413 - {'error': {'message': 'Request too large for model `llama-3.3-70b-versatile` in organization `org_01jgewphphepdbyc1kqj3acryj` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Requested 10378, please reduce your message size and try again. Visit https://console.groq.com/docs/rate-limits for more information.', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2025-02-17 19:55:03,491 - INFO - Received Slack event:
+2025-02-17 19:55:03,492 - INFO - Event type: event_callback
+2025-02-17 19:55:03,492 - INFO - Full body: {'token': 'QemLUGFYJqTjx3VrjaHJ9R2V', 'team_id': 'T08D0Q5C9U4', 'context_team_id': 'T08D0Q5C9U4', 'context_enterprise_id': None, 'api_app_id': 'A08CRL8S9E2', 'event': {'user': 'U08CYA87G58', 'type': 'message', 'ts': '1739804102.575679', 'bot_id': 'B08CRMCUEPQ', 'app_id': 'A08CRL8S9E2', 'text': "I apologize, but I'm having trouble processing your request right now.", 'team': 'T08D0Q5C9U4', 'bot_profile': {'id': 'B08CRMCUEPQ', 'deleted': False, 'name': 'Slack Bot', 'updated': 1739360993, 'app_id': 'A08CRL8S9E2', 'icons': {'image_36': 'https://a.slack-edge.com/80588/img/plugins/app/bot_36.png', 'image_48': 'https://a.slack-edge.com/80588/img/plugins/app/bot_48.png', 'image_72': 'https://a.slack-edge.com/80588/img/plugins/app/service_72.png'}, 'team_id': 'T08D0Q5C9U4'}, 'thread_ts': '1739804098.094359', 'parent_user_id': 'U08DAV3LFK3', 'blocks': [{'type': 'rich_text', 'block_id': 'Tzv', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': "I apologize, but I'm having trouble processing your request right now."}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739804102.575679', 'channel_type': 'channel'}, 'type': 'event_callback', 'event_id': 'Ev08DNPK35C2', 'event_time': 1739804102, 'authorizations': [{'enterprise_id': None, 'team_id': 'T08D0Q5C9U4', 'user_id': 'U08CYA87G58', 'is_bot': True, 'is_enterprise_install': False}], 'is_ext_shared_channel': False, 'event_context': '4-eyJldCI6Im1lc3NhZ2UiLCJ0aWQiOiJUMDhEMFE1QzlVNCIsImFpZCI6IkEwOENSTDhTOUUyIiwiY2lkIjoiQzA4Q1ZEVDZFNEQifQ'}
+2025-02-17 19:55:03,496 - INFO - Event callback type: message
+2025-02-17 19:55:03,496 - INFO - Full event: {'user': 'U08CYA87G58', 'type': 'message', 'ts': '1739804102.575679', 'bot_id': 'B08CRMCUEPQ', 'app_id': 'A08CRL8S9E2', 'text': "I apologize, but I'm having trouble processing your request right now.", 'team': 'T08D0Q5C9U4', 'bot_profile': {'id': 'B08CRMCUEPQ', 'deleted': False, 'name': 'Slack Bot', 'updated': 1739360993, 'app_id': 'A08CRL8S9E2', 'icons': {'image_36': 'https://a.slack-edge.com/80588/img/plugins/app/bot_36.png', 'image_48': 'https://a.slack-edge.com/80588/img/plugins/app/bot_48.png', 'image_72': 'https://a.slack-edge.com/80588/img/plugins/app/service_72.png'}, 'team_id': 'T08D0Q5C9U4'}, 'thread_ts': '1739804098.094359', 'parent_user_id': 'U08DAV3LFK3', 'blocks': [{'type': 'rich_text', 'block_id': 'Tzv', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': "I apologize, but I'm having trouble processing your request right now."}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739804102.575679', 'channel_type': 'channel'}
+2025-02-17 19:55:03,498 - INFO - Received Message Details:
+2025-02-17 19:55:03,498 - INFO - Full event: {'user': 'U08CYA87G58', 'type': 'message', 'ts': '1739804102.575679', 'bot_id': 'B08CRMCUEPQ', 'app_id': 'A08CRL8S9E2', 'text': "I apologize, but I'm having trouble processing your request right now.", 'team': 'T08D0Q5C9U4', 'bot_profile': {'id': 'B08CRMCUEPQ', 'deleted': False, 'name': 'Slack Bot', 'updated': 1739360993, 'app_id': 'A08CRL8S9E2', 'icons': {'image_36': 'https://a.slack-edge.com/80588/img/plugins/app/bot_36.png', 'image_48': 'https://a.slack-edge.com/80588/img/plugins/app/bot_48.png', 'image_72': 'https://a.slack-edge.com/80588/img/plugins/app/service_72.png'}, 'team_id': 'T08D0Q5C9U4'}, 'thread_ts': '1739804098.094359', 'parent_user_id': 'U08DAV3LFK3', 'blocks': [{'type': 'rich_text', 'block_id': 'Tzv', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': "I apologize, but I'm having trouble processing your request right now."}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739804102.575679', 'channel_type': 'channel'}
+2025-02-17 19:55:03,500 - INFO - user_id: U08CYA87G58
+2025-02-17 19:55:03,500 - INFO - bot_id: B08CRMCUEPQ
+2025-02-17 19:55:03,501 - INFO - BOT_ID: B08CRMCUEPQ
+2025-02-17 19:55:03,501 - INFO - subtype: None
+2025-02-17 19:55:03,501 - INFO - Skipping message because: bot_id=B08CRMCUEPQ, user_id=U08CYA87G58, subtype=None
+2025-02-17 19:55:04,343 - INFO - Received Slack event:
+2025-02-17 19:55:04,344 - INFO - Event type: event_callback
+2025-02-17 19:55:04,344 - INFO - Full body: {'token': 'QemLUGFYJqTjx3VrjaHJ9R2V', 'team_id': 'T08D0Q5C9U4', 'context_team_id': 'T08D0Q5C9U4', 'context_enterprise_id': None, 'api_app_id': 'A08CRL8S9E2', 'event': {'user': 'U08CYA87G58', 'type': 'message', 'ts': '1739804104.061739', 'bot_id': 'B08CRMCUEPQ', 'app_id': 'A08CRL8S9E2', 'text': "I apologize, but I'm having trouble processing your request right now.", 'team': 'T08D0Q5C9U4', 'bot_profile': {'id': 'B08CRMCUEPQ', 'deleted': False, 'name': 'Slack Bot', 'updated': 1739360993, 'app_id': 'A08CRL8S9E2', 'icons': {'image_36': 'https://a.slack-edge.com/80588/img/plugins/app/bot_36.png', 'image_48': 'https://a.slack-edge.com/80588/img/plugins/app/bot_48.png', 'image_72': 'https://a.slack-edge.com/80588/img/plugins/app/service_72.png'}, 'team_id': 'T08D0Q5C9U4'}, 'thread_ts': '1739804098.094359', 'parent_user_id': 'U08DAV3LFK3', 'blocks': [{'type': 'rich_text', 'block_id': 'msi', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': "I apologize, but I'm having trouble processing your request right now."}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739804104.061739', 'channel_type': 'channel'}, 'type': 'event_callback', 'event_id': 'Ev08DL0W0B29', 'event_time': 1739804104, 'authorizations': [{'enterprise_id': None, 'team_id': 'T08D0Q5C9U4', 'user_id': 'U08CYA87G58', 'is_bot': True, 'is_enterprise_install': False}], 'is_ext_shared_channel': False, 'event_context': '4-eyJldCI6Im1lc3NhZ2UiLCJ0aWQiOiJUMDhEMFE1QzlVNCIsImFpZCI6IkEwOENSTDhTOUUyIiwiY2lkIjoiQzA4Q1ZEVDZFNEQifQ'}
+2025-02-17 19:55:04,348 - INFO - Event callback type: message
+2025-02-17 19:55:04,348 - INFO - Full event: {'user': 'U08CYA87G58', 'type': 'message', 'ts': '1739804104.061739', 'bot_id': 'B08CRMCUEPQ', 'app_id': 'A08CRL8S9E2', 'text': "I apologize, but I'm having trouble processing your request right now.", 'team': 'T08D0Q5C9U4', 'bot_profile': {'id': 'B08CRMCUEPQ', 'deleted': False, 'name': 'Slack Bot', 'updated': 1739360993, 'app_id': 'A08CRL8S9E2', 'icons': {'image_36': 'https://a.slack-edge.com/80588/img/plugins/app/bot_36.png', 'image_48': 'https://a.slack-edge.com/80588/img/plugins/app/bot_48.png', 'image_72': 'https://a.slack-edge.com/80588/img/plugins/app/service_72.png'}, 'team_id': 'T08D0Q5C9U4'}, 'thread_ts': '1739804098.094359', 'parent_user_id': 'U08DAV3LFK3', 'blocks': [{'type': 'rich_text', 'block_id': 'msi', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': "I apologize, but I'm having trouble processing your request right now."}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739804104.061739', 'channel_type': 'channel'}
+2025-02-17 19:55:04,350 - INFO - Received Message Details:
+2025-02-17 19:55:04,350 - INFO - Full event: {'user': 'U08CYA87G58', 'type': 'message', 'ts': '1739804104.061739', 'bot_id': 'B08CRMCUEPQ', 'app_id': 'A08CRL8S9E2', 'text': "I apologize, but I'm having trouble processing your request right now.", 'team': 'T08D0Q5C9U4', 'bot_profile': {'id': 'B08CRMCUEPQ', 'deleted': False, 'name': 'Slack Bot', 'updated': 1739360993, 'app_id': 'A08CRL8S9E2', 'icons': {'image_36': 'https://a.slack-edge.com/80588/img/plugins/app/bot_36.png', 'image_48': 'https://a.slack-edge.com/80588/img/plugins/app/bot_48.png', 'image_72': 'https://a.slack-edge.com/80588/img/plugins/app/service_72.png'}, 'team_id': 'T08D0Q5C9U4'}, 'thread_ts': '1739804098.094359', 'parent_user_id': 'U08DAV3LFK3', 'blocks': [{'type': 'rich_text', 'block_id': 'msi', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': "I apologize, but I'm having trouble processing your request right now."}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739804104.061739', 'channel_type': 'channel'}
+2025-02-17 19:55:04,351 - INFO - user_id: U08CYA87G58
+2025-02-17 19:55:04,352 - INFO - bot_id: B08CRMCUEPQ
+2025-02-17 19:55:04,352 - INFO - BOT_ID: B08CRMCUEPQ
+2025-02-17 19:55:04,352 - INFO - subtype: None
+2025-02-17 19:55:04,352 - INFO - Skipping message because: bot_id=B08CRMCUEPQ, user_id=U08CYA87G58, subtype=None
+2025-02-17 19:56:19,505 - INFO - Initializing Groq LLM
+2025-02-17 19:56:19,506 - INFO - GROQ_API_KEY present: True
+2025-02-17 19:56:20,949 - INFO - Groq LLM initialized
+2025-02-17 19:56:25,310 - INFO - Initializing Groq LLM
+2025-02-17 19:56:25,310 - INFO - GROQ_API_KEY present: True
+2025-02-17 19:56:26,603 - INFO - Groq LLM initialized
+2025-02-17 19:56:26,603 - INFO - Initializing Google embeddings
+2025-02-17 19:56:26,604 - INFO - GOOGLE_API_KEY present: True
+2025-02-17 19:56:26,628 - INFO - Google embeddings initialized
+2025-02-17 19:56:26,629 - INFO - Loading FAISS indices
+2025-02-17 19:56:26,636 - INFO - Loading faiss with AVX2 support.
+2025-02-17 19:56:26,661 - INFO - Successfully loaded faiss with AVX2 support.
+2025-02-17 19:56:26,670 - INFO - Failed to load GPU Faiss: name 'GpuIndexIVFFlat' is not defined. Will not load constructor refs for GPU indexes.
+2025-02-17 19:56:26,948 - INFO - Main FAISS index loaded
+2025-02-17 19:56:26,949 - INFO - Improved FAISS index loaded
+2025-02-17 19:56:26,950 - INFO - Using Bot ID: B08CRMCUEPQ
+2025-02-17 19:56:27,020 - INFO - Initializing Groq LLM
+2025-02-17 19:56:27,020 - INFO - GROQ_API_KEY present: True
+2025-02-17 19:56:28,013 - INFO - Groq LLM initialized
+2025-02-17 19:56:28,013 - INFO - Initializing Google embeddings
+2025-02-17 19:56:28,014 - INFO - GOOGLE_API_KEY present: True
+2025-02-17 19:56:28,017 - INFO - Google embeddings initialized
+2025-02-17 19:56:28,017 - INFO - Loading FAISS indices
+2025-02-17 19:56:28,304 - INFO - Main FAISS index loaded
+2025-02-17 19:56:28,305 - INFO - Improved FAISS index loaded
+2025-02-17 19:56:28,305 - INFO - Using Bot ID: B08CRMCUEPQ
+2025-02-17 19:56:28,311 - INFO - Received Slack event:
+2025-02-17 19:56:28,311 - INFO - Event type: event_callback
+2025-02-17 19:56:28,311 - INFO - Full body: {'token': 'QemLUGFYJqTjx3VrjaHJ9R2V', 'team_id': 'T08D0Q5C9U4', 'context_team_id': 'T08D0Q5C9U4', 'context_enterprise_id': None, 'api_app_id': 'A08CRL8S9E2', 'event': {'user': 'U08DAV3LFK3', 'type': 'message', 'ts': '1739804187.018809', 'client_msg_id': '66bf6b6c-c322-4604-b351-ed1374354daf', 'text': 'hello brother', 'team': 'T08D0Q5C9U4', 'blocks': [{'type': 'rich_text', 'block_id': 'B74Zp', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hello brother'}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739804187.018809', 'channel_type': 'channel'}, 'type': 'event_callback', 'event_id': 'Ev08E1F68D1P', 'event_time': 1739804187, 'authorizations': [{'enterprise_id': None, 'team_id': 'T08D0Q5C9U4', 'user_id': 'U08CYA87G58', 'is_bot': True, 'is_enterprise_install': False}], 'is_ext_shared_channel': False, 'event_context': '4-eyJldCI6Im1lc3NhZ2UiLCJ0aWQiOiJUMDhEMFE1QzlVNCIsImFpZCI6IkEwOENSTDhTOUUyIiwiY2lkIjoiQzA4Q1ZEVDZFNEQifQ'}
+2025-02-17 19:56:28,313 - INFO - Event callback type: message
+2025-02-17 19:56:28,314 - INFO - Full event: {'user': 'U08DAV3LFK3', 'type': 'message', 'ts': '1739804187.018809', 'client_msg_id': '66bf6b6c-c322-4604-b351-ed1374354daf', 'text': 'hello brother', 'team': 'T08D0Q5C9U4', 'blocks': [{'type': 'rich_text', 'block_id': 'B74Zp', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hello brother'}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739804187.018809', 'channel_type': 'channel'}
+2025-02-17 19:56:28,315 - INFO - Received Message Details:
+2025-02-17 19:56:28,316 - INFO - Full event: {'user': 'U08DAV3LFK3', 'type': 'message', 'ts': '1739804187.018809', 'client_msg_id': '66bf6b6c-c322-4604-b351-ed1374354daf', 'text': 'hello brother', 'team': 'T08D0Q5C9U4', 'blocks': [{'type': 'rich_text', 'block_id': 'B74Zp', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hello brother'}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739804187.018809', 'channel_type': 'channel'}
+2025-02-17 19:56:28,317 - INFO - user_id: U08DAV3LFK3
+2025-02-17 19:56:28,317 - INFO - bot_id: None
+2025-02-17 19:56:28,317 - INFO - BOT_ID: B08CRMCUEPQ
+2025-02-17 19:56:28,318 - INFO - subtype: None
+2025-02-17 19:56:28,318 - INFO - Getting relevant documents for query: hello brother
+2025-02-17 19:56:29,499 - INFO - Found 5 relevant documents
+2025-02-17 19:56:29,500 - INFO - Context length: 41006 characters
+2025-02-17 19:56:29,500 - INFO - Sending request to LLM
+2025-02-17 19:56:30,060 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 413 Payload Too Large"
+2025-02-17 19:56:30,063 - ERROR - Error from LLM API: Error code: 413 - {'error': {'message': 'Request too large for model `llama-3.3-70b-versatile` in organization `org_01jgewphphepdbyc1kqj3acryj` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Requested 10378, please reduce your message size and try again. Visit https://console.groq.com/docs/rate-limits for more information.', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2025-02-17 19:56:30,064 - ERROR - Error type: APIStatusError
+2025-02-17 19:56:30,066 - ERROR - Error details:
+Traceback (most recent call last):
+  File "C:\Users\Syscom\Desktop\slack_bot\main.py", line 122, in get_llm_response
+    response = llm.invoke(messages)
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 284, in invoke
+    self.generate_prompt(
+    ~~~~~~~~~~~~~~~~~~~~^
+        [self._convert_input(input)],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    ).generations[0][0],
+    ^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 860, in generate_prompt
+    return self.generate(prompt_messages, stop=stop, callbacks=callbacks, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 690, in generate
+    self._generate_with_cache(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        m,
+        ^^
+    ...<2 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 925, in _generate_with_cache
+    result = self._generate(
+        messages, stop=stop, run_manager=run_manager, **kwargs
+    )
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_groq\chat_models.py", line 480, in _generate
+    response = self.client.create(messages=message_dicts, **params)
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\groq\resources\chat\completions.py", line 322, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/openai/v1/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<34 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\groq\_base_client.py", line 1266, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\groq\_base_client.py", line 958, in request
+    return self._request(
+           ~~~~~~~~~~~~~^
+        cast_to=cast_to,
+        ^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        retries_taken=retries_taken,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\groq\_base_client.py", line 1061, in _request
+    raise self._make_status_error_from_response(err.response) from None
+groq.APIStatusError: Error code: 413 - {'error': {'message': 'Request too large for model `llama-3.3-70b-versatile` in organization `org_01jgewphphepdbyc1kqj3acryj` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Requested 10378, please reduce your message size and try again. Visit https://console.groq.com/docs/rate-limits for more information.', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2025-02-17 19:56:30,079 - ERROR - Error in get_llm_response: Error code: 413 - {'error': {'message': 'Request too large for model `llama-3.3-70b-versatile` in organization `org_01jgewphphepdbyc1kqj3acryj` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Requested 10378, please reduce your message size and try again. Visit https://console.groq.com/docs/rate-limits for more information.', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2025-02-17 19:56:30,080 - ERROR - Error type: APIStatusError
+2025-02-17 19:56:30,081 - ERROR - Error details:
+Traceback (most recent call last):
+  File "C:\Users\Syscom\Desktop\slack_bot\main.py", line 122, in get_llm_response
+    response = llm.invoke(messages)
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 284, in invoke
+    self.generate_prompt(
+    ~~~~~~~~~~~~~~~~~~~~^
+        [self._convert_input(input)],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    ).generations[0][0],
+    ^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 860, in generate_prompt
+    return self.generate(prompt_messages, stop=stop, callbacks=callbacks, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 690, in generate
+    self._generate_with_cache(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        m,
+        ^^
+    ...<2 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 925, in _generate_with_cache
+    result = self._generate(
+        messages, stop=stop, run_manager=run_manager, **kwargs
+    )
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_groq\chat_models.py", line 480, in _generate
+    response = self.client.create(messages=message_dicts, **params)
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\groq\resources\chat\completions.py", line 322, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/openai/v1/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<34 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\groq\_base_client.py", line 1266, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\groq\_base_client.py", line 958, in request
+    return self._request(
+           ~~~~~~~~~~~~~^
+        cast_to=cast_to,
+        ^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        retries_taken=retries_taken,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\groq\_base_client.py", line 1061, in _request
+    raise self._make_status_error_from_response(err.response) from None
+groq.APIStatusError: Error code: 413 - {'error': {'message': 'Request too large for model `llama-3.3-70b-versatile` in organization `org_01jgewphphepdbyc1kqj3acryj` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Requested 10378, please reduce your message size and try again. Visit https://console.groq.com/docs/rate-limits for more information.', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2025-02-17 19:56:30,994 - INFO - Received Slack event:
+2025-02-17 19:56:30,994 - INFO - Event type: event_callback
+2025-02-17 19:56:30,995 - INFO - Full body: {'token': 'QemLUGFYJqTjx3VrjaHJ9R2V', 'team_id': 'T08D0Q5C9U4', 'context_team_id': 'T08D0Q5C9U4', 'context_enterprise_id': None, 'api_app_id': 'A08CRL8S9E2', 'event': {'user': 'U08DAV3LFK3', 'type': 'message', 'ts': '1739804187.018809', 'client_msg_id': '66bf6b6c-c322-4604-b351-ed1374354daf', 'text': 'hello brother', 'team': 'T08D0Q5C9U4', 'blocks': [{'type': 'rich_text', 'block_id': 'B74Zp', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hello brother'}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739804187.018809', 'channel_type': 'channel'}, 'type': 'event_callback', 'event_id': 'Ev08E1F68D1P', 'event_time': 1739804187, 'authorizations': [{'enterprise_id': None, 'team_id': 'T08D0Q5C9U4', 'user_id': 'U08CYA87G58', 'is_bot': True, 'is_enterprise_install': False}], 'is_ext_shared_channel': False, 'event_context': '4-eyJldCI6Im1lc3NhZ2UiLCJ0aWQiOiJUMDhEMFE1QzlVNCIsImFpZCI6IkEwOENSTDhTOUUyIiwiY2lkIjoiQzA4Q1ZEVDZFNEQifQ'}
+2025-02-17 19:56:30,997 - INFO - Event callback type: message
+2025-02-17 19:56:30,997 - INFO - Full event: {'user': 'U08DAV3LFK3', 'type': 'message', 'ts': '1739804187.018809', 'client_msg_id': '66bf6b6c-c322-4604-b351-ed1374354daf', 'text': 'hello brother', 'team': 'T08D0Q5C9U4', 'blocks': [{'type': 'rich_text', 'block_id': 'B74Zp', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hello brother'}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739804187.018809', 'channel_type': 'channel'}
+2025-02-17 19:56:30,998 - INFO - Received Message Details:
+2025-02-17 19:56:30,998 - INFO - Full event: {'user': 'U08DAV3LFK3', 'type': 'message', 'ts': '1739804187.018809', 'client_msg_id': '66bf6b6c-c322-4604-b351-ed1374354daf', 'text': 'hello brother', 'team': 'T08D0Q5C9U4', 'blocks': [{'type': 'rich_text', 'block_id': 'B74Zp', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hello brother'}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739804187.018809', 'channel_type': 'channel'}
+2025-02-17 19:56:30,999 - INFO - user_id: U08DAV3LFK3
+2025-02-17 19:56:31,000 - INFO - bot_id: None
+2025-02-17 19:56:31,000 - INFO - BOT_ID: B08CRMCUEPQ
+2025-02-17 19:56:31,000 - INFO - subtype: None
+2025-02-17 19:56:31,000 - INFO - Getting relevant documents for query: hello brother
+2025-02-17 19:56:31,348 - INFO - Found 5 relevant documents
+2025-02-17 19:56:31,349 - INFO - Context length: 41006 characters
+2025-02-17 19:56:31,349 - INFO - Sending request to LLM
+2025-02-17 19:56:31,945 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 413 Payload Too Large"
+2025-02-17 19:56:31,946 - ERROR - Error from LLM API: Error code: 413 - {'error': {'message': 'Request too large for model `llama-3.3-70b-versatile` in organization `org_01jgewphphepdbyc1kqj3acryj` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Requested 10378, please reduce your message size and try again. Visit https://console.groq.com/docs/rate-limits for more information.', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2025-02-17 19:56:31,947 - ERROR - Error type: APIStatusError
+2025-02-17 19:56:31,948 - ERROR - Error details:
+Traceback (most recent call last):
+  File "C:\Users\Syscom\Desktop\slack_bot\main.py", line 122, in get_llm_response
+    response = llm.invoke(messages)
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 284, in invoke
+    self.generate_prompt(
+    ~~~~~~~~~~~~~~~~~~~~^
+        [self._convert_input(input)],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    ).generations[0][0],
+    ^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 860, in generate_prompt
+    return self.generate(prompt_messages, stop=stop, callbacks=callbacks, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 690, in generate
+    self._generate_with_cache(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        m,
+        ^^
+    ...<2 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 925, in _generate_with_cache
+    result = self._generate(
+        messages, stop=stop, run_manager=run_manager, **kwargs
+    )
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_groq\chat_models.py", line 480, in _generate
+    response = self.client.create(messages=message_dicts, **params)
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\groq\resources\chat\completions.py", line 322, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/openai/v1/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<34 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\groq\_base_client.py", line 1266, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\groq\_base_client.py", line 958, in request
+    return self._request(
+           ~~~~~~~~~~~~~^
+        cast_to=cast_to,
+        ^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        retries_taken=retries_taken,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\groq\_base_client.py", line 1061, in _request
+    raise self._make_status_error_from_response(err.response) from None
+groq.APIStatusError: Error code: 413 - {'error': {'message': 'Request too large for model `llama-3.3-70b-versatile` in organization `org_01jgewphphepdbyc1kqj3acryj` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Requested 10378, please reduce your message size and try again. Visit https://console.groq.com/docs/rate-limits for more information.', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2025-02-17 19:56:31,959 - ERROR - Error in get_llm_response: Error code: 413 - {'error': {'message': 'Request too large for model `llama-3.3-70b-versatile` in organization `org_01jgewphphepdbyc1kqj3acryj` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Requested 10378, please reduce your message size and try again. Visit https://console.groq.com/docs/rate-limits for more information.', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2025-02-17 19:56:31,960 - ERROR - Error type: APIStatusError
+2025-02-17 19:56:31,960 - ERROR - Error details:
+Traceback (most recent call last):
+  File "C:\Users\Syscom\Desktop\slack_bot\main.py", line 122, in get_llm_response
+    response = llm.invoke(messages)
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 284, in invoke
+    self.generate_prompt(
+    ~~~~~~~~~~~~~~~~~~~~^
+        [self._convert_input(input)],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    ).generations[0][0],
+    ^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 860, in generate_prompt
+    return self.generate(prompt_messages, stop=stop, callbacks=callbacks, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 690, in generate
+    self._generate_with_cache(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        m,
+        ^^
+    ...<2 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 925, in _generate_with_cache
+    result = self._generate(
+        messages, stop=stop, run_manager=run_manager, **kwargs
+    )
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_groq\chat_models.py", line 480, in _generate
+    response = self.client.create(messages=message_dicts, **params)
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\groq\resources\chat\completions.py", line 322, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/openai/v1/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<34 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\groq\_base_client.py", line 1266, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\groq\_base_client.py", line 958, in request
+    return self._request(
+           ~~~~~~~~~~~~~^
+        cast_to=cast_to,
+        ^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        retries_taken=retries_taken,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\groq\_base_client.py", line 1061, in _request
+    raise self._make_status_error_from_response(err.response) from None
+groq.APIStatusError: Error code: 413 - {'error': {'message': 'Request too large for model `llama-3.3-70b-versatile` in organization `org_01jgewphphepdbyc1kqj3acryj` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Requested 10378, please reduce your message size and try again. Visit https://console.groq.com/docs/rate-limits for more information.', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2025-02-17 19:56:32,624 - INFO - Received Slack event:
+2025-02-17 19:56:32,625 - INFO - Event type: event_callback
+2025-02-17 19:56:32,626 - INFO - Full body: {'token': 'QemLUGFYJqTjx3VrjaHJ9R2V', 'team_id': 'T08D0Q5C9U4', 'context_team_id': 'T08D0Q5C9U4', 'context_enterprise_id': None, 'api_app_id': 'A08CRL8S9E2', 'event': {'user': 'U08CYA87G58', 'type': 'message', 'ts': '1739804191.688899', 'bot_id': 'B08CRMCUEPQ', 'app_id': 'A08CRL8S9E2', 'text': "I apologize, but I'm having trouble processing your request right now.", 'team': 'T08D0Q5C9U4', 'bot_profile': {'id': 'B08CRMCUEPQ', 'deleted': False, 'name': 'Slack Bot', 'updated': 1739360993, 'app_id': 'A08CRL8S9E2', 'icons': {'image_36': 'https://a.slack-edge.com/80588/img/plugins/app/bot_36.png', 'image_48': 'https://a.slack-edge.com/80588/img/plugins/app/bot_48.png', 'image_72': 'https://a.slack-edge.com/80588/img/plugins/app/service_72.png'}, 'team_id': 'T08D0Q5C9U4'}, 'thread_ts': '1739804187.018809', 'parent_user_id': 'U08DAV3LFK3', 'blocks': [{'type': 'rich_text', 'block_id': 'NoE', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': "I apologize, but I'm having trouble processing your request right now."}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739804191.688899', 'channel_type': 'channel'}, 'type': 'event_callback', 'event_id': 'Ev08E1F6KQLR', 'event_time': 1739804191, 'authorizations': [{'enterprise_id': None, 'team_id': 'T08D0Q5C9U4', 'user_id': 'U08CYA87G58', 'is_bot': True, 'is_enterprise_install': False}], 'is_ext_shared_channel': False, 'event_context': '4-eyJldCI6Im1lc3NhZ2UiLCJ0aWQiOiJUMDhEMFE1QzlVNCIsImFpZCI6IkEwOENSTDhTOUUyIiwiY2lkIjoiQzA4Q1ZEVDZFNEQifQ'}
+2025-02-17 19:56:32,630 - INFO - Event callback type: message
+2025-02-17 19:56:32,631 - INFO - Full event: {'user': 'U08CYA87G58', 'type': 'message', 'ts': '1739804191.688899', 'bot_id': 'B08CRMCUEPQ', 'app_id': 'A08CRL8S9E2', 'text': "I apologize, but I'm having trouble processing your request right now.", 'team': 'T08D0Q5C9U4', 'bot_profile': {'id': 'B08CRMCUEPQ', 'deleted': False, 'name': 'Slack Bot', 'updated': 1739360993, 'app_id': 'A08CRL8S9E2', 'icons': {'image_36': 'https://a.slack-edge.com/80588/img/plugins/app/bot_36.png', 'image_48': 'https://a.slack-edge.com/80588/img/plugins/app/bot_48.png', 'image_72': 'https://a.slack-edge.com/80588/img/plugins/app/service_72.png'}, 'team_id': 'T08D0Q5C9U4'}, 'thread_ts': '1739804187.018809', 'parent_user_id': 'U08DAV3LFK3', 'blocks': [{'type': 'rich_text', 'block_id': 'NoE', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': "I apologize, but I'm having trouble processing your request right now."}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739804191.688899', 'channel_type': 'channel'}
+2025-02-17 19:56:32,633 - INFO - Received Message Details:
+2025-02-17 19:56:32,633 - INFO - Full event: {'user': 'U08CYA87G58', 'type': 'message', 'ts': '1739804191.688899', 'bot_id': 'B08CRMCUEPQ', 'app_id': 'A08CRL8S9E2', 'text': "I apologize, but I'm having trouble processing your request right now.", 'team': 'T08D0Q5C9U4', 'bot_profile': {'id': 'B08CRMCUEPQ', 'deleted': False, 'name': 'Slack Bot', 'updated': 1739360993, 'app_id': 'A08CRL8S9E2', 'icons': {'image_36': 'https://a.slack-edge.com/80588/img/plugins/app/bot_36.png', 'image_48': 'https://a.slack-edge.com/80588/img/plugins/app/bot_48.png', 'image_72': 'https://a.slack-edge.com/80588/img/plugins/app/service_72.png'}, 'team_id': 'T08D0Q5C9U4'}, 'thread_ts': '1739804187.018809', 'parent_user_id': 'U08DAV3LFK3', 'blocks': [{'type': 'rich_text', 'block_id': 'NoE', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': "I apologize, but I'm having trouble processing your request right now."}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739804191.688899', 'channel_type': 'channel'}
+2025-02-17 19:56:32,635 - INFO - user_id: U08CYA87G58
+2025-02-17 19:56:32,635 - INFO - bot_id: B08CRMCUEPQ
+2025-02-17 19:56:32,636 - INFO - BOT_ID: B08CRMCUEPQ
+2025-02-17 19:56:32,636 - INFO - subtype: None
+2025-02-17 19:56:32,636 - INFO - Skipping message because: bot_id=B08CRMCUEPQ, user_id=U08CYA87G58, subtype=None
+2025-02-17 19:56:33,418 - INFO - Received Slack event:
+2025-02-17 19:56:33,418 - INFO - Event type: event_callback
+2025-02-17 19:56:33,418 - INFO - Full body: {'token': 'QemLUGFYJqTjx3VrjaHJ9R2V', 'team_id': 'T08D0Q5C9U4', 'context_team_id': 'T08D0Q5C9U4', 'context_enterprise_id': None, 'api_app_id': 'A08CRL8S9E2', 'event': {'user': 'U08CYA87G58', 'type': 'message', 'ts': '1739804193.321469', 'bot_id': 'B08CRMCUEPQ', 'app_id': 'A08CRL8S9E2', 'text': "I apologize, but I'm having trouble processing your request right now.", 'team': 'T08D0Q5C9U4', 'bot_profile': {'id': 'B08CRMCUEPQ', 'deleted': False, 'name': 'Slack Bot', 'updated': 1739360993, 'app_id': 'A08CRL8S9E2', 'icons': {'image_36': 'https://a.slack-edge.com/80588/img/plugins/app/bot_36.png', 'image_48': 'https://a.slack-edge.com/80588/img/plugins/app/bot_48.png', 'image_72': 'https://a.slack-edge.com/80588/img/plugins/app/service_72.png'}, 'team_id': 'T08D0Q5C9U4'}, 'thread_ts': '1739804187.018809', 'parent_user_id': 'U08DAV3LFK3', 'blocks': [{'type': 'rich_text', 'block_id': 'jTl', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': "I apologize, but I'm having trouble processing your request right now."}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739804193.321469', 'channel_type': 'channel'}, 'type': 'event_callback', 'event_id': 'Ev08DNPT0QKU', 'event_time': 1739804193, 'authorizations': [{'enterprise_id': None, 'team_id': 'T08D0Q5C9U4', 'user_id': 'U08CYA87G58', 'is_bot': True, 'is_enterprise_install': False}], 'is_ext_shared_channel': False, 'event_context': '4-eyJldCI6Im1lc3NhZ2UiLCJ0aWQiOiJUMDhEMFE1QzlVNCIsImFpZCI6IkEwOENSTDhTOUUyIiwiY2lkIjoiQzA4Q1ZEVDZFNEQifQ'}
+2025-02-17 19:56:33,421 - INFO - Event callback type: message
+2025-02-17 19:56:33,421 - INFO - Full event: {'user': 'U08CYA87G58', 'type': 'message', 'ts': '1739804193.321469', 'bot_id': 'B08CRMCUEPQ', 'app_id': 'A08CRL8S9E2', 'text': "I apologize, but I'm having trouble processing your request right now.", 'team': 'T08D0Q5C9U4', 'bot_profile': {'id': 'B08CRMCUEPQ', 'deleted': False, 'name': 'Slack Bot', 'updated': 1739360993, 'app_id': 'A08CRL8S9E2', 'icons': {'image_36': 'https://a.slack-edge.com/80588/img/plugins/app/bot_36.png', 'image_48': 'https://a.slack-edge.com/80588/img/plugins/app/bot_48.png', 'image_72': 'https://a.slack-edge.com/80588/img/plugins/app/service_72.png'}, 'team_id': 'T08D0Q5C9U4'}, 'thread_ts': '1739804187.018809', 'parent_user_id': 'U08DAV3LFK3', 'blocks': [{'type': 'rich_text', 'block_id': 'jTl', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': "I apologize, but I'm having trouble processing your request right now."}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739804193.321469', 'channel_type': 'channel'}
+2025-02-17 19:56:33,423 - INFO - Received Message Details:
+2025-02-17 19:56:33,424 - INFO - Full event: {'user': 'U08CYA87G58', 'type': 'message', 'ts': '1739804193.321469', 'bot_id': 'B08CRMCUEPQ', 'app_id': 'A08CRL8S9E2', 'text': "I apologize, but I'm having trouble processing your request right now.", 'team': 'T08D0Q5C9U4', 'bot_profile': {'id': 'B08CRMCUEPQ', 'deleted': False, 'name': 'Slack Bot', 'updated': 1739360993, 'app_id': 'A08CRL8S9E2', 'icons': {'image_36': 'https://a.slack-edge.com/80588/img/plugins/app/bot_36.png', 'image_48': 'https://a.slack-edge.com/80588/img/plugins/app/bot_48.png', 'image_72': 'https://a.slack-edge.com/80588/img/plugins/app/service_72.png'}, 'team_id': 'T08D0Q5C9U4'}, 'thread_ts': '1739804187.018809', 'parent_user_id': 'U08DAV3LFK3', 'blocks': [{'type': 'rich_text', 'block_id': 'jTl', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': "I apologize, but I'm having trouble processing your request right now."}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739804193.321469', 'channel_type': 'channel'}
+2025-02-17 19:56:33,425 - INFO - user_id: U08CYA87G58
+2025-02-17 19:56:33,426 - INFO - bot_id: B08CRMCUEPQ
+2025-02-17 19:56:33,426 - INFO - BOT_ID: B08CRMCUEPQ
+2025-02-17 19:56:33,427 - INFO - subtype: None
+2025-02-17 19:56:33,427 - INFO - Skipping message because: bot_id=B08CRMCUEPQ, user_id=U08CYA87G58, subtype=None
+2025-02-17 19:57:33,509 - INFO - Received Slack event:
+2025-02-17 19:57:33,510 - INFO - Event type: event_callback
+2025-02-17 19:57:33,510 - INFO - Full body: {'token': 'QemLUGFYJqTjx3VrjaHJ9R2V', 'team_id': 'T08D0Q5C9U4', 'context_team_id': 'T08D0Q5C9U4', 'context_enterprise_id': None, 'api_app_id': 'A08CRL8S9E2', 'event': {'user': 'U08DAV3LFK3', 'type': 'message', 'ts': '1739804187.018809', 'client_msg_id': '66bf6b6c-c322-4604-b351-ed1374354daf', 'text': 'hello brother', 'team': 'T08D0Q5C9U4', 'blocks': [{'type': 'rich_text', 'block_id': 'B74Zp', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hello brother'}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739804187.018809', 'channel_type': 'channel'}, 'type': 'event_callback', 'event_id': 'Ev08E1F68D1P', 'event_time': 1739804187, 'authorizations': [{'enterprise_id': None, 'team_id': 'T08D0Q5C9U4', 'user_id': 'U08CYA87G58', 'is_bot': True, 'is_enterprise_install': False}], 'is_ext_shared_channel': False, 'event_context': '4-eyJldCI6Im1lc3NhZ2UiLCJ0aWQiOiJUMDhEMFE1QzlVNCIsImFpZCI6IkEwOENSTDhTOUUyIiwiY2lkIjoiQzA4Q1ZEVDZFNEQifQ'}
+2025-02-17 19:57:33,512 - INFO - Event callback type: message
+2025-02-17 19:57:33,513 - INFO - Full event: {'user': 'U08DAV3LFK3', 'type': 'message', 'ts': '1739804187.018809', 'client_msg_id': '66bf6b6c-c322-4604-b351-ed1374354daf', 'text': 'hello brother', 'team': 'T08D0Q5C9U4', 'blocks': [{'type': 'rich_text', 'block_id': 'B74Zp', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hello brother'}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739804187.018809', 'channel_type': 'channel'}
+2025-02-17 19:57:33,514 - INFO - Received Message Details:
+2025-02-17 19:57:33,514 - INFO - Full event: {'user': 'U08DAV3LFK3', 'type': 'message', 'ts': '1739804187.018809', 'client_msg_id': '66bf6b6c-c322-4604-b351-ed1374354daf', 'text': 'hello brother', 'team': 'T08D0Q5C9U4', 'blocks': [{'type': 'rich_text', 'block_id': 'B74Zp', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': 'hello brother'}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739804187.018809', 'channel_type': 'channel'}
+2025-02-17 19:57:33,515 - INFO - user_id: U08DAV3LFK3
+2025-02-17 19:57:33,516 - INFO - bot_id: None
+2025-02-17 19:57:33,516 - INFO - BOT_ID: B08CRMCUEPQ
+2025-02-17 19:57:33,516 - INFO - subtype: None
+2025-02-17 19:57:33,517 - INFO - Getting relevant documents for query: hello brother
+2025-02-17 19:57:33,872 - INFO - Found 5 relevant documents
+2025-02-17 19:57:33,872 - INFO - Context length: 41006 characters
+2025-02-17 19:57:33,873 - INFO - Sending request to LLM
+2025-02-17 19:57:34,280 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 413 Payload Too Large"
+2025-02-17 19:57:34,281 - ERROR - Error from LLM API: Error code: 413 - {'error': {'message': 'Request too large for model `llama-3.3-70b-versatile` in organization `org_01jgewphphepdbyc1kqj3acryj` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Requested 10378, please reduce your message size and try again. Visit https://console.groq.com/docs/rate-limits for more information.', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2025-02-17 19:57:34,282 - ERROR - Error type: APIStatusError
+2025-02-17 19:57:34,282 - ERROR - Error details:
+Traceback (most recent call last):
+  File "C:\Users\Syscom\Desktop\slack_bot\main.py", line 122, in get_llm_response
+    response = llm.invoke(messages)
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 284, in invoke
+    self.generate_prompt(
+    ~~~~~~~~~~~~~~~~~~~~^
+        [self._convert_input(input)],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    ).generations[0][0],
+    ^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 860, in generate_prompt
+    return self.generate(prompt_messages, stop=stop, callbacks=callbacks, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 690, in generate
+    self._generate_with_cache(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        m,
+        ^^
+    ...<2 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 925, in _generate_with_cache
+    result = self._generate(
+        messages, stop=stop, run_manager=run_manager, **kwargs
+    )
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_groq\chat_models.py", line 480, in _generate
+    response = self.client.create(messages=message_dicts, **params)
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\groq\resources\chat\completions.py", line 322, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/openai/v1/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<34 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\groq\_base_client.py", line 1266, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\groq\_base_client.py", line 958, in request
+    return self._request(
+           ~~~~~~~~~~~~~^
+        cast_to=cast_to,
+        ^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        retries_taken=retries_taken,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\groq\_base_client.py", line 1061, in _request
+    raise self._make_status_error_from_response(err.response) from None
+groq.APIStatusError: Error code: 413 - {'error': {'message': 'Request too large for model `llama-3.3-70b-versatile` in organization `org_01jgewphphepdbyc1kqj3acryj` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Requested 10378, please reduce your message size and try again. Visit https://console.groq.com/docs/rate-limits for more information.', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2025-02-17 19:57:34,298 - ERROR - Error in get_llm_response: Error code: 413 - {'error': {'message': 'Request too large for model `llama-3.3-70b-versatile` in organization `org_01jgewphphepdbyc1kqj3acryj` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Requested 10378, please reduce your message size and try again. Visit https://console.groq.com/docs/rate-limits for more information.', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2025-02-17 19:57:34,299 - ERROR - Error type: APIStatusError
+2025-02-17 19:57:34,299 - ERROR - Error details:
+Traceback (most recent call last):
+  File "C:\Users\Syscom\Desktop\slack_bot\main.py", line 122, in get_llm_response
+    response = llm.invoke(messages)
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 284, in invoke
+    self.generate_prompt(
+    ~~~~~~~~~~~~~~~~~~~~^
+        [self._convert_input(input)],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    ).generations[0][0],
+    ^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 860, in generate_prompt
+    return self.generate(prompt_messages, stop=stop, callbacks=callbacks, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 690, in generate
+    self._generate_with_cache(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        m,
+        ^^
+    ...<2 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 925, in _generate_with_cache
+    result = self._generate(
+        messages, stop=stop, run_manager=run_manager, **kwargs
+    )
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\langchain_groq\chat_models.py", line 480, in _generate
+    response = self.client.create(messages=message_dicts, **params)
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\groq\resources\chat\completions.py", line 322, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/openai/v1/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<34 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\groq\_base_client.py", line 1266, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\groq\_base_client.py", line 958, in request
+    return self._request(
+           ~~~~~~~~~~~~~^
+        cast_to=cast_to,
+        ^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        retries_taken=retries_taken,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Syscom\Desktop\slack_bot\venv\Lib\site-packages\groq\_base_client.py", line 1061, in _request
+    raise self._make_status_error_from_response(err.response) from None
+groq.APIStatusError: Error code: 413 - {'error': {'message': 'Request too large for model `llama-3.3-70b-versatile` in organization `org_01jgewphphepdbyc1kqj3acryj` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Requested 10378, please reduce your message size and try again. Visit https://console.groq.com/docs/rate-limits for more information.', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2025-02-17 19:57:35,861 - INFO - Received Slack event:
+2025-02-17 19:57:35,862 - INFO - Event type: event_callback
+2025-02-17 19:57:35,862 - INFO - Full body: {'token': 'QemLUGFYJqTjx3VrjaHJ9R2V', 'team_id': 'T08D0Q5C9U4', 'context_team_id': 'T08D0Q5C9U4', 'context_enterprise_id': None, 'api_app_id': 'A08CRL8S9E2', 'event': {'user': 'U08CYA87G58', 'type': 'message', 'ts': '1739804255.666739', 'bot_id': 'B08CRMCUEPQ', 'app_id': 'A08CRL8S9E2', 'text': "I apologize, but I'm having trouble processing your request right now.", 'team': 'T08D0Q5C9U4', 'bot_profile': {'id': 'B08CRMCUEPQ', 'deleted': False, 'name': 'Slack Bot', 'updated': 1739360993, 'app_id': 'A08CRL8S9E2', 'icons': {'image_36': 'https://a.slack-edge.com/80588/img/plugins/app/bot_36.png', 'image_48': 'https://a.slack-edge.com/80588/img/plugins/app/bot_48.png', 'image_72': 'https://a.slack-edge.com/80588/img/plugins/app/service_72.png'}, 'team_id': 'T08D0Q5C9U4'}, 'thread_ts': '1739804187.018809', 'parent_user_id': 'U08DAV3LFK3', 'blocks': [{'type': 'rich_text', 'block_id': '3EJ', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': "I apologize, but I'm having trouble processing your request right now."}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739804255.666739', 'channel_type': 'channel'}, 'type': 'event_callback', 'event_id': 'Ev08EBJVSDNC', 'event_time': 1739804255, 'authorizations': [{'enterprise_id': None, 'team_id': 'T08D0Q5C9U4', 'user_id': 'U08CYA87G58', 'is_bot': True, 'is_enterprise_install': False}], 'is_ext_shared_channel': False, 'event_context': '4-eyJldCI6Im1lc3NhZ2UiLCJ0aWQiOiJUMDhEMFE1QzlVNCIsImFpZCI6IkEwOENSTDhTOUUyIiwiY2lkIjoiQzA4Q1ZEVDZFNEQifQ'}
+2025-02-17 19:57:35,864 - INFO - Event callback type: message
+2025-02-17 19:57:35,865 - INFO - Full event: {'user': 'U08CYA87G58', 'type': 'message', 'ts': '1739804255.666739', 'bot_id': 'B08CRMCUEPQ', 'app_id': 'A08CRL8S9E2', 'text': "I apologize, but I'm having trouble processing your request right now.", 'team': 'T08D0Q5C9U4', 'bot_profile': {'id': 'B08CRMCUEPQ', 'deleted': False, 'name': 'Slack Bot', 'updated': 1739360993, 'app_id': 'A08CRL8S9E2', 'icons': {'image_36': 'https://a.slack-edge.com/80588/img/plugins/app/bot_36.png', 'image_48': 'https://a.slack-edge.com/80588/img/plugins/app/bot_48.png', 'image_72': 'https://a.slack-edge.com/80588/img/plugins/app/service_72.png'}, 'team_id': 'T08D0Q5C9U4'}, 'thread_ts': '1739804187.018809', 'parent_user_id': 'U08DAV3LFK3', 'blocks': [{'type': 'rich_text', 'block_id': '3EJ', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': "I apologize, but I'm having trouble processing your request right now."}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739804255.666739', 'channel_type': 'channel'}
+2025-02-17 19:57:35,866 - INFO - Received Message Details:
+2025-02-17 19:57:35,866 - INFO - Full event: {'user': 'U08CYA87G58', 'type': 'message', 'ts': '1739804255.666739', 'bot_id': 'B08CRMCUEPQ', 'app_id': 'A08CRL8S9E2', 'text': "I apologize, but I'm having trouble processing your request right now.", 'team': 'T08D0Q5C9U4', 'bot_profile': {'id': 'B08CRMCUEPQ', 'deleted': False, 'name': 'Slack Bot', 'updated': 1739360993, 'app_id': 'A08CRL8S9E2', 'icons': {'image_36': 'https://a.slack-edge.com/80588/img/plugins/app/bot_36.png', 'image_48': 'https://a.slack-edge.com/80588/img/plugins/app/bot_48.png', 'image_72': 'https://a.slack-edge.com/80588/img/plugins/app/service_72.png'}, 'team_id': 'T08D0Q5C9U4'}, 'thread_ts': '1739804187.018809', 'parent_user_id': 'U08DAV3LFK3', 'blocks': [{'type': 'rich_text', 'block_id': '3EJ', 'elements': [{'type': 'rich_text_section', 'elements': [{'type': 'text', 'text': "I apologize, but I'm having trouble processing your request right now."}]}]}], 'channel': 'C08CVDT6E4D', 'event_ts': '1739804255.666739', 'channel_type': 'channel'}
+2025-02-17 19:57:35,868 - INFO - user_id: U08CYA87G58
+2025-02-17 19:57:35,868 - INFO - bot_id: B08CRMCUEPQ
+2025-02-17 19:57:35,868 - INFO - BOT_ID: B08CRMCUEPQ
+2025-02-17 19:57:35,868 - INFO - subtype: None
+2025-02-17 19:57:35,869 - INFO - Skipping message because: bot_id=B08CRMCUEPQ, user_id=U08CYA87G58, subtype=None

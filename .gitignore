@@ -1,5 +1,5 @@
 # Environment variables
-.env
+
 
 # Python
 __pycache__/
@@ -22,7 +22,7 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-.ipynb_checkpoints
+.ipynb_checkpoints/
 
 # Virtual Environment
 venv/
