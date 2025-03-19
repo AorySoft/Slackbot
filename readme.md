@@ -112,10 +112,10 @@ The system is built with a FastAPI backend that handles:
    OPENAI_API_KEY=your_openai_api_key
 
    # Slack Configuration
-   SLACK_BOT_TOKEN=xoxb-8442821417956-8440348254178-zX1Z4rmT3q4hNBp5DUgbAMBn
-   SLACK_SIGNING_SECRET=c716790c728cdc8b2bf07d86ab39db33
-   SLACK_CHANNEL_ID=C08HKFZS7CM
-   BOT_ID=B08CRMCUEPQ
+   SLACK_BOT_TOKEN=
+   SLACK_SIGNING_SECRET=
+   SLACK_CHANNEL_ID=
+   BOT_ID=
 
    # Application Configuration
    APP_HOST=0.0.0.0
