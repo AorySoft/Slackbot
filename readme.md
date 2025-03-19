@@ -122,16 +122,6 @@ The system is built with a FastAPI backend that handles:
    APP_PORT=8000
    ```
 
-5. Initialize the database:
-   ```bash
-   python -c "from models import Base, engine; Base.metadata.create_all(bind=engine)"
-   ```
-
-6. Create initial FAISS indexes:
-   ```bash
-   python create_initial_indexes.py
-   ```
-
 ## ⚙️ Configuration
 
 ### Environment Variables
