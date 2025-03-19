@@ -25,7 +25,7 @@ This SlackBot Q&A Assistant is designed to provide intelligent responses to user
 
 ## ✨ Features
 
-- **Intelligent Q&A**: Answers questions using the DeepSeek LLM via Groq API
+- **Intelligent Q&A**: Answers questions using OpenAI's language models
 - **Dual Vector Search**: Uses two FAISS indexes to search for relevant information
   - Regular index for AI-generated responses
   - Improved index for human-verified answers
@@ -39,7 +39,7 @@ This SlackBot Q&A Assistant is designed to provide intelligent responses to user
 The system is built with a FastAPI backend that handles:
 
 1. Slack event subscriptions
-2. LLM interaction via Groq API
+2. LLM interaction via OpenAI API
 3. Vector search using FAISS
 4. Database operations for flagged questions
 5. Admin dashboard for content moderation
@@ -51,8 +51,8 @@ The system is built with a FastAPI backend that handles:
 - **Backend Framework**: FastAPI
 - **Database**: SQLite (with SQLAlchemy ORM)
 - **Vector Search**: FAISS
-- **LLM Provider**: Groq (DeepSeek R1 Distill Llama 70B)
-- **Embeddings**: Google Generative AI Embeddings
+- **LLM Provider**: OpenAI
+- **Embeddings**: OpenAI Text Embedding (text-embedding-3-large)
 - **Frontend**: Jinja2 Templates for admin dashboard
 - **Integration**: Slack API (Events API, WebClient)
 
@@ -85,8 +85,7 @@ The system is built with a FastAPI backend that handles:
 
 - Python 3.8+
 - Slack workspace with admin access
-- Groq API key
-- Google AI API key
+- OpenAI API key
 
 ### Installation Steps
 
@@ -109,11 +108,18 @@ The system is built with a FastAPI backend that handles:
 
 4. Create a `.env` file with the following variables:
    ```
-   GROQ_API_KEY=your_groq_api_key
-   GOOGLE_API_KEY=your_google_api_key
-   SLACK_BOT_TOKEN=your_slack_bot_token
-   SLACK_SIGNING_SECRET=your_slack_signing_secret
-   SLACK_CHANNEL_ID=your_slack_channel_id
+   # OpenAI Configuration
+   OPENAI_API_KEY=your_openai_api_key
+
+   # Slack Configuration
+   SLACK_BOT_TOKEN=xoxb-8442821417956-8440348254178-zX1Z4rmT3q4hNBp5DUgbAMBn
+   SLACK_SIGNING_SECRET=c716790c728cdc8b2bf07d86ab39db33
+   SLACK_CHANNEL_ID=C08HKFZS7CM
+   BOT_ID=B08CRMCUEPQ
+
+   # Application Configuration
+   APP_HOST=0.0.0.0
+   APP_PORT=8000
    ```
 
 5. Initialize the database:
@@ -127,6 +133,23 @@ The system is built with a FastAPI backend that handles:
    ```
 
 ## ⚙️ Configuration
+
+### Environment Variables
+
+The application uses the following environment variables:
+
+- **OpenAI Configuration**
+  - `OPENAI_API_KEY`: Your OpenAI API key for accessing LLM and embedding models
+
+- **Slack Configuration**
+  - `SLACK_BOT_TOKEN`: Bot token starting with `xoxb-`
+  - `SLACK_SIGNING_SECRET`: Used to verify requests from Slack
+  - `SLACK_CHANNEL_ID`: ID of the Slack channel the bot should monitor
+  - `BOT_ID`: Slack Bot ID to prevent the bot from responding to itself
+
+- **Application Configuration**
+  - `APP_HOST`: Host address to bind the server (default: 0.0.0.0)
+  - `APP_PORT`: Port to run the server on (default: 8000)
 
 ### Slack App Configuration
 
@@ -146,18 +169,19 @@ The system is built with a FastAPI backend that handles:
 
 ### Language Model Configuration
 
-The bot uses the DeepSeek R1 Distill Llama 70B model via Groq. You can modify the model settings in `main.py`:
+The bot uses OpenAI's language models. This is configured in `main.py`:
 
 ```python
-llm = ChatGroq(
-    api_key=os.getenv("GROQ_API_KEY"),
-    model="deepseek-r1-distill-llama-70b",  # Can be changed to other models
-    temperature=0,  # Adjust for more/less creative responses
-    max_tokens=None,
-    timeout=None,
-    max_retries=2,
+from langchain_openai import OpenAI
+llm = OpenAI()
+
+from langchain_openai import OpenAIEmbeddings
+embeddings = OpenAIEmbeddings(
+    model="text-embedding-3-large"
 )
 ```
+
+You can modify the model settings or parameters as needed.
 
 ## 🚀 Usage
 
@@ -166,13 +190,13 @@ llm = ChatGroq(
 Run the FastAPI server:
 
 ```bash
-uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+uvicorn main:app --host ${APP_HOST} --port ${APP_PORT} --reload
 ```
 
 For production, consider using Gunicorn with Uvicorn workers:
 
 ```bash
-gunicorn main:app -k uvicorn.workers.UvicornWorker -w 4 --bind 0.0.0.0:8000
+gunicorn main:app -k uvicorn.workers.UvicornWorker -w 4 --bind ${APP_HOST}:${APP_PORT}
 ```
 
 ### Testing the Bot
@@ -197,7 +221,6 @@ The admin dashboard allows you to:
 
 1. Review flagged questions
 2. Provide correct answers
-3. Monitor system performance
 
 Access the dashboard at: `http://your-server-url.com/dashboard`
 
@@ -212,14 +235,6 @@ To add new features:
 3. Run tests: `pytest`
 4. Submit a pull request
 
-### Improving the Model
-
-You can improve the model's performance by:
-
-1. Adding more examples to the knowledge base
-2. Adjusting the LLM prompt in `get_llm_response` function
-3. Fine-tuning the vector search parameters
-
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
@@ -229,11 +244,3 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 3. Commit your changes: `git commit -m 'Add some amazing feature'`
 4. Push to the branch: `git push origin feature/amazing-feature`
 5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
----
-
-Built with ❤️ by [Your Name/Organization]
