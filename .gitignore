@@ -1,5 +1,6 @@
 # Environment variables
-
+faiss_index/
+faiss_index_improved/
 
 # Python
 __pycache__/
