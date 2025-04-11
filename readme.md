@@ -28,7 +28,7 @@ This SlackBot Q&A Assistant is designed to provide intelligent responses to user
 - **Dual Vector Search**: Uses two FAISS indexes to search for relevant information
   - Regular index for AI-generated responses
   - Improved index for human-verified answers
-- **Feedback System**: Users can flag incorrect answers with a "-1" reaction
+- **Feedback System**: Users can flag incorrect answers with a "👎" reaction
 - **Admin Dashboard**: Review and improve flagged answers
 - **Similarity Detection**: Prevents answering previously flagged questions
 - **Content Moderation**: Filters out inappropriate questions
@@ -47,7 +47,7 @@ This SlackBot Q&A Assistant is designed to provide intelligent responses to user
 
 ### Feedback System
 ![Flagging Response](screenshots/flaggingBotResponse.PNG)
-*User flagging an incorrect answer with -1 reaction*
+*User flagging an incorrect answer with 👎 reaction*
 
 ### Admin Dashboard
 ![Empty Dashboard](screenshots/dashboardWthNoQues.PNG)
@@ -102,7 +102,7 @@ The system is built with a FastAPI backend that handles:
 
 ### Feedback Flow
 
-1. User reacts with "-1" to an incorrect answer
+1. User reacts with "👎" to an incorrect answer
 2. The system stores the question in the database
 3. Admin reviews the flagged question in the dashboard
 4. Admin provides the correct answer
@@ -219,7 +219,7 @@ Use the following endpoints to test the bot:
 The bot will automatically respond to messages in channels it's invited to. For best results:
 
 1. Ask direct questions
-2. Use "-1" reactions to flag incorrect answers
+2. Use "👎" reactions to flag incorrect answers
 3. Wait for admin review of flagged questions
 
 ## 🖥️ Admin Dashboard
