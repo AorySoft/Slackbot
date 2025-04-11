@@ -1,5 +1,6 @@
 # Environment variables
-
+faiss_for_pinecone/
+faiss_index_for_pinecone/
 
 # Python
 __pycache__/
