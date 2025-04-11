@@ -35,6 +35,15 @@ class FlaggedQuestion(Base):
             parts.append(self.correct_answer)
         return " ".join(parts)
 
+
+class ConversationHistory(Base):
+    __tablename__ = "conversation_history"
+
+    id = Column(Integer, primary_key=True, index=True)
+    thread_id = Column(String, index=True, nullable=False)  # Slack thread_ts
+    conversation = Column(Text, nullable=False)  # JSON string of conversation list
+    timestamp = Column(DateTime, default=datetime.utcnow)
+
 # Create all tables
 Base.metadata.create_all(bind=engine)
 

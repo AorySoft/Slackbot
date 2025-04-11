@@ -1,140 +1,270 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flagged Questions Dashboard</title>
-    <script>
-        async function submitAnswer(questionId, formElement) {
-            const answer = formElement.querySelector('textarea[name="answer"]').value;
-            try {
-                const response = await fetch('/submit_answer', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        question_id: questionId,
-                        correct_answer: answer  
-                    })
-                });
-                const result = await response.json();
-                if (result.status === 'success') {
-                    // Remove the question card from the dashboard
-                    formElement.closest('.question-card').remove();
-                    // If no more questions, show the no-questions message
-                    if (document.querySelectorAll('.question-card').length === 0) {
-                        document.querySelector('.container').innerHTML += '<div class="no-questions">No flagged questions at the moment.</div>';
-                    }
-                } else {
-                    alert('Error submitting answer: ' + result.message);
-                }
-            } catch (error) {
-                alert('Error submitting answer: ' + error);
-            }
-            return false;
-        }
-    </script>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <style>
+        :root {
+            --bs-primary: #3b82f6;
+            --bs-primary-rgb: 59, 130, 246;
+            --bs-secondary: #5a6b88;
+            --bs-success: #10b981;
+            --bs-danger: #ef4444;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f5f5f5;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc;
+            min-height: 100vh;
         }
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
         }
-        h1 {
-            color: #333;
-            margin-bottom: 20px;
-        }
-        .question-card {
-            border: 1px solid #ddd;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 4px;
-            background-color: #fff;
-        }
-        .question-text {
-            font-size: 16px;
-            color: #444;
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
-        .llm-response {
-            font-size: 14px;
-            color: #666;
-            margin: 10px 0;
-            padding: 10px;
-            background-color: #f8f8f8;
-            border-left: 3px solid #4CAF50;
-        }
-        .timestamp {
-            color: #888;
-            font-size: 12px;
-        }
-        .answer-form {
-            margin-top: 10px;
-        }
-        .answer-input {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        .submit-btn {
-            background-color: #4CAF50;
+        
+        .dashboard-header {
+            background-color: var(--bs-primary);
             color: white;
-            padding: 8px 16px;
+            border-radius: 1rem 1rem 0 0;
+            padding: 1.5rem 2rem;
+        }
+        
+        .dashboard-title {
+            font-weight: 600;
+            margin-bottom: 0;
+        }
+        
+        .questions-container {
+            max-height: 70vh;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            padding: 1.5rem;
+        }
+        
+        .question-card {
             border: none;
-            border-radius: 4px;
-            cursor: pointer;
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin-bottom: 1.5rem;
         }
+        
+        .question-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-header {
+            background-color: rgba(59, 130, 246, 0.05);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+            padding: 1rem 1.5rem;
+        }
+        
+        .question-text {
+            color: #1e293b;
+            font-weight: 500;
+        }
+        
+        .llm-response {
+            background-color: #f8fafc;
+            border-left: 4px solid var(--bs-success);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .metadata {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+        
+        .dislike-count {
+            color: var(--bs-danger);
+            font-weight: 500;
+        }
+        
+        .refresh-btn {
+            background-color: white;
+            color: var(--bs-primary);
+            border: 1px solid var(--bs-primary);
+            transition: all 0.3s ease;
+        }
+        
+        .refresh-btn:hover {
+            background-color: var(--bs-primary);
+            color: white;
+        }
+        
+        .submit-btn {
+            background-color: var(--bs-success);
+            border-color: var(--bs-success);
+            transition: all 0.3s ease;
+        }
+        
         .submit-btn:hover {
-            background-color: #45a049;
+            background-color: #0d9488;
+            border-color: #0d9488;
         }
+        
+        .submit-btn:disabled {
+            background-color: #94a3b8;
+            border-color: #94a3b8;
+        }
+        
         .no-questions {
             text-align: center;
-            color: #666;
-            padding: 20px;
+            color: #64748b;
+            padding: 3rem 1rem;
+            font-weight: 300;
         }
-        .dislike-count {
-            color: #ff4444;
-            font-size: 12px;
-            margin-top: 5px;
+        
+        @media (max-width: 768px) {
+            .dashboard-container {
+                margin: 1rem;
+            }
+            
+            .questions-container {
+                padding: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Flagged Questions Dashboard</h1>
-        {% if questions %}
-            {% for question in questions %}
-                <div class="question-card">
-                    <div class="question-text">Question: {{ question.question }}</div>
-                    {% if question.llm_response %}
-                        <div class="llm-response">
-                            <strong>AI Response:</strong><br>
-                            {{ question.llm_response }}
+    <div class="dashboard-container">
+        <div class="dashboard-header d-flex justify-content-between align-items-center">
+            <h1 class="dashboard-title">Flagged Questions Dashboard</h1>
+            <button class="btn refresh-btn d-flex align-items-center gap-2" onclick="location.reload()">
+                <i class="bi bi-arrow-clockwise"></i> Refresh
+            </button>
+        </div>
+
+        <div class="questions-container">
+            {% if questions %}
+                {% for question in questions %}
+                    <div class="card question-card">
+                        <div class="card-header">
+                            <div class="question-text">
+                                <i class="bi bi-question-circle-fill text-primary me-2"></i>
+                                {{ question.question }}
+                            </div>
                         </div>
-                    {% endif %}
-                    <div class="timestamp">Flagged on: {{ question.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</div>
-                    {% if question.dislike_count > 0 %}
-                        <div class="dislike-count">👎 {{ question.dislike_count }} dislike(s)</div>
-                    {% endif %}
-                    <form class="answer-form" onsubmit="return submitAnswer({{ question.id }}, this)">
-                        <textarea class="answer-input" name="answer" rows="3" placeholder="Enter the correct answer here..." required></textarea>
-                        <button type="submit" class="submit-btn">Submit Correct Answer</button>
-                    </form>
+                        <div class="card-body">
+                            {% if question.llm_response %}
+                                <div class="llm-response">
+                                    <div class="mb-2 fw-medium">
+                                        <i class="bi bi-robot text-success me-1"></i> AI Response:
+                                    </div>
+                                    <div>{{ question.llm_response }}</div>
+                                </div>
+                            {% endif %}
+                            <div class="metadata d-flex justify-content-between align-items-center mb-3">
+                                <span class="timestamp">
+                                    <i class="bi bi-calendar-event me-1"></i>
+                                    {{ question.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}
+                                </span>
+                                {% if question.dislike_count > 0 %}
+                                    <span class="dislike-count">
+                                        <i class="bi bi-hand-thumbs-down-fill me-1"></i>
+                                        {{ question.dislike_count }} dislike(s)
+                                    </span>
+                                {% endif %}
+                            </div>
+                            <form class="answer-form" onsubmit="return submitAnswer({{ question.id }}, this)">
+                                <div class="mb-3">
+                                    <textarea class="form-control" name="answer" rows="4" placeholder="Enter the correct answer here..." required></textarea>
+                                </div>
+                                <button type="submit" class="btn submit-btn text-white">
+                                    <i class="bi bi-check-circle me-2"></i>Submit Answer
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="no-questions">
+                    <i class="bi bi-check-circle-fill text-success fs-1 d-block mb-3"></i>
+                    <p class="fs-5">No flagged questions at the moment.</p>
                 </div>
-            {% endfor %}
-        {% else %}
-            <div class="no-questions">No flagged questions at the moment.</div>
-        {% endif %}
+            {% endif %}
+        </div>
     </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        async function submitAnswer(questionId, formElement) {
+            const submitBtn = formElement.querySelector('.submit-btn');
+            const answer = formElement.querySelector('textarea[name="answer"]').value.trim();
+
+            if (!answer) return false;
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Submitting...';
+
+            try {
+                const response = await axios.post('/submit_answer', {
+                    question_id: questionId,
+                    correct_answer: answer
+                });
+
+                if (response.data.status === 'success') {
+                    const card = formElement.closest('.question-card');
+                    card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(10px)';
+                    
+                    setTimeout(() => {
+                        card.remove();
+                        if (!document.querySelectorAll('.question-card').length) {
+                            document.querySelector('.questions-container').innerHTML = `
+                                <div class="no-questions">
+                                    <i class="bi bi-check-circle-fill text-success fs-1 d-block mb-3"></i>
+                                    <p class="fs-5">No flagged questions at the moment.</p>
+                                </div>
+                            `;
+                        }
+                    }, 300);
+                } else {
+                    showAlert('Error: ' + response.data.message, 'danger');
+                }
+            } catch (error) {
+                showAlert('Error submitting answer: ' + error.message, 'danger');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="bi bi-check-circle me-2"></i>Submit Answer';
+            }
+            return false;
+        }
+
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+            alertDiv.role = 'alert';
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            `;
+            
+            const container = document.querySelector('.questions-container');
+            container.insertBefore(alertDiv, container.firstChild);
+            
+            setTimeout(() => {
+                const bsAlert = new bootstrap.Alert(alertDiv);
+                bsAlert.close();
+            }, 5000);
+        }
+    </script>
 </body>
-</html> 
+</html>

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Base CSV Upload</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        :root {
+            --bs-primary: #3b82f6;
+            --bs-primary-rgb: 59, 130, 246;
+            --bs-secondary: #5a6b88;
+            --bs-success: #10b981;
+            --bs-danger: #ef4444;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+        
+        .upload-container {
+            max-width: 800px;
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        
+        .upload-header {
+            background-color: var(--bs-primary);
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 1rem 1rem 0 0;
+        }
+        
+        .upload-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .upload-subtitle {
+            font-weight: 300;
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+        
+        .upload-content {
+            padding: 2rem;
+        }
+        
+        .csv-dropzone {
+            border: 2px dashed #e2e8f0;
+            border-radius: 0.75rem;
+            padding: 3rem 2rem;
+            text-align: center;
+            background-color: #f8fafc;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+        
+        .csv-dropzone:hover, .csv-dropzone.dragover {
+            border-color: var(--bs-primary);
+            background-color: rgba(59, 130, 246, 0.05);
+        }
+        
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--bs-primary);
+            margin-bottom: 1rem;
+        }
+        
+        .file-info {
+            background-color: rgba(59, 130, 246, 0.05);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+        
+        .file-info.show {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .file-name {
+            font-weight: 500;
+            color: #1e293b;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 80%;
+        }
+        
+        .remove-file {
+            background: none;
+            border: none;
+            color: var(--bs-danger);
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0;
+            transition: transform 0.2s ease;
+        }
+        
+        .remove-file:hover {
+            transform: scale(1.1);
+        }
+        
+        .upload-btn {
+            background-color: var(--bs-primary);
+            border: none;
+            padding: 0.75rem 2rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-btn:hover {
+            background-color: #2563eb;
+            transform: translateY(-2px);
+        }
+        
+        .upload-btn:disabled {
+            background-color: #94a3b8;
+            transform: none;
+        }
+        
+        .progress-container {
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+        
+        .progress-container.show {
+            display: block;
+        }
+        
+        .toast-container {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            z-index: 1050;
+        }
+        
+        @media (max-width: 768px) {
+            .upload-content {
+                padding: 1.5rem;
+            }
+            
+            .csv-dropzone {
+                padding: 2rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="upload-container">
+        <div class="upload-header">
+            <h1 class="upload-title">Knowledge Base Upload</h1>
+            <p class="upload-subtitle">Upload CSV files to enhance your knowledge base</p>
+        </div>
+        
+        <div class="upload-content">
+            <div id="csvDropzone" class="csv-dropzone">
+                <i class="bi bi-cloud-arrow-up upload-icon"></i>
+                <h3 class="mb-3">Drag & Drop CSV File</h3>
+                <p class="text-muted mb-3">or</p>
+                <button class="btn btn-outline-primary" onclick="document.getElementById('csvFile').click()">
+                    <i class="bi bi-file-earmark-spreadsheet me-2"></i>Browse Files
+                </button>
+                <input type="file" id="csvFile" accept=".csv" class="d-none">
+            </div>
+            
+            <div id="fileInfo" class="file-info">
+                <div class="file-name">
+                    <i class="bi bi-file-earmark-spreadsheet me-2"></i>
+                    <span id="fileName">filename.csv</span>
+                </div>
+                <button id="removeFile" class="remove-file">
+                    <i class="bi bi-x-circle"></i>
+                </button>
+            </div>
+            
+            <div id="progressContainer" class="progress-container">
+                <label class="form-label d-flex justify-content-between">
+                    <span>Uploading...</span>
+                    <span id="progressPercent">0%</span>
+                </label>
+                <div class="progress" style="height: 8px;">
+                    <div id="progressBar" class="progress-bar bg-primary" role="progressbar" style="width: 0%"></div>
+                </div>
+            </div>
+            
+            <button id="uploadBtn" class="btn upload-btn text-white w-100" disabled>
+                <i class="bi bi-upload me-2"></i>Upload Knowledge Base
+            </button>
+        </div>
+    </div>
+    
+    <div class="toast-container"></div>
+    
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // DOM elements
+        const dropzone = document.getElementById('csvDropzone');
+        const fileInput = document.getElementById('csvFile');
+        const fileInfo = document.getElementById('fileInfo');
+        const fileName = document.getElementById('fileName');
+        const removeFileBtn = document.getElementById('removeFile');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressBar = document.getElementById('progressBar');
+        const progressPercent = document.getElementById('progressPercent');
+        const toastContainer = document.querySelector('.toast-container');
+        
+        // Track current file
+        let currentFile = null;
+        
+        // File input change handler
+        fileInput.addEventListener('change', (e) => {
+            handleFileSelection(e.target.files[0]);
+        });
+        
+        // Drag and drop handlers
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.classList.add('dragover');
+        });
+        
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.classList.remove('dragover');
+        });
+        
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('dragover');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFileSelection(files[0]);
+            }
+        });
+        
+        // Remove file button handler
+        removeFileBtn.addEventListener('click', () => {
+            resetFileSelection();
+        });
+        
+        // Upload button handler
+        uploadBtn.addEventListener('click', () => {
+            uploadFile();
+        });
+        
+        // Handle file selection
+        function handleFileSelection(file) {
+            if (!file) return;
+            
+            // Check if file is CSV
+            if (!file.name.toLowerCase().endsWith('.csv')) {
+                showToast('Please select a CSV file', 'danger');
+                return;
+            }
+            
+            currentFile = file;
+            fileName.textContent = file.name;
+            fileInfo.classList.add('show');
+            uploadBtn.disabled = false;
+        }
+        
+        // Reset file selection
+        function resetFileSelection() {
+            currentFile = null;
+            fileInput.value = '';
+            fileInfo.classList.remove('show');
+            progressContainer.classList.remove('show');
+            progressBar.style.width = '0%';
+            progressPercent.textContent = '0%';
+            uploadBtn.disabled = true;
+        }
+        
+        // Upload file to API
+        async function uploadFile() {
+            if (!currentFile) return;
+            
+            const formData = new FormData();
+            formData.append('file', currentFile);
+            
+            // Show progress
+            progressContainer.classList.add('show');
+            uploadBtn.disabled = true;
+            
+            try {
+                const response = await axios.post('/addKnowledge', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    },
+                    onUploadProgress: (progressEvent) => {
+                        const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                        progressBar.style.width = percentCompleted + '%';
+                        progressPercent.textContent = percentCompleted + '%';
+                    }
+                });
+                
+                // Upload successful
+                showToast(response.data.message || 'Knowledge base updated successfully!', 'success');
+                resetFileSelection();
+                
+            } catch (error) {
+                // Upload failed
+                showToast(error.response?.data?.message || 'Failed to upload knowledge base', 'danger');
+                uploadBtn.disabled = false;
+            }
+        }
+        
+        // Show toast notification
+        function showToast(message, type) {
+            const toastId = 'toast-' + Date.now();
+            
+            const toastElement = document.createElement('div');
+            toastElement.className = `toast align-items-center text-white bg-${type} border-0`;
+            toastElement.id = toastId;
+            toastElement.setAttribute('role', 'alert');
+            toastElement.setAttribute('aria-live', 'assertive');
+            toastElement.setAttribute('aria-atomic', 'true');
+            
+            toastElement.innerHTML = `
+                <div class="d-flex">
+                    <div class="toast-body">
+                        <i class="bi bi-${type === 'success' ? 'check-circle' : 'exclamation-circle'} me-2"></i>
+                        ${message}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            `;
+            
+            toastContainer.appendChild(toastElement);
+            
+            const toast = new bootstrap.Toast(toastElement, {
+                autohide: true,
+                delay: 5000
+            });
+            
+            toast.show();
+            
+            // Remove toast element after it's hidden
+            toastElement.addEventListener('hidden.bs.toast', () => {
+                toastElement.remove();
+            });
+        }
+    </script>
+</body>
+</html>

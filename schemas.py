@@ -12,6 +12,24 @@ class AnswerCreate(BaseModel):
     question_id: int
     correct_answer: str
 
+class ConversationHistoryBase(BaseModel):
+    thread_id: str
+    conversation: str  # JSON string of list[dict]
+
+class ConversationHistoryCreate(ConversationHistoryBase):
+    pass
+
+class ConversationHistory(ConversationHistoryBase):
+    id: int
+    timestamp: datetime
+
+    class Config:
+        from_attributes = True
+
+
+
+
+
 class FlaggedQuestion(FlaggedQuestionBase):
     id: int
     llm_response: Optional[str] = None
@@ -23,3 +41,5 @@ class FlaggedQuestion(FlaggedQuestionBase):
 
     class Config:
         from_attributes = True 
+
+

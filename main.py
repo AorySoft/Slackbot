@@ -2,6 +2,9 @@ import os
 from fastapi import FastAPI, Request, Form, Depends, HTTPException
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
+from fastapi import UploadFile, File, HTTPException
+import csv
+from io import StringIO
 from dotenv import load_dotenv
 from slack_sdk import WebClient
 import logging
@@ -21,6 +24,9 @@ from models import get_db
 from typing import List, Dict, Tuple
 from uuid import uuid4
 from langchain_core.documents import Document
+from langchain_openai import OpenAI
+from langchain_openai import OpenAIEmbeddings
+from cachetools import TTLCache
 import json
 import time
 import numpy as np
@@ -82,8 +88,7 @@ except Exception as e:
 # Global state
 message_counts = {}
 welcome_messages = {}
-processed_messages = set()  # Set to track processed message IDs
-
+processed_messages = TTLCache(maxsize=10000, ttl=86400)
 
 
 def verify_slack_signature(request_body: str, timestamp: str, signature: str) -> bool:
@@ -121,6 +126,51 @@ def is_flagged_question(text: str) -> bool:
         print(f"Error in is_flagged_question: {e}")
         return False
 
+
+def get_conversation_history(thread_id: str, db: Session) -> List[Dict[str, str]]:
+    """Retrieve conversation history for a thread"""
+    try:
+        history = db.query(models.ConversationHistory).filter(
+            models.ConversationHistory.thread_id == thread_id
+        ).first()
+        
+        if history and history.conversation:
+            return json.loads(history.conversation)
+        return []
+    except Exception as e:
+        logger.error(f"Error retrieving conversation history: {e}")
+        return []
+
+def update_conversation_history(thread_id: str, human_msg: str, ai_response: str, db: Session):
+    """Update or create conversation history for a thread"""
+    try:
+        # Get existing history
+        history_record = db.query(models.ConversationHistory).filter(
+            models.ConversationHistory.thread_id == thread_id
+        ).first()
+        
+        # New exchange
+        new_exchange = {"Human": human_msg, "AI": ai_response}
+        
+        if history_record:
+            # Update existing record
+            conversation = json.loads(history_record.conversation)
+            conversation.append(new_exchange)
+            history_record.conversation = json.dumps(conversation)
+        else:
+            # Create new record
+            conversation = [new_exchange]
+            new_record = models.ConversationHistory(
+                thread_id=thread_id,
+                conversation=json.dumps(conversation)
+            )
+            db.add(new_record)
+        
+        db.commit()
+    except Exception as e:
+        logger.error(f"Error updating conversation history: {e}")
+        db.rollback()
+
 def find_similar_flagged_questions(text: str, db: Session, threshold: float = 0.8) -> List[Tuple[models.FlaggedQuestion, float]]:
     """Find similar flagged questions using cosine similarity"""
     try:
@@ -153,10 +203,22 @@ def find_similar_flagged_questions(text: str, db: Session, threshold: float = 0.
         print(f"Error in find_similar_flagged_questions: {e}")
         return []
 
-async def get_llm_response(text: str, db: Session) -> str:
-    """Get response from LLM with context from both FAISS indexes"""
+async def get_llm_response(text: str, db: Session, thread_id: str = None) -> str:
+    """Get response from LLM with context from FAISS indexes and conversation history"""
     try:
         print("\n=== Starting LLM Response Function ===")
+        
+        # Get conversation history if thread_id is provided
+        history_context = ""
+        if thread_id:
+            conversation_history = get_conversation_history(thread_id, db)
+            if conversation_history:
+                # Get last 5 exchanges
+                recent_history = conversation_history[-5:]
+                history_context = "\n=== PREVIOUS CONVERSATION HISTORY (Last 5 exchanges) ===\n"
+                for exchange in recent_history:
+                    history_context += f"Human: {exchange['Human']}\nAI: {exchange['AI']}\n"
+                history_context += "====================\n"
         
         # First, check if this is a flagged question
         if is_flagged_question(text):
@@ -167,109 +229,89 @@ async def get_llm_response(text: str, db: Session) -> str:
         if similar_flagged:
             return "I apologize, but I cannot answer this question as it is similar to previously flagged content."
         
-        # If not flagged, continue with normal processing
-        print("\nStep 1: Attempting to retrieve documents from FAISS indexes...")
-        try:
-            # Query both indexes
-            regular_docs = faiss_index.similarity_search(text, k=2)
-            improved_docs = faiss_index_improved.similarity_search(text, k=2)
+        # Query FAISS indexes
+        regular_docs = faiss_index.similarity_search(text, k=2)
+        improved_docs = faiss_index_improved.similarity_search(text, k=2)
+        
+        # Prepare context
+        context_parts = []
+        if history_context:
+            context_parts.append(history_context)
             
-            print(f"Retrieved {len(regular_docs)} regular docs and {len(improved_docs)} improved docs")
-            
-            # Prepare context, prioritizing improved docs
-            context_parts = []
-            
-            if improved_docs:
-                context_parts.append("\n=== HUMAN VERIFIED ANSWERS (USE THESE FIRST!) ===")
-                for i, doc in enumerate(improved_docs, 1):
-                    context_parts.append(f"Verified Answer {i}: {doc.page_content}")
-            
-            if regular_docs:
-                context_parts.append("\n=== AI GENERATED ANSWERS (Only use if verified answers don't help) ===")
-                for i, doc in enumerate(regular_docs, 1):
-                    context_parts.append(f"AI Answer {i}: {doc.page_content}")
-            
-            context = "\n".join(context_parts)
-            
-            print("Context preview:", context[:200])
-            
-        except Exception as faiss_error:
-            print(f"Error retrieving from FAISS: {faiss_error}")
-            raise
+        if improved_docs:
+            context_parts.append("\n=== HUMAN VERIFIED ANSWERS (USE THESE FIRST!) ===")
+            for i, doc in enumerate(improved_docs, 1):
+                context_parts.append(f"Verified Answer {i}: {doc.page_content}")
+        
+        if regular_docs:
+            context_parts.append("\n=== AI GENERATED ANSWERS (Only use if verified answers don't help) ===")
+            for i, doc in enumerate(regular_docs, 1):
+                context_parts.append(f"AI Answer {i}: {doc.page_content}")
+        
+        context = "\n".join(context_parts)
+        
+        # Updated prompt with history context
+        prompt = ChatPromptTemplate.from_messages([
+            (
+                "system",
+                """Listen carefully! You have context from THREE SOURCES:
 
-        # Step 2: Create chat prompt template
-        print("\nStep 2: Creating chat prompt template...")
-        try:
-            prompt = ChatPromptTemplate.from_messages([
-                (
-                    "system",
-                    """Listen carefully! You have answers from TWO DIFFERENT DATABASES:
+1. CONVERSATION HISTORY (if available):
+{history_context}
 
-1. FROM FAISS_INDEX_IMPROVED (HUMAN VERIFIED DATABASE):
+2. FROM FAISS_INDEX_IMPROVED (HUMAN VERIFIED DATABASE):
 {improved_answers}
 
-2. FROM FAISS_INDEX (REGULAR DATABASE):
+3. FROM FAISS_INDEX (REGULAR DATABASE):
 {regular_answers}
 
 IMPORTANT RULES:
+- Use conversation history to maintain context of the current discussion
 - If you find the same answer in both databases, ALWAYS USE THE ONE FROM FAISS_INDEX_IMPROVED!
 - FAISS_INDEX_IMPROVED answers are human-verified and 100% accurate
 - FAISS_INDEX answers are AI-generated and less reliable
 
 Step by step how to answer:
-1. First, look at FAISS_INDEX_IMPROVED answers
-2. If you find a relevant answer there, USE IT and mention "Based on verified answer from FAISS_INDEX_IMPROVED:"
-3. Only if you don't find anything in FAISS_INDEX_IMPROVED, check FAISS_INDEX
-4. If using FAISS_INDEX, say "Based on AI-generated answer from FAISS_INDEX:"
-5. If nothing relevant in either database, say "No relevant answers found in either database" and answer from your knowledge
+1. Consider the conversation history first for context
+2. Then look at FAISS_INDEX_IMPROVED answers
+3. If you find a relevant answer there, USE IT and mention "Based on verified answer from FAISS_INDEX_IMPROVED:"
+4. Only if you don't find anything in FAISS_INDEX_IMPROVED, check FAISS_INDEX
+5. If using FAISS_INDEX, say "Based on AI-generated answer from FAISS_INDEX:"
+6. If nothing relevant in either database, say "No relevant answers found in either database" and answer from your knowledge
 
-Remember: FAISS_INDEX_IMPROVED > FAISS_INDEX. Always prioritize improved index!"""
-                ),
-                ("human", "{question}")
-            ])
-            print("Chat prompt template created successfully")
-        except Exception as prompt_error:
-            print(f"Error creating prompt template: {prompt_error}")
-            raise
+Priority: Conversation History > FAISS_INDEX_IMPROVED > FAISS_INDEX"""
+            ),
+            ("human", "{question}")
+        ])
+        
+        chain = prompt | llm
+        
+        # Prepare context strings
+        improved_answers = "No verified answers found."
+        if improved_docs:
+            improved_answers = "\n".join([f"Answer {i+1}: {doc.page_content}" 
+                                       for i, doc in enumerate(improved_docs)])
 
-        # Step 3: Create and invoke chain
-        print("\nStep 3: Creating and invoking chain...")
-        try:
-            chain = prompt | llm
-            print("Chain created, attempting to invoke...")
-            
-            # Prepare separate context strings for each index
-            improved_answers = "No verified answers found."
-            if improved_docs:
-                improved_answers = "\n".join([f"Answer {i+1}: {doc.page_content}" 
-                                           for i, doc in enumerate(improved_docs)])
-
-            regular_answers = "No AI-generated answers found."
-            if regular_docs:
-                regular_answers = "\n".join([f"Answer {i+1}: {doc.page_content}" 
-                                          for i, doc in enumerate(regular_docs)])
-            
-            response = chain.invoke({
-                "improved_answers": improved_answers,
-                "regular_answers": regular_answers,
-                "question": text
-            })
-            print("Chain invoked successfully")
-            print("Response preview:", str(response)[:100])
-            
-            return re.sub(r'<think>.*?</think>', '', response.content, flags=re.DOTALL).strip()
-
-            
-        except Exception as chain_error:
-            print(f"Error in chain execution: {chain_error}")
-            raise
-
-        print("\n=== LLM Response Function Completed Successfully ===")
-        return response.content
-
+        regular_answers = "No AI-generated answers found."
+        if regular_docs:
+            regular_answers = "\n".join([f"Answer {i+1}: {doc.page_content}" 
+                                      for i, doc in enumerate(regular_docs)])
+        
+        response = chain.invoke({
+            "history_context": history_context if history_context else "No conversation history available.",
+            "improved_answers": improved_answers,
+            "regular_answers": regular_answers,
+            "question": text
+        })
+        
+        # Store the conversation
+        if thread_id:
+            update_conversation_history(thread_id, text, response.content, db)
+        
+        return re.sub(r'<think>.*?</think>', '', response.content, flags=re.DOTALL).strip()
+        
     except Exception as e:
-        print(f"\n!!! ERROR in get_llm_response: {str(e)}")
-        logger.error(f"Detailed error in get_llm_response: {str(e)}", exc_info=True)
+        logger.error(f"Error in get_llm_response: {str(e)}")
         return f"I apologize, but I encountered an error: {str(e)}"
 
 def store_flagged_question(question: str, db: Session):
@@ -386,17 +428,19 @@ async def slack_events(request: Request):
                 if message_id in processed_messages:
                     print(f"Message {message_id} already processed, skipping")
                     return {"ok": True}
-
+                processed_messages[message_id] = True
+                
                 # Process user message
                 if text and user_id and message_id:  # Only process if we have a message ID
                     try:
                         db = next(get_db())
-                        llm_response = await get_llm_response(text, db)
+                        thread_ts = event.get('thread_ts', event.get('ts'))  # Use thread_ts if available, else message ts
+                        llm_response = await get_llm_response(text, db, thread_ts)
                         
                         # Send response
                         response = slack_client.chat_postMessage(
                             channel=channel_id,
-                            thread_ts=event.get('ts'),
+                            thread_ts=thread_ts,
                             text=llm_response
                         )
                         
@@ -408,7 +452,7 @@ async def slack_events(request: Request):
                         print(f"❌ Error sending response: {str(e)}")
                         logger.error(f"Error sending response: {str(e)}", exc_info=True)
 
-            # Handle reaction events
+            # Handle reaction events (unchanged from original)
             elif event_type == "reaction_added":
                 # Skip if reaction is from the bot itself
                 if event.get('user') == BOT_ID:
@@ -454,8 +498,8 @@ async def slack_events(request: Request):
                                 # Store both question and bot's response
                                 db_question = models.FlaggedQuestion(
                                     question=user_question,
-                                    llm_response=bot_response,  # This is the actual LLM response
-                                    question_embedding=question_embedding_json,  # Store the embedding
+                                    llm_response=bot_response,
+                                    question_embedding=question_embedding_json,
                                     dislike_count=1
                                 )
                                 db.add(db_question)
@@ -519,6 +563,102 @@ async def dashboard(request: Request, db: Session = Depends(get_db)):
         {"request": request, "questions": questions}
     )
 
+
+@app.get("/addData", response_class=HTMLResponse)
+async def dashboard(request: Request):
+    """Takes CSV file as input and adds data to the KB"""
+    return templates.TemplateResponse(
+        "addData.html",
+        {"request": request}
+    )
+
+
+
+
+@app.post("/addKnowledge")
+async def add_knowledge_csv(
+    file: UploadFile = File(...),
+    db: Session = Depends(get_db)
+):
+    """
+    API endpoint to upload a CSV file with question-answer pairs and store them in FAISS improved index
+    CSV format should have two columns: 'question' and 'answer'
+    """
+    try:
+        # Validate file type
+        if not file.filename.endswith('.csv'):
+            raise HTTPException(status_code=400, detail="Please upload a CSV file")
+
+        # Read the uploaded file
+        contents = await file.read()
+        # Decode with utf-8-sig to handle BOM
+        csv_string = contents.decode('utf-8-sig')  # Use 'utf-8-sig' instead of 'utf-8'
+        
+        # Parse CSV
+        csv_file = StringIO(csv_string)
+        csv_reader = csv.DictReader(csv_file)
+        
+        # Log the fieldnames for debugging
+        logger.debug(f"CSV fieldnames: {csv_reader.fieldnames}")
+        
+        # Validate CSV headers
+        if not {'question', 'answer'}.issubset(set(csv_reader.fieldnames)):
+            raise HTTPException(
+                status_code=400,
+                detail=f"CSV must contain 'question' and 'answer' columns. Found: {csv_reader.fieldnames}"
+            )
+
+        # Prepare documents for FAISS
+        documents = []
+        for row in csv_reader:
+            # Skip empty rows
+            if not row['question'].strip() or not row['answer'].strip():
+                continue
+                
+            # Create combined text for embedding
+            combined_text = f"""Question: {row['question']}
+Answer: {row['answer']}"""
+            
+            # Create Document object
+            document = Document(
+                page_content=combined_text,
+                metadata={
+                    "source": "csv_upload",
+                    "timestamp": datetime.utcnow().isoformat(),
+                    "original_question": row['question']
+                }
+            )
+            documents.append(document)
+
+        if not documents:
+            raise HTTPException(status_code=400, detail="No valid question-answer pairs found in CSV")
+
+        # Generate UUIDs for all documents
+        doc_ids = [str(uuid4()) for _ in range(len(documents))]
+        
+        # Store in FAISS improved index
+        try:
+            logger.info(f"Adding {len(documents)} question-answer pairs to FAISS improved index")
+            faiss_index_improved.add_documents(documents=documents, ids=doc_ids)
+            faiss_index_improved.save_local("faiss_index_improved")
+            
+            logger.info(f"Successfully stored {len(documents)} question-answer pairs")
+            return {
+                "status": "success",
+                "message": f"Successfully added {len(documents)} question-answer pairs to knowledge base",
+                "count": len(documents)
+            }
+            
+        except Exception as e:
+            logger.error(f"Error storing documents in FAISS: {str(e)}")
+            raise HTTPException(status_code=500, detail=f"Error storing in FAISS: {str(e)}")
+
+    except Exception as e:
+        logger.error(f"Error processing CSV upload: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error processing CSV: {str(e)}")
+    finally:
+        await file.close()
+
 @app.post("/submit_answer")
 async def submit_answer(
     answer_data: schemas.AnswerCreate,
@@ -526,17 +666,13 @@ async def submit_answer(
 ):
     """Handle submission of answers to flagged questions"""
     try:
-        # Get the question from database
+        # Get the question from the database
         question = db.query(models.FlaggedQuestion).filter(
             models.FlaggedQuestion.id == answer_data.question_id
         ).first()
         
         if not question:
             raise HTTPException(status_code=404, detail="Question not found")
-        
-        # Update question with correct answer
-        question.correct_answer = answer_data.correct_answer
-        question.is_answered = True
         
         # Create combined text for embedding
         combined_text = f"""Question: {question.question}
@@ -567,11 +703,11 @@ Answer: {answer_data.correct_answer}"""
             # Save the updated index
             faiss_index_improved.save_local("faiss_index_improved")
             
-            # Update database
-            question.embedding_id = doc_uuid
+            # Remove the question from the database after storing it in FAISS
+            db.delete(question)
             db.commit()
             
-            logger.info(f"Stored answer and updated FAISS index for question ID {answer_data.question_id}")
+            logger.info(f"Stored answer and updated FAISS index for question ID {answer_data.question_id}, question removed from DB")
             return {"status": "success"}
             
         except Exception as e:
@@ -583,6 +719,7 @@ Answer: {answer_data.correct_answer}"""
         logger.error(f"Error storing answer: {e}")
         db.rollback()
         return {"status": "error", "message": str(e)}
+
 
 # endpoint to handle dislikes
 @app.post("/record_dislike/{question_id}")
