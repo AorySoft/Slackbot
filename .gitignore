@@ -1,6 +1,5 @@
 # Environment variables
-faiss_for_pinecone.json
-faiss_index_for_pinecone.json
+
 
 # Python
 __pycache__/
