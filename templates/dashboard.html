@@ -153,7 +153,7 @@
         <div class="questions-container">
             {% if questions %}
                 {% for question in questions %}
-                    <div class="card question-card">
+                    <div class="card question-card" data-question-id="{{ question.id }}">
                         <div class="card-header">
                             <div class="question-text">
                                 <i class="bi bi-question-circle-fill text-primary me-2"></i>
@@ -187,6 +187,9 @@
                                 </div>
                                 <button type="submit" class="btn submit-btn text-white">
                                     <i class="bi bi-check-circle me-2"></i>Submit Answer
+                                </button>
+                                <button type="button" class="btn btn-danger" onclick="rejectQuestion('{{ question.id }}')">
+                                    <i class="bi bi-x-circle me-2"></i>Reject
                                 </button>
                             </form>
                         </div>
@@ -264,6 +267,74 @@
                 const bsAlert = new bootstrap.Alert(alertDiv);
                 bsAlert.close();
             }, 5000);
+        }
+
+        async function rejectQuestion(questionId) {
+            if (!questionId) {
+                console.error('No question ID provided');
+                showAlert('Error: No question ID provided', 'danger');
+                return;
+            }
+            
+            // Add confirmation dialog
+            if (!confirm('Are you sure you want to reject this question? This action cannot be undone.')) {
+                return;
+            }
+            
+            console.log('Rejecting question with ID:', questionId);
+            
+            try {
+                const response = await fetch(`/reject_question/${questionId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                // Try to parse the response first
+                let data;
+                try {
+                    data = await response.json();
+                    console.log('Server response:', data);
+                } catch (jsonError) {
+                    console.error('Error parsing JSON:', jsonError);
+                    showAlert('Error: Invalid response from server', 'danger');
+                    return;
+                }
+                
+                // Check if the response indicates success
+                if (data.status === 'success') {
+                    // Find and remove the question card
+                    const questionCard = document.querySelector(`.question-card[data-question-id="${questionId}"]`);
+                    if (questionCard) {
+                        questionCard.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                        questionCard.style.opacity = '0';
+                        questionCard.style.transform = 'translateY(10px)';
+                        
+                        setTimeout(() => {
+                            questionCard.remove();
+                            // Check if there are any questions left
+                            if (!document.querySelectorAll('.question-card').length) {
+                                document.querySelector('.questions-container').innerHTML = `
+                                    <div class="no-questions">
+                                        <i class="bi bi-check-circle-fill text-success fs-1 d-block mb-3"></i>
+                                        <p class="fs-5">No flagged questions at the moment.</p>
+                                    </div>
+                                `;
+                            }
+                        }, 300);
+                    }
+                    
+                    showAlert(data.message || 'Question rejected successfully', 'success');
+                } else {
+                    // Handle error response
+                    console.error('Error from server:', data.message);
+                    showAlert('Error: ' + (data.message || 'Unknown error'), 'danger');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert('Error rejecting question: ' + error.message, 'danger');
+            }
         }
     </script>
 </body>

@@ -1,8 +1,8 @@
 import os
 from fastapi import FastAPI, Request, Form, Depends, HTTPException
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import HTMLResponse
-from fastapi import UploadFile, File, HTTPException
+from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi import UploadFile, File
 import csv
 from io import StringIO
 from dotenv import load_dotenv
@@ -31,6 +31,20 @@ import json
 import time
 import numpy as np
 import re
+from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
+from database import get_db, init_db
+from cache import (
+    get_cached_llm_response, set_cached_llm_response,
+    get_cached_embedding, set_cached_embedding,
+    is_message_processed, mark_message_processed
+)
+from rate_limiter import rate_limit_middleware
+from monitoring import metrics, metrics_middleware
+from circuitbreaker import circuit
+from tenacity import retry, stop_after_attempt, wait_exponential
+from groq import Groq
+
 # Load environment variables
 load_dotenv()
 
@@ -90,21 +104,55 @@ message_counts = {}
 welcome_messages = {}
 processed_messages = TTLCache(maxsize=10000, ttl=86400)
 
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-def verify_slack_signature(request_body: str, timestamp: str, signature: str) -> bool:
+# Add rate limiting middleware
+app.middleware("http")(rate_limit_middleware)
+
+# Add metrics middleware
+app.middleware("http")(metrics_middleware)
+
+# Initialize Groq client
+groq_client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+
+def verify_slack_signature(request: Request) -> bool:
     """Verify the request signature from Slack"""
-    # Form the base string by combining version, timestamp, and request body
-    sig_basestring = f"v0:{timestamp}:{request_body}"
-    
-    # Calculate a new signature using your signing secret
-    my_signature = 'v0=' + hmac.new(
-        os.getenv('SLACK_SIGNING_SECRET').encode(),
-        sig_basestring.encode(),
-        hashlib.sha256
-    ).hexdigest()
-    
-    # Compare the signatures
-    return hmac.compare_digest(my_signature, signature)
+    try:
+        # Get headers
+        timestamp = request.headers.get('x-slack-request-timestamp', '')
+        signature = request.headers.get('x-slack-signature', '')
+        
+        # Check if timestamp is too old
+        if abs(time.time() - int(timestamp)) > 60 * 5:
+            logger.error("Request timestamp is too old")
+            return False
+            
+        # Get raw body
+        body = request.body()
+        body_str = body.decode('utf-8')
+        
+        # Form the base string
+        sig_basestring = f"v0:{timestamp}:{body_str}"
+        
+        # Calculate signature
+        my_signature = 'v0=' + hmac.new(
+            os.getenv('SLACK_SIGNING_SECRET').encode(),
+            sig_basestring.encode(),
+            hashlib.sha256
+        ).hexdigest()
+        
+        # Compare signatures
+        return hmac.compare_digest(my_signature, signature)
+    except Exception as e:
+        logger.error(f"Error verifying Slack signature: {str(e)}")
+        return False
 
 def is_flagged_question(text: str) -> bool:
     """Check if the given text is asking about a flagged question"""
@@ -125,7 +173,6 @@ def is_flagged_question(text: str) -> bool:
     except Exception as e:
         print(f"Error in is_flagged_question: {e}")
         return False
-
 
 def get_conversation_history(thread_id: str, db: Session) -> List[Dict[str, str]]:
     """Retrieve conversation history for a thread"""
@@ -169,7 +216,7 @@ def update_conversation_history(thread_id: str, human_msg: str, ai_response: str
         db.commit()
     except Exception as e:
         logger.error(f"Error updating conversation history: {e}")
-        db.rollback()
+        # Don't rollback, just log the error and continue
 
 def find_similar_flagged_questions(text: str, db: Session, threshold: float = 0.8) -> List[Tuple[models.FlaggedQuestion, float]]:
     """Find similar flagged questions using cosine similarity"""
@@ -203,6 +250,8 @@ def find_similar_flagged_questions(text: str, db: Session, threshold: float = 0.
         print(f"Error in find_similar_flagged_questions: {e}")
         return []
 
+@circuit(failure_threshold=5, recovery_timeout=30)
+@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=4, max=10))
 async def get_llm_response(text: str, db: Session, thread_id: str = None) -> str:
     """Get response from LLM with context from FAISS indexes and conversation history"""
     try:
@@ -274,16 +323,16 @@ IMPORTANT RULES:
 Step by step how to answer:
 1. Consider the conversation history first for context
 2. Then look at FAISS_INDEX_IMPROVED answers
-3. If you find a relevant answer there, USE IT and mention "Based on verified answer from FAISS_INDEX_IMPROVED:"
+3. If you find a relevant answer there, USE IT — do NOT mention where it came from
 4. Only if you don't find anything in FAISS_INDEX_IMPROVED, check FAISS_INDEX
-5. If using FAISS_INDEX, say "Based on AI-generated answer from FAISS_INDEX:"
-6. If nothing relevant in either database, say "No relevant answers found in either database" and answer from your knowledge
+5. If using FAISS_INDEX, also do NOT mention the source
+6. If nothing relevant in either database, say "No relevant answers found in available information" and answer from your own knowledge
 
 Priority: Conversation History > FAISS_INDEX_IMPROVED > FAISS_INDEX"""
             ),
             ("human", "{question}")
         ])
-        
+
         chain = prompt | llm
         
         # Prepare context strings
@@ -306,7 +355,11 @@ Priority: Conversation History > FAISS_INDEX_IMPROVED > FAISS_INDEX"""
         
         # Store the conversation
         if thread_id:
-            update_conversation_history(thread_id, text, response.content, db)
+            try:
+                update_conversation_history(thread_id, text, response.content, db)
+            except Exception as e:
+                logger.error(f"Error updating conversation history: {str(e)}")
+                # Don't fail the whole request if history update fails
         
         return re.sub(r'<think>.*?</think>', '', response.content, flags=re.DOTALL).strip()
         
@@ -317,16 +370,31 @@ Priority: Conversation History > FAISS_INDEX_IMPROVED > FAISS_INDEX"""
 def store_flagged_question(question: str, db: Session):
     """Store a flagged question in the database"""
     try:
-        db_question = models.FlaggedQuestion(question=question)
+        # Check if question already exists
+        existing = db.query(models.FlaggedQuestion).filter(
+            models.FlaggedQuestion.question == question
+        ).first()
+        
+        if existing:
+            logger.info(f"Question already flagged: {question}")
+            return existing
+            
+        # Create new flagged question
+        db_question = models.FlaggedQuestion(
+            question=question,
+            is_answered=False,
+            dislike_count=1
+        )
         db.add(db_question)
         db.commit()
         db.refresh(db_question)
-        logger.info(f"Stored flagged question: {question}")
+        
+        logger.info(f"Stored new flagged question: {question}")
         return db_question
+        
     except Exception as e:
-        logger.error(f"Error storing flagged question: {e}")
-        db.rollback()
-        raise
+        logger.error(f"Error storing flagged question: {str(e)}")
+        return None
 
 def get_flagged_questions(db: Session) -> List[schemas.FlaggedQuestion]:
     """Get all unanswered flagged questions"""
@@ -345,181 +413,199 @@ async def test_endpoint():
     logger.info("Test endpoint was called!")
     return {"status": "Server is running!"}
 
+async def process_message(event: dict, db: Session) -> str:
+    """Process a message event from Slack"""
+    try:
+        # Extract message details
+        text = event.get('text', '')
+        channel = event.get('channel')
+        thread_ts = event.get('thread_ts', event.get('ts'))
+        
+        if not text or not channel:
+            logger.error("Missing text or channel in message event")
+            return None
+            
+        # Get LLM response
+        response = await get_llm_response(text, db, thread_ts)
+        if not response:
+            logger.error("No response generated from LLM")
+            return None
+            
+        return {
+            'channel': channel,
+            'thread_ts': thread_ts,
+            'text': response
+        }
+        
+    except Exception as e:
+        logger.error(f"Error processing message: {str(e)}")
+        return None
+
+async def send_slack_message(response_data: dict) -> bool:
+    """Send a message to Slack"""
+    try:
+        if not response_data:
+            return False
+            
+        response = slack_client.chat_postMessage(
+            channel=response_data['channel'],
+            thread_ts=response_data['thread_ts'],
+            text=response_data['text']
+        )
+        
+        if not response.get('ok'):
+            logger.error(f"Failed to send message: {response.get('error')}")
+            return False
+            
+        logger.info("Successfully sent message to Slack")
+        return True
+        
+    except Exception as e:
+        logger.error(f"Error sending message to Slack: {str(e)}")
+        return False
+
 @app.post("/slack/events")
-async def slack_events(request: Request):
-    """Handle Slack events"""
-    print("\n=== Received Slack Event ===")
-    print(f"Time: {datetime.now().isoformat()}")
+async def handle_slack_events(request: Request):
+    """Handle Slack events with improved error handling and metrics."""
+    # Create a new database session directly
+    from sqlalchemy.orm import sessionmaker
+    from database import engine
+    
+    Session = sessionmaker(bind=engine)
+    db = Session()
     
     try:
-        # Log all headers
-        headers = dict(request.headers)
-        print("\nHeaders:")
-        for key, value in headers.items():
-            print(f"{key}: {value}")
+        # Get raw body first
+        body_bytes = await request.body()
+        body_str = body_bytes.decode('utf-8')
         
-        # Get and log raw body
-        raw_body = await request.body()
-        body_str = raw_body.decode()
-        print(f"\nRaw Body: {body_str}")
+        # Log request details for debugging
+        logger.info("Received Slack event request")
+        logger.info(f"Headers: {dict(request.headers)}")
+        logger.info(f"Body: {body_str}")
         
-        # Verify Slack signature
-        timestamp = headers.get('x-slack-request-timestamp', '')
-        signature = headers.get('x-slack-signature', '')
+        # Verify Slack signature using the raw body
+        timestamp = request.headers.get('x-slack-request-timestamp', '')
+        signature = request.headers.get('x-slack-signature', '')
         
-        print(f"\n=== Signature Verification ===")
-        print(f"Timestamp: {timestamp}")
-        print(f"Received Signature: {signature}")
-        
-        # Check if timestamp is too old
+        # Check timestamp
         if abs(time.time() - int(timestamp)) > 60 * 5:
-            print("❌ Request timestamp is too old")
-            return {"error": "Invalid timestamp"}
+            logger.error("Request timestamp is too old")
+            return JSONResponse(status_code=401, content={"error": "Invalid timestamp"})
             
-        # Verify signature
-        is_valid = verify_slack_signature(body_str, timestamp, signature)
-        print(f"Signature Valid: {is_valid}")
+        # Form the base string
+        sig_basestring = f"v0:{timestamp}:{body_str}"
         
-        if not is_valid:
-            print("❌ Invalid signature")
-            return {"error": "Invalid signature"}
+        # Calculate signature
+        my_signature = 'v0=' + hmac.new(
+            os.getenv('SLACK_SIGNING_SECRET').encode(),
+            sig_basestring.encode(),
+            hashlib.sha256
+        ).hexdigest()
         
-        print("✅ Signature verification passed")
-        
-        try:
-            # Parse and log JSON body
-            body = await request.json()
-            print(f"\nParsed JSON body: {body}")
-    
-            # Handle URL verification
-            if body.get("type") == "url_verification":
-                challenge = body.get("challenge")
-                print(f"Returning challenge: {challenge}")
-                return {"challenge": challenge}
-    
-            # Log event details
-            event = body.get("event", {})
-            event_type = event.get("type")
-            print(f"\nEvent type: {event_type}")
-            print(f"Full event details: {event}")
-        
-            # Handle message events
-            if event_type == "message":
-                channel_id = event.get('channel')
-                user_id = event.get('user')
-                text = event.get('text', '')
-                bot_id = event.get('bot_id')
-                message_id = event.get('client_msg_id', '')  # Get message ID
-                
-                print(f"\n=== Message Details ===")
-                print(f"Channel: {channel_id}")
-                print(f"User: {user_id}")
-                print(f"Text: {text}")
-                print(f"Bot ID: {bot_id}")
-                print(f"Message ID: {message_id}")
-                print("=======================")
-                
-                # Skip if message is from a bot or is our own message
-                if bot_id or user_id == BOT_ID:
-                    print("Skipping bot message")
-                    return {"ok": True}
-            
-                # Skip if we've already processed this message
-                if message_id in processed_messages:
-                    print(f"Message {message_id} already processed, skipping")
-                    return {"ok": True}
-                processed_messages[message_id] = True
-                
-                # Process user message
-                if text and user_id and message_id:  # Only process if we have a message ID
-                    try:
-                        db = next(get_db())
-                        thread_ts = event.get('thread_ts', event.get('ts'))  # Use thread_ts if available, else message ts
-                        llm_response = await get_llm_response(text, db, thread_ts)
-                        
-                        # Send response
-                        response = slack_client.chat_postMessage(
-                            channel=channel_id,
-                            thread_ts=thread_ts,
-                            text=llm_response
-                        )
-                        
-                        # Add message ID to processed set
-                        processed_messages.add(message_id)
-                        print(f"✅ Added message {message_id} to processed set")
-                        print("✅ Sent response successfully:", response)
-                    except Exception as e:
-                        print(f"❌ Error sending response: {str(e)}")
-                        logger.error(f"Error sending response: {str(e)}", exc_info=True)
+        # Compare signatures
+        if not hmac.compare_digest(my_signature, signature):
+            logger.error("Invalid Slack signature")
+            metrics.record_error('signature_verification')
+            return JSONResponse(status_code=401, content={"error": "Invalid signature"})
 
-            # Handle reaction events (unchanged from original)
-            elif event_type == "reaction_added":
-                # Skip if reaction is from the bot itself
-                if event.get('user') == BOT_ID:
-                    print("Skipping reaction from bot")
-                    return {"ok": True}
+        # Parse request body
+        body = json.loads(body_str)
+        logger.info(f"Parsed body: {body}")
+    
+        # Handle URL verification
+        if body.get("type") == "url_verification":
+            challenge = body.get("challenge")
+            logger.info(f"URL verification challenge: {challenge}")
+            return {"challenge": challenge}
+    
+        # Handle events
+        event = body.get("event", {})
+        event_type = event.get("type")
+        logger.info(f"Event type: {event_type}")
+        
+        if event_type == "message" and not event.get("bot_id"):
+            message_id = event.get("client_msg_id")
+            if not message_id or is_message_processed(message_id):
+                return {"status": "ok"}
+
+            mark_message_processed(message_id)
+            
+            # Process message
+            response_data = await process_message(event, db)
+            if response_data:
+                success = await send_slack_message(response_data)
+                if not success:
+                    logger.error("Failed to send message to Slack")
                     
-                if event.get('reaction') == '-1':  # Check for thumbs down reaction
-                    try:
-                        db = next(get_db())
-                        # Get the message that was reacted to
-                        result = slack_client.conversations_history(
-                            channel=event.get('item', {}).get('channel'),
-                            latest=event.get('item', {}).get('ts'),
-                            limit=1,
-                            inclusive=True
-                        )
+        elif event_type == "reaction_added":
+            # Check if it's a dislike reaction
+            if event.get("reaction") == "-1":
+                logger.info("Processing dislike reaction")
+                # Get the message details
+                item = event.get("item", {})
+                channel = item.get("channel")
+                message_ts = item.get("ts")
+                
+                if not all([channel, message_ts]):
+                    logger.error("Missing channel or message timestamp")
+                    return {"status": "ok"}
+                
+                try:
+                    # Get the message directly
+                    message_result = slack_client.conversations_history(
+                        channel=channel,
+                        latest=message_ts,
+                        limit=1,
+                        inclusive=True
+                    )
+                    
+                    if not message_result.get('ok'):
+                        logger.error(f"Failed to get message: {message_result.get('error')}")
+                        return {"status": "ok"}
                         
-                        if result['messages']:
-                            # Get the thread of the message to find both question and answer
-                            thread_result = slack_client.conversations_replies(
-                                channel=event.get('item', {}).get('channel'),
-                                ts=result['messages'][0].get('thread_ts', result['messages'][0].get('ts')),
-                                limit=2  # Get both the question and the bot's response
-                            )
+                    messages = message_result.get('messages', [])
+                    if not messages:
+                        logger.error("No message found")
+                        return {"status": "ok"}
+                        
+                    # Get the message text
+                    message = messages[0]
+                    question = message.get('text', '')
+                    
+                    if question:
+                        logger.info(f"Found question: {question}")
+                        
+                        # Store the disliked question
+                        flagged_question = store_flagged_question(question, db)
+                        if flagged_question:
+                            logger.info(f"Stored disliked question: {question}")
                             
-                            if thread_result['messages'] and len(thread_result['messages']) >= 2:
-                                user_question = thread_result['messages'][0].get('text', '')  # First message is user's question
-                                bot_response = thread_result['messages'][1].get('text', '')   # Second message is bot's response
-                                
-                                print(f"\n=== Storing Disliked Q&A Pair ===")
-                                print(f"User Question: {user_question}")
-                                print(f"Bot Response: {bot_response}")
-                                
-                                # Generate embedding for the question
-                                try:
-                                    question_embedding = embeddings.embed_query(user_question)
-                                    question_embedding_json = json.dumps(question_embedding)
-                                    print("✅ Generated question embedding")
-                                except Exception as e:
-                                    print(f"❌ Error generating embedding: {str(e)}")
-                                    question_embedding_json = None
-                                
-                                # Store both question and bot's response
-                                db_question = models.FlaggedQuestion(
-                                    question=user_question,
-                                    llm_response=bot_response,
-                                    question_embedding=question_embedding_json,
-                                    dislike_count=1
-                                )
-                                db.add(db_question)
-                                db.commit()
-                                print("✅ Successfully stored disliked Q&A pair with embedding")
-                    except Exception as e:
-                        print(f"❌ Error handling reaction: {str(e)}")
-                        logger.error(f"Error handling reaction: {str(e)}", exc_info=True)
-            
-            return {"ok": True}
+                            # Send acknowledgment
+                            slack_client.chat_postMessage(
+                                channel=channel,
+                                thread_ts=message_ts,
+                                text="Thank you for your feedback. This question has been flagged for review."
+                            )
+                        else:
+                            logger.error("Failed to store flagged question")
+                    else:
+                        logger.error("Could not find question text")
+                            
+                except Exception as e:
+                    logger.error(f"Error processing reaction: {str(e)}")
 
-        except json.JSONDecodeError as e:
-            print(f"❌ Error parsing JSON: {str(e)}")
-            logger.error(f"Error parsing JSON: {str(e)}", exc_info=True)
-            return {"error": "Invalid JSON"}
-            
+        return {"status": "ok"}
+        
     except Exception as e:
-        print(f"❌ Error processing event: {str(e)}")
-        logger.error(f"Error processing event: {str(e)}", exc_info=True)
-        return {"error": str(e)}
+        metrics.record_error('slack_events')
+        logger.error(f"Error handling Slack event: {str(e)}", exc_info=True)
+        return JSONResponse(
+            status_code=500,
+            content={"error": "Internal server error"}
+        )
+    finally:
+        db.close()
 
 @app.get("/test_events")
 async def test_events():
@@ -531,7 +617,7 @@ async def test_events():
         
         # Send a test message
         response = slack_client.chat_postMessage(
-            channel=channel_id,
+                        channel=channel_id,
             text="🔍 Testing events... You should see the bot respond to this!"
         )
         
@@ -553,16 +639,33 @@ async def test_events():
         print(f"❌ Error testing events: {str(e)}")
         return {"status": "error", "error": str(e)}
 
-
 @app.get("/dashboard", response_class=HTMLResponse)
-async def dashboard(request: Request, db: Session = Depends(get_db)):
+async def dashboard(request: Request):
     """Display the dashboard of flagged questions"""
-    questions = get_flagged_questions(db)
-    return templates.TemplateResponse(
-        "dashboard.html",
-        {"request": request, "questions": questions}
-    )
-
+    try:
+        # Create a new database session directly
+        from sqlalchemy.orm import sessionmaker
+        from database import engine
+        
+        Session = sessionmaker(bind=engine)
+        db = Session()
+        
+        # Get all flagged questions that haven't been answered
+        questions = db.query(models.FlaggedQuestion).filter(
+            models.FlaggedQuestion.is_answered == False
+        ).all()
+        
+        logger.info(f"Found {len(questions)} flagged questions")
+        return templates.TemplateResponse(
+            "dashboard.html",
+            {"request": request, "questions": questions}
+        )
+    except Exception as e:
+        logger.error(f"Error getting flagged questions: {str(e)}")
+        return templates.TemplateResponse(
+            "dashboard.html",
+            {"request": request, "questions": [], "error": str(e)}
+        )
 
 @app.get("/addData", response_class=HTMLResponse)
 async def dashboard(request: Request):
@@ -571,9 +674,6 @@ async def dashboard(request: Request):
         "addData.html",
         {"request": request}
     )
-
-
-
 
 @app.post("/addKnowledge")
 async def add_knowledge_csv(
@@ -711,15 +811,12 @@ Answer: {answer_data.correct_answer}"""
             return {"status": "success"}
             
         except Exception as e:
-            db.rollback()
             logger.error(f"Error updating FAISS index: {e}")
             raise HTTPException(status_code=500, detail=str(e))
             
     except Exception as e:
         logger.error(f"Error storing answer: {e}")
-        db.rollback()
         return {"status": "error", "message": str(e)}
-
 
 # endpoint to handle dislikes
 @app.post("/record_dislike/{question_id}")
@@ -741,7 +838,6 @@ async def record_dislike(
         
         return {"status": "success", "dislike_count": question.dislike_count}
     except Exception as e:
-        db.rollback()
         logger.error(f"Error recording dislike: {e}")
         return {"status": "error", "message": str(e)}
 
@@ -793,15 +889,64 @@ async def test_event_subscription(request: Request):
         print(f"Error processing event: {e}")
         return {"status": "error", "error": str(e)}
 
+@app.post("/reject_question/{question_id}")
+async def reject_question(question_id: int, db: Session = Depends(get_db)):
+    """Reject and remove a flagged question with improved error handling."""
+    logger.info(f"Attempting to reject question {question_id}")
+    
+    try:
+        question = db.query(models.FlaggedQuestion).filter(
+            models.FlaggedQuestion.id == question_id
+        ).first()
+        
+        if not question:
+            metrics.record_error('question_not_found')
+            logger.warning(f"Question {question_id} not found")
+            return JSONResponse(
+                status_code=404,
+                content={"status": "error", "message": f"Question with ID {question_id} not found"}
+            )
+        
+        db.delete(question)
+        db.commit()
+        logger.info(f"Successfully deleted question {question_id}")
+        return {"status": "success", "message": "Question rejected and removed successfully"}
+        
+    except Exception as e:
+        metrics.record_error('question_deletion')
+        logger.error(f"Error deleting question {question_id}: {str(e)}", exc_info=True)
+        return JSONResponse(
+            status_code=500,
+            content={"status": "error", "message": str(e)}
+        )
+
+@app.get("/health")
+async def health_check():
+    """Health check endpoint with system metrics."""
+    try:
+        system_metrics = metrics.get_system_metrics()
+        return {
+            "status": "healthy",
+            "timestamp": datetime.now().isoformat(),
+            "system_metrics": system_metrics
+        }
+    except Exception as e:
+        logger.error(f"Health check failed: {str(e)}")
+        return JSONResponse(
+            status_code=500,
+            content={"status": "unhealthy", "error": str(e)}
+        )
+
 if __name__ == "__main__":
-    logger.info("Starting server with DEBUG logging...")
-    logger.info(f"Bot token starts with: {os.getenv('SLACK_BOT_TOKEN')[:15]}...")
-    logger.info(f"Channel ID: {os.getenv('SLACK_CHANNEL_ID')}")
+    # Initialize database
+    init_db()
+    
+    # Start server
     import uvicorn
     uvicorn.run(
         "main:app",
         host="0.0.0.0",
         port=8000,
         reload=False,
-        log_level="debug"
+        log_level="info"
     ) 

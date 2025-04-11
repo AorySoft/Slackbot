@@ -2,12 +2,11 @@
 
 A Slack integration that uses advanced language models and vector search to provide intelligent answers to user questions, with a feedback system for continuous improvement.
 
-![Slack Bot Banner](https://via.placeholder.com/800x200?text=SlackBot+Q%26A+Assistant)
-
 ## 📋 Table of Contents
 
 - [Overview](#overview)
 - [Features](#features)
+- [Screenshots](#screenshots)
 - [Architecture](#architecture)
 - [Technology Stack](#technology-stack)
 - [How It Works](#how-it-works)
@@ -25,36 +24,66 @@ This SlackBot Q&A Assistant is designed to provide intelligent responses to user
 
 ## ✨ Features
 
-- **Intelligent Q&A**: Answers questions using OpenAI's language models
+- **Intelligent Q&A**: Answers questions using Groq's language models
 - **Dual Vector Search**: Uses two FAISS indexes to search for relevant information
   - Regular index for AI-generated responses
   - Improved index for human-verified answers
-- **Feedback System**: Users can flag incorrect answers with a thumbs-down reaction
+- **Feedback System**: Users can flag incorrect answers with a "-1" reaction
 - **Admin Dashboard**: Review and improve flagged answers
 - **Similarity Detection**: Prevents answering previously flagged questions
 - **Content Moderation**: Filters out inappropriate questions
+- **Rate Limiting**: Prevents abuse of the bot
+- **Circuit Breaker**: Handles API failures gracefully
+- **Metrics & Monitoring**: Tracks bot performance and errors
+
+## 📸 Screenshots
+
+### User Interface
+![User Query](screenshots/userQuery.PNG)
+*User asking a question in Slack*
+
+![Bot Response](screenshots/botResponseToQuery.PNG)
+*Bot providing an answer*
+
+### Feedback System
+![Flagging Response](screenshots/flaggingBotResponse.PNG)
+*User flagging an incorrect answer with -1 reaction*
+
+### Admin Dashboard
+![Empty Dashboard](screenshots/dashboardWthNoQues.PNG)
+*Admin dashboard with no flagged questions*
+
+![Flagged Questions](screenshots/answeringFlaggedQuestions.PNG)
+*Admin reviewing and answering flagged questions*
+
+![Updated Answer](screenshots/botUpdatedAnswer.PNG)
+*Bot providing an improved answer after admin review*
 
 ## 🏗️ Architecture
 
 The system is built with a FastAPI backend that handles:
 
 1. Slack event subscriptions
-2. LLM interaction via OpenAI API
+2. LLM interaction via Groq API
 3. Vector search using FAISS
 4. Database operations for flagged questions
 5. Admin dashboard for content moderation
-
-![Architecture Diagram](https://via.placeholder.com/800x400?text=Architecture+Diagram)
+6. Rate limiting and circuit breaking
+7. Metrics collection and monitoring
 
 ## 🛠️ Technology Stack
 
 - **Backend Framework**: FastAPI
 - **Database**: SQLite (with SQLAlchemy ORM)
 - **Vector Search**: FAISS
-- **LLM Provider**: OpenAI
-- **Embeddings**: OpenAI Text Embedding (text-embedding-3-large)
+- **LLM Provider**: Groq
+- **Embeddings**: Google Generative AI Embeddings
 - **Frontend**: Jinja2 Templates for admin dashboard
 - **Integration**: Slack API (Events API, WebClient)
+- **Monitoring**: Custom metrics system
+- **Caching**: TTLCache for message processing
+- **Rate Limiting**: Custom rate limiter
+- **Circuit Breaking**: Custom circuit breaker
 
 ## 🧠 How It Works
 
@@ -73,8 +102,8 @@ The system is built with a FastAPI backend that handles:
 
 ### Feedback Flow
 
-1. User reacts with a thumbs-down to an incorrect answer
-2. The system stores the question and incorrect answer in the database
+1. User reacts with "-1" to an incorrect answer
+2. The system stores the question in the database
 3. Admin reviews the flagged question in the dashboard
 4. Admin provides the correct answer
 5. The corrected Q&A pair is added to the improved FAISS index for future use
@@ -85,7 +114,8 @@ The system is built with a FastAPI backend that handles:
 
 - Python 3.8+
 - Slack workspace with admin access
-- OpenAI API key
+- Groq API key
+- Google API key for embeddings
 
 ### Installation Steps
 
@@ -108,14 +138,15 @@ The system is built with a FastAPI backend that handles:
 
 4. Create a `.env` file with the following variables:
    ```
-   # OpenAI Configuration
-   OPENAI_API_KEY=your_openai_api_key
+   # API Keys
+   GROQ_API_KEY=your_groq_api_key
+   GOOGLE_API_KEY=your_google_api_key
 
    # Slack Configuration
-   SLACK_BOT_TOKEN=
-   SLACK_SIGNING_SECRET=
-   SLACK_CHANNEL_ID=
-   BOT_ID=
+   SLACK_BOT_TOKEN=xoxb-your-bot-token
+   SLACK_SIGNING_SECRET=your-signing-secret
+   SLACK_APP_TOKEN=xapp-your-app-token
+   SLACK_CHANNEL_ID=your-channel-id
 
    # Application Configuration
    APP_HOST=0.0.0.0
@@ -128,14 +159,15 @@ The system is built with a FastAPI backend that handles:
 
 The application uses the following environment variables:
 
-- **OpenAI Configuration**
-  - `OPENAI_API_KEY`: Your OpenAI API key for accessing LLM and embedding models
+- **API Keys**
+  - `GROQ_API_KEY`: Your Groq API key for accessing LLM
+  - `GOOGLE_API_KEY`: Your Google API key for embeddings
 
 - **Slack Configuration**
   - `SLACK_BOT_TOKEN`: Bot token starting with `xoxb-`
   - `SLACK_SIGNING_SECRET`: Used to verify requests from Slack
+  - `SLACK_APP_TOKEN`: App token starting with `xapp-`
   - `SLACK_CHANNEL_ID`: ID of the Slack channel the bot should monitor
-  - `BOT_ID`: Slack Bot ID to prevent the bot from responding to itself
 
 - **Application Configuration**
   - `APP_HOST`: Host address to bind the server (default: 0.0.0.0)
@@ -156,22 +188,6 @@ The application uses the following environment variables:
      - `message.channels`
      - `reaction_added`
 5. Copy the Bot User OAuth Token and Signing Secret to your `.env` file
-
-### Language Model Configuration
-
-The bot uses OpenAI's language models. This is configured in `main.py`:
-
-```python
-from langchain_openai import OpenAI
-llm = OpenAI()
-
-from langchain_openai import OpenAIEmbeddings
-embeddings = OpenAIEmbeddings(
-    model="text-embedding-3-large"
-)
-```
-
-You can modify the model settings or parameters as needed.
 
 ## 🚀 Usage
 
@@ -196,13 +212,14 @@ Use the following endpoints to test the bot:
 - `/test_bot` - Test if the bot can post messages to Slack
 - `/test_events` - Test if the events subscription is working
 - `/test_event_subscription` - Test if Slack events are reaching the server
+- `/health` - Check the health status of the bot
 
 ### Using the Bot in Slack
 
 The bot will automatically respond to messages in channels it's invited to. For best results:
 
 1. Ask direct questions
-2. Use thumbs-down reactions to flag incorrect answers
+2. Use "-1" reactions to flag incorrect answers
 3. Wait for admin review of flagged questions
 
 ## 🖥️ Admin Dashboard
@@ -211,6 +228,7 @@ The admin dashboard allows you to:
 
 1. Review flagged questions
 2. Provide correct answers
+3. Reject inappropriate questions
 
 Access the dashboard at: `http://your-server-url.com/dashboard`
 
@@ -234,3 +252,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 3. Commit your changes: `git commit -m 'Add some amazing feature'`
 4. Push to the branch: `git push origin feature/amazing-feature`
 5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
