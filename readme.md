@@ -121,7 +121,7 @@ The system is built with a FastAPI backend that handles:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/slackbot-qa-assistant.git
+   git clone https://github.com/AorySoft/Slackbot.git
    cd slackbot-qa-assistant
    ```
 
