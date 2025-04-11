@@ -140,7 +140,7 @@ The system is built with a FastAPI backend that handles:
    ```
    # API Keys
    GROQ_API_KEY=your_groq_api_key
-   GOOGLE_API_KEY=your_google_api_key
+   GOOGLE_API_KEY=your_google_api_key  # Required for text embeddings using Google's Generative AI
 
    # Slack Configuration
    SLACK_BOT_TOKEN=xoxb-your-bot-token
@@ -161,7 +161,7 @@ The application uses the following environment variables:
 
 - **API Keys**
   - `GROQ_API_KEY`: Your Groq API key for accessing LLM
-  - `GOOGLE_API_KEY`: Your Google API key for embeddings
+  - `GOOGLE_API_KEY`: Your Google API key for text embeddings using Google's Generative AI (model: models/embedding-001)
 
 - **Slack Configuration**
   - `SLACK_BOT_TOKEN`: Bot token starting with `xoxb-`
