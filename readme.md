@@ -28,7 +28,7 @@ This SlackBot Q&A Assistant is designed to provide intelligent responses to user
 - **Dual Vector Search**: Uses two FAISS indexes to search for relevant information
   - Regular index for AI-generated responses
   - Improved index for human-verified answers
-- **Feedback System**: Users can flag incorrect answers with a "👎" reaction
+- **Feedback System**: Users can flag incorrect answers with a 👎 reaction
 - **Admin Dashboard**: Review and improve flagged answers
 - **Similarity Detection**: Prevents answering previously flagged questions
 - **Content Moderation**: Filters out inappropriate questions
@@ -58,6 +58,13 @@ This SlackBot Q&A Assistant is designed to provide intelligent responses to user
 
 ![Updated Answer](screenshots/botUpdatedAnswer.PNG)
 *Bot providing an improved answer after admin review*
+
+### Knowledge Base Management
+![Upload CSV](screenshots/uploadCSV.PNG)
+*Uploading a CSV file to upgrade the knowledge base*
+
+![CSV Preview](screenshots/csvPreview.PNG)
+*Preview of the CSV file content in question-answer format*
 
 ## 🏗️ Architecture
 
@@ -102,7 +109,7 @@ The system is built with a FastAPI backend that handles:
 
 ### Feedback Flow
 
-1. User reacts with "👎" to an incorrect answer
+1. User reacts with 👎 to an incorrect answer
 2. The system stores the question in the database
 3. Admin reviews the flagged question in the dashboard
 4. Admin provides the correct answer
@@ -122,7 +129,7 @@ The system is built with a FastAPI backend that handles:
 1. Clone the repository:
    ```bash
    git clone https://github.com/AorySoft/Slackbot.git
-   cd slackbot-qa-assistant
+   cd SLACK_BOT
    ```
 
 2. Create a virtual environment:
@@ -219,7 +226,7 @@ Use the following endpoints to test the bot:
 The bot will automatically respond to messages in channels it's invited to. For best results:
 
 1. Ask direct questions
-2. Use "👎" reactions to flag incorrect answers
+2. Use 👎 reactions to flag incorrect answers
 3. Wait for admin review of flagged questions
 
 ## 🖥️ Admin Dashboard
@@ -252,5 +259,4 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 3. Commit your changes: `git commit -m 'Add some amazing feature'`
 4. Push to the branch: `git push origin feature/amazing-feature`
 5. Open a Pull Request
-
 
