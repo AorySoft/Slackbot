@@ -60,10 +60,10 @@ This SlackBot Q&A Assistant is designed to provide intelligent responses to user
 *Bot providing an improved answer after admin review*
 
 ### Knowledge Base Management
-![Upload CSV](screenshots/uploadCSV.PNG)
+![Upload CSV](screenshots/addDataInKnowledgeBase_CSV.PNG)
 *Uploading a CSV file to upgrade the knowledge base*
 
-![CSV Preview](screenshots/csvPreview.PNG)
+![CSV Preview](screenshots/dataUploaded.PNG)
 *Preview of the CSV file content in question-answer format*
 
 ## 🏗️ Architecture
